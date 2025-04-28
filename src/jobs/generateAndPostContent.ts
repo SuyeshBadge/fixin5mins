@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { ContentGenerationService, EmotionalContentFormat } from '../services/contentGenerationService';
 import { generateImage, ImageGenerationOptions } from '../services/imageGenerator';
 import { postSingleImageToInstagram, InstagramPostConfig } from '../services/instagram-carousel';
 import { RenderedImage } from '../services/html2image-puppeteer';
-import { initializeCloudinary, uploadImageToCloudinary } from '../services/cloudinary';
+import { initializeCloudinary, uploadImageToCloudinary, deleteImageFromCloudinary } from '../services/cloudinary';
 import config from '../config';
 import logger from '../utils/logger';
 
@@ -85,6 +86,13 @@ async function main() {
     // Upload image to Cloudinary to get public URL
     const cloudinaryUrl = await uploadImageToCloudinary(image.path);
     logger.info(`Image uploaded to Cloudinary: ${cloudinaryUrl}`);
+
+    // Store the Cloudinary public ID for later deletion
+    // Extract the public ID from the URL
+    const urlParts = cloudinaryUrl.split('/');
+    const filenameWithExt = urlParts[urlParts.length - 1];
+    const publicIdWithExt = urlParts.slice(urlParts.length - 2).join('/');
+    const publicId = publicIdWithExt.split('.')[0]; // Remove file extension
     
     // 3. Post to Instagram (if not skipped)
     if (options.skipPosting) {
@@ -131,10 +139,35 @@ async function main() {
     );
     
     logger.info(`Successfully posted to Instagram! Post ID: ${postId}`);
+
+    // After successful posting, clean up the images
+    await cleanupImages(image.path, publicId);
     
   } catch (error) {
     logger.error('Error in content generation and posting process:', error);
     process.exit(1);
+  }
+}
+
+/**
+ * Clean up local and Cloudinary images after successful posting
+ * @param localImagePath Path to the local image file
+ * @param cloudinaryPublicId Cloudinary public ID of the uploaded image
+ */
+async function cleanupImages(localImagePath: string, cloudinaryPublicId: string): Promise<void> {
+  try {
+    // Delete from Cloudinary
+    logger.info(`Deleting image from Cloudinary (ID: ${cloudinaryPublicId})...`);
+    await deleteImageFromCloudinary(cloudinaryPublicId);
+    
+    // Delete local file
+    logger.info(`Deleting local image file: ${localImagePath}...`);
+    await fs.promises.unlink(localImagePath);
+    
+    logger.info('Successfully cleaned up image files');
+  } catch (error) {
+    logger.warn(`Error during cleanup of image files: ${error instanceof Error ? error.message : String(error)}`);
+    // Not letting cleanup errors affect the overall process success
   }
 }
 
