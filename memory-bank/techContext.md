@@ -7,12 +7,14 @@
 - **TypeScript**: Typed superset of JavaScript for improved code quality and maintainability
 - **EJS**: Templating engine for generating HTML from templates
 - **Instagram Graph API**: For posting content to Instagram
+- **Cloudinary API**: For cloud-based image hosting and management
 
 ### Key Libraries
 - **dotenv**: Managing environment variables
 - **form-data**: Handling multipart/form-data for file uploads
 - **node-fetch**: Making HTTP requests to external APIs
 - **ejs**: Embedded JavaScript templates for content generation
+- **cloudinary**: Cloud-based image management and hosting
 - **openai**: Optional API client for text generation if needed
 
 ## Development Environment
@@ -25,6 +27,7 @@
 - Facebook Developer Account and App
 - Access to external AI service API (for text generation)
 - HTML2Image API key
+- Cloudinary account and API credentials
 
 ### Project Structure
 ```
@@ -47,9 +50,11 @@ fixin5mins/
 │   │   └── test-ai-service.ts
 │   └── services/              # Service implementations
 │       ├── aiService.ts       # AI text generation service
+│       ├── cloudinary.ts      # Cloudinary integration for image hosting
 │       ├── html2image.ts      # HTML to image conversion
 │       ├── imageGenerator.ts  # Image generation orchestration
 │       ├── instagram.ts       # Instagram API integration
+│       ├── instagram-carousel.ts # Instagram carousel posting service
 │       └── templateManager.ts # Template management service
 ```
 
@@ -57,6 +62,10 @@ fixin5mins/
 1. Clone the repository
 2. Run `npm install` to install dependencies
 3. Create `.env` file with required API keys and credentials
+   - Instagram/Facebook credentials
+   - AI service API key
+   - HTML2Image API key
+   - Cloudinary credentials
 4. Build the project using `npm run build`
 
 ## Technical Constraints
@@ -65,9 +74,11 @@ fixin5mins/
 - **Instagram Graph API**: Rate limits on posting content
 - **HTML2Image API**: Potential rate limits on free tier
 - **External AI Service**: Rate limits for text generation (if using)
+- **Cloudinary API**: Storage and bandwidth limits based on plan
 
 ### External Dependencies
 - HTML2Image service for converting templates to images
+- Cloudinary for image hosting before posting to Instagram
 - Need for valid API keys and credentials
 - Internet connectivity requirement for posting
 
@@ -75,6 +86,7 @@ fixin5mins/
 - Secure storage of API keys and access tokens
 - Handling of Instagram authentication
 - Protection of generated content
+- Proper management of Cloudinary credentials
 
 ## Dependencies
 
@@ -85,7 +97,8 @@ fixin5mins/
   "ejs": "^3.1.9",          // Templating engine for HTML generation
   "form-data": "^4.0.0",    // Multipart form data for API requests
   "node-fetch": "^2.7.0",   // HTTP client for API requests
-  "openai": "^4.11.0"       // Optional OpenAI API client
+  "openai": "^4.11.0",      // Optional OpenAI API client
+  "cloudinary": "^1.33.0"   // Cloud-based image management and hosting
 }
 ```
 
@@ -135,4 +148,8 @@ AI_SERVICE_API_KEY=your_ai_service_api_key
 
 # HTML2Image API
 HTML2IMAGE_API_KEY=your_html2image_api_key
+
+# Cloudinary credentials
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
 ``` 
