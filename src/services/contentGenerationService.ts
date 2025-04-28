@@ -173,6 +173,8 @@ Respond ONLY with the JSON, no other text.`;
     
     // Use the provided system prompt or the default one
     const systemPrompt = options.systemPrompt || defaultSystemPrompt;
+
+    const model = 'claude:claude-3-5-sonnet-20240620';
     
     // Generate the content using the structured content method
     return this.generateStructuredContent(
@@ -180,7 +182,8 @@ Respond ONLY with the JSON, no other text.`;
       schema,
       {
         ...options,
-        systemPrompt
+        systemPrompt,
+        model
       }
     );
   }

@@ -7,6 +7,7 @@ import { generateImage, ImageGenerationOptions } from '../services/imageGenerato
 import { postSingleImageToInstagram, InstagramPostConfig } from '../services/instagram-carousel';
 import { RenderedImage } from '../services/html2image-puppeteer';
 import { initializeCloudinary, uploadImageToCloudinary, deleteImageFromCloudinary } from '../services/cloudinary';
+import topicCache from '../services/topicCache';
 import config from '../config';
 import logger from '../utils/logger';
 
@@ -18,10 +19,12 @@ dotenv.config();
  */
 interface CommandLineOptions {
   topic: string;
+  category: string;
   templateId: string;
   skipPosting: boolean;
   forceGenerate: boolean;
   mockMode: boolean;
+  listCategories: boolean;
 }
 
 /**
@@ -36,6 +39,12 @@ async function main() {
     
     // Parse command line arguments
     const options = parseCommandLineArguments();
+    
+    // If user requested to list categories, show them and exit
+    if (options.listCategories) {
+      listAvailableCategories();
+      return;
+    }
     
     let emotionalContent: EmotionalContentFormat;
     
@@ -172,6 +181,29 @@ async function cleanupImages(localImagePath: string, cloudinaryPublicId: string)
 }
 
 /**
+ * List all available categories and their descriptions
+ */
+function listAvailableCategories() {
+  console.log(`
+Available Topic Categories:
+--------------------------
+productivity      : Efficiency, task management, and getting things done
+mindfulness       : Awareness, presence, and mental practices
+physical_health   : Exercise, nutrition, and bodily wellbeing
+mental_health     : Emotional wellness, psychology, and personal stability
+relationships     : Interpersonal connections and social skills
+career           : Professional growth and workplace success
+learning         : Knowledge acquisition and cognitive skills
+creativity       : Artistic expression and innovative thinking
+financial        : Money management and financial wellbeing
+personal_growth  : Self-improvement and character development
+
+Use --category or -c followed by the category name to select a topic from a specific category.
+Example: npm run generate-and-post -- --category mindfulness
+  `);
+}
+
+/**
  * Generate mock emotional content based on topic
  */
 function getMockContent(topic: string): EmotionalContentFormat {
@@ -225,11 +257,13 @@ function parseCommandLineArguments(): CommandLineOptions {
   
   // Set default options
   const options: CommandLineOptions = {
-    topic: 'productivity',
+    topic: '', // Will be populated with LRU topic if not provided
+    category: '', // Will use LRU category if not provided
     templateId: 'quote-red',
     skipPosting: false,
     forceGenerate: false,
-    mockMode: false
+    mockMode: false,
+    listCategories: false
   };
   
   // Parse arguments
@@ -237,7 +271,10 @@ function parseCommandLineArguments(): CommandLineOptions {
     const arg = args[i];
     
     if (arg === '--topic' || arg === '-t') {
-      options.topic = args[++i] || options.topic;
+      options.topic = args[++i] || '';
+    }
+    else if (arg === '--category' || arg === '-c') {
+      options.category = args[++i] || '';
     }
     else if (arg === '--template' || arg === '-T') {
       options.templateId = args[++i] || options.templateId;
@@ -251,10 +288,45 @@ function parseCommandLineArguments(): CommandLineOptions {
     else if (arg === '--mock' || arg === '-m') {
       options.mockMode = true;
     }
+    else if (arg === '--list-categories' || arg === '-l') {
+      options.listCategories = true;
+    }
     else if (arg === '--help' || arg === '-h') {
       showHelp();
       process.exit(0);
     }
+  }
+  
+  // Topic selection logic with category support
+  if (!options.topic) {
+    if (options.category) {
+      // If category is provided but no topic, get LRU topic from that category
+      try {
+        // Use the dedicated method to get a topic from a specific category
+        options.topic = topicCache.getLeastRecentlyUsedTopicFromCategory(options.category);
+        logger.info(`Using least recently used topic from category "${options.category}": "${options.topic}"`);
+      } catch (error) {
+        logger.warn(`Error getting topic from category "${options.category}": ${error instanceof Error ? error.message : String(error)}`);
+        options.topic = topicCache.getLeastRecentlyUsedTopic();
+        logger.info(`Falling back to overall least recently used topic: "${options.topic}"`);
+      }
+    } else {
+      // If no topic and no category, first get the LRU category, then get the LRU topic from that category
+      const leastUsedCategory = topicCache.getLeastRecentlyUsedCategory(true);
+      try {
+        options.topic = topicCache.getLeastRecentlyUsedTopicFromCategory(leastUsedCategory);
+        logger.info(`No topic or category provided, using least recently used topic from least recently used category "${leastUsedCategory}": "${options.topic}"`);
+      } catch (error) {
+        // Fallback to the default behavior if something goes wrong
+        logger.warn(`Error getting topic from LRU category "${leastUsedCategory}": ${error instanceof Error ? error.message : String(error)}`);
+        options.topic = topicCache.getLeastRecentlyUsedTopic();
+        logger.info(`Falling back to overall least recently used topic: "${options.topic}"`);
+      }
+    }
+  } else {
+    // Update the topic usage in the cache
+    topicCache.updateTopicUsage(options.topic);
+    logger.info(`Using provided topic: "${options.topic}"`);
   }
   
   return options;
@@ -270,17 +342,22 @@ Content Generation and Posting Script
 Usage: npm run generate-and-post -- [options]
 
 Options:
-  --topic, -t       Topic for content generation (default: "productivity")
-  --template, -T    Template ID to use (default: "quote-red")
-  --skip-posting, -s Do not post to Instagram (default: false)
-  --force, -f       Force content regeneration (default: false)
-  --mock, -m        Use mock data instead of AI service (default: false)
-  --help, -h        Show this help message
+  --topic, -t              Topic for content generation (if not provided, uses least recently used topic)
+  --category, -c           Category to select topic from (e.g., productivity, mindfulness)
+  --list-categories, -l    List all available topic categories
+  --template, -T           Template ID to use (default: "quote-red")
+  --skip-posting, -s       Do not post to Instagram (default: false)
+  --force, -f              Force content regeneration (default: false)
+  --mock, -m               Use mock data instead of AI service (default: false)
+  --help, -h               Show this help message
 
 Examples:
   npm run generate-and-post -- --topic "time management"
+  npm run generate-and-post -- --category "mindfulness"
   npm run generate-and-post -- --topic "stress reduction" --skip-posting
   npm run generate-and-post -- -t "exercise" -T "quote-red" --mock
+  npm run generate-and-post -- # Uses LRU topic from LRU category
+  npm run generate-and-post -- --list-categories
   `);
 }
 
