@@ -1,0 +1,60 @@
+{
+  "name": "fixin5mins",
+  "version": "1.0.0",
+  "description": "AI-powered Instagram content generator",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test:ai": "ts-node src/examples/test-ai-service.ts",
+    "example": "ts-node src/examples/simple-usage.ts",
+    "example:html": "ts-node src/examples/html2image-example.ts",
+    "example:template": "ts-node src/examples/template-example.ts",
+    "example:carousel": "ts-node src/examples/instagram-carousel-example.ts",
+    "example:random": "ts-node src/examples/random-data-image.ts",
+    "example:quote-red": "ts-node src/examples/quote-red-example.ts",
+    "lint": "eslint . --ext .ts",
+    "clean": "rimraf dist generated",
+    "prepare": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run-once": "ts-node src/scripts/run-automation.ts",
+    "test-cloudinary": "ts-node src/scripts/test-cloudinary.ts",
+    "generate-content": "ts-node src/jobs/generateAndPostContent.ts",
+    "generate-and-post": "ts-node src/jobs/generateAndPostContent.ts"
+  },
+  "keywords": [
+    "ai",
+    "instagram",
+    "content",
+    "generation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "cloudinary": "^1.41.3",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.10",
+    "form-data": "^4.0.0",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^2.7.0",
+    "openai": "^4.11.0",
+    "puppeteer": "^24.6.1",
+    "uuid": "^9.0.1",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/ejs": "^3.1.5",
+    "@types/form-data": "^2.5.2",
+    "@types/node": "^20.8.2",
+    "@types/node-cron": "^3.0.11",
+    "@types/puppeteer": "^5.4.7",
+    "@types/uuid": "^9.0.8",
+    "@types/winston": "^2.4.4",
+    "rimraf": "^5.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
