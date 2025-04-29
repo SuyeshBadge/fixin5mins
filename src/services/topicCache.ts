@@ -320,6 +320,26 @@ class TopicCache {
         category: 'personal_growth', 
         lastUsed: Date.now() - 5500000,
         description: 'Self-improvement and character development'
+      },
+      { 
+        category: 'environmental_mindfulness', 
+        lastUsed: Date.now() - 5000000,
+        description: 'Sustainable practices and environmental awareness'
+      },
+      { 
+        category: 'self_care', 
+        lastUsed: Date.now() - 4500000,
+        description: 'Personal well-being and nurturing activities'
+      },
+      { 
+        category: 'organization', 
+        lastUsed: Date.now() - 4000000,
+        description: 'Structuring and managing physical and digital spaces'
+      },
+      { 
+        category: 'technology_habits', 
+        lastUsed: Date.now() - 3500000,
+        description: 'Healthy digital practices and tech management'
       }
     ];
     
@@ -328,44 +348,71 @@ class TopicCache {
     // Define topics by category with staggered timestamps
     const topicsByCategory: Record<string, string[]> = {
       'productivity': [
-        'productivity', 'time management', 'procrastination', 'focus', 'task prioritization',
-        'goal setting', 'habits', 'morning routine', 'evening routine', 'digital detox'
+        'time management', 'deep work', 'pomodoro technique', 'energy management', 'goal setting',
+        'microproductivity', 'task batching', 'calendar blocking', 'decision fatigue reduction', 'distraction management',
+        'habit stacking', 'daily planning', 'weekly reviews', '80/20 rule application', 'focus rituals',
+        'setting daily priorities', 'evening planning for next day', 'single-tasking', 'creating a done list', 'planning buffer time'
       ],
       'mindfulness': [
-        'mindfulness', 'meditation', 'breathing exercises', 'stress reduction', 'anxiety relief',
-        'gratitude practice', 'journaling', 'present moment awareness', 'mindful eating', 'body scan'
+        'meditation basics', 'body scan meditation', 'mindful breathing', 'loving-kindness meditation', 'gratitude journaling',
+        'mindful walking', 'present moment practice', 'emotional regulation through mindfulness', 'non-judgmental awareness', 'mindful technology use',
+        '5-minute breathing break', 'mindful listening', 'observing thoughts without judgment', 'mindful morning rituals', 'end-of-day reflection'
       ],
       'physical_health': [
-        'exercise', 'hydration', 'nutrition', 'sleep hygiene', 'posture',
-        'stretching', 'walking', 'strength training', 'cardio workouts', 'quick workouts'
+        'functional fitness', 'mobility drills', 'dynamic stretching', 'importance of hydration', 'balanced diet principles',
+        'sleep optimization', 'circadian rhythm management', 'rest and recovery strategies', 'HIIT training basics', 'building exercise consistency',
+        'daily step goals', '5-minute desk stretches', 'meal prepping basics', 'sunlight exposure', 'consistent sleep schedule'
       ],
       'mental_health': [
-        'mental clarity', 'emotional intelligence', 'positive thinking', 'self-compassion', 'confidence',
-        'resilience', 'boundaries', 'imposter syndrome', 'perfectionism', 'burnout prevention'
+        'mental fitness routines', 'emotional resilience', 'managing self-talk', 'building self-compassion', 'preventing burnout',
+        'handling social comparison', 'building psychological flexibility', 'coping mechanisms', 'journaling for mental health', 'navigating emotional triggers',
+        'daily mood tracking', 'positive affirmations practice', 'identifying daily stressors', 'emotional check-ins', 'simple gratitude exercises'
       ],
       'relationships': [
-        'communication skills', 'active listening', 'conflict resolution', 'relationship building', 'networking',
-        'social connections', 'family time', 'friendship maintenance', 'empathy development', 'forgiveness'
+        'effective communication', 'nonviolent communication', 'giving and receiving feedback', 'building trust', 'emotional availability',
+        'navigating difficult conversations', 'relationship repair strategies', 'empathy deepening exercises', 'healthy boundary setting', 'networking authentically',
+        'daily appreciation message', 'active listening practice', 'small acts of kindness', 'checking in with loved ones', 'celebrating small wins together'
       ],
       'career': [
-        'career growth', 'work-life balance', 'remote work', 'leadership skills', 'public speaking',
-        'interview preparation', 'resume building', 'email management', 'meeting efficiency', 'professional development'
+        'career roadmap building', 'mentorship seeking', 'personal branding', 'negotiation skills', 'strategic thinking',
+        'remote collaboration skills', 'leading remote teams', 'time blocking at work', 'managing up', 'career pivot planning',
+        'updating LinkedIn profile', '1% skill improvement daily', 'small wins journaling at work', 'daily learning recap', 'setting a career intention for the day'
       ],
       'learning': [
-        'learning techniques', 'note-taking', 'speed reading', 'memory improvement', 'knowledge retention',
-        'skill acquisition', 'curiosity cultivation', 'continuous learning', 'information processing', 'critical thinking'
+        'spaced repetition techniques', 'Feynman technique', 'active recall methods', 'building a personal knowledge base', 'incremental reading',
+        'learning in public', 'mental models', 'cognitive biases awareness', 'adaptive learning', 'setting learning KPIs',
+        'learning one new fact a day', 'teaching someone else a concept', 'reviewing daily notes', 'asking better questions', 'short focused reading sessions'
       ],
       'creativity': [
-        'creative thinking', 'idea generation', 'problem solving', 'innovation', 'brainstorming',
-        'creative writing', 'artistic expression', 'design thinking', 'creative blocks', 'inspiration finding'
+        'creative constraints', 'rapid prototyping ideas', 'design sprints', 'mind mapping', 'storytelling fundamentals',
+        'reverse brainstorming', 'creative confidence building', 'rituals for creativity', 'curiosity cultivation', 'cross-pollination of ideas',
+        'doodle something daily', 'freewriting exercises', 'daily idea journal', 'consume a new piece of art', '5-minute imagination practice'
       ],
       'financial': [
-        'money management', 'saving habits', 'budgeting', 'expense tracking', 'financial goals',
-        'investing basics', 'debt reduction', 'financial mindset', 'impulse buying', 'money saving'
+        'building an emergency fund', 'zero-based budgeting', 'paying yourself first', 'debt snowball method', 'retirement planning basics',
+        'index fund investing', 'building multiple income streams', 'financial literacy fundamentals', 'mindful spending', 'developing a wealth mindset',
+        'track one daily expense', 'compare prices before buying', 'daily spending reflection', 'setting a mini savings goal', 'no-spend day challenges'
       ],
       'personal_growth': [
-        'personal growth', 'self-awareness', 'life purpose', 'identity', 'values clarification',
-        'comfort zone expansion', 'limiting beliefs', 'personal vision', 'authenticity', 'self-reflection'
+        'vision setting', 'life audit exercises', 'building self-discipline', 'embracing vulnerability', 'growth mindset cultivation',
+        'sabbatical planning', 'mindset shifts for change', 'narrative reframing', 'building personal integrity', 'self-actualization pathways',
+        'identify one small fear to face', 'personal mantra practice', 'small risk-taking exercises', 'reflection journaling', 'micro goal setting'
+      ],
+      'environmental_mindfulness': [
+        'reduce daily plastic use', 'turn off unused lights', 'shorter showers', 'eco-friendly commuting', 'recycling habits',
+        'plant a tree', 'minimalist purchasing', 'upcycling projects', 'support local businesses', 'eco-conscious meal planning'
+      ],
+      'self_care': [
+        'hydration reminders', 'short walk break', 'digital detox break', 'positive self-talk', 'pampering rituals',
+        'solo date ideas', 'nurture a hobby', 'schedule downtime', 'listen to uplifting music', '5-minute stretching routine'
+      ],
+      'organization': [
+        'declutter one small space', 'review to-do list', 'organize digital files', 'clean out email inbox', 'refresh workspace',
+        'set daily goals', 'plan weekly menu', 'track appointments', 'file important documents', 'prep clothes for tomorrow'
+      ],
+      'technology_habits': [
+        'limit social media time', 'unsubscribe from one email list', 'clean up phone apps', 'use a focus timer app', 'curate your media feed',
+        'one tech-free hour daily', 'organize cloud storage', 'update passwords', 'adjust notification settings', 'learn a tech shortcut'
       ]
     };
     

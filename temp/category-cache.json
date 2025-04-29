@@ -1,52 +1,72 @@
 [
   {
-    "category": "productivity",
-    "lastUsed": 1745911093245,
-    "description": "Efficiency, task management, and getting things done"
-  },
-  {
     "category": "mindfulness",
-    "lastUsed": 1745906889687,
+    "lastUsed": 1745916347955,
     "description": "Awareness, presence, and mental practices"
   },
   {
     "category": "physical_health",
-    "lastUsed": 1745907339309,
+    "lastUsed": 1745907254001,
     "description": "Exercise, nutrition, and bodily wellbeing"
   },
   {
     "category": "mental_health",
-    "lastUsed": 1745907964999,
+    "lastUsed": 1745907754001,
     "description": "Emotional wellness, psychology, and personal stability"
   },
   {
     "category": "relationships",
-    "lastUsed": 1745908533574,
+    "lastUsed": 1745908254001,
     "description": "Interpersonal connections and social skills"
   },
   {
     "category": "career",
-    "lastUsed": 1745909734204,
+    "lastUsed": 1745908754001,
     "description": "Professional growth and workplace success"
   },
   {
     "category": "learning",
-    "lastUsed": 1745909827639,
+    "lastUsed": 1745909254001,
     "description": "Knowledge acquisition and cognitive skills"
   },
   {
     "category": "creativity",
-    "lastUsed": 1745909940517,
+    "lastUsed": 1745909754001,
     "description": "Artistic expression and innovative thinking"
   },
   {
     "category": "financial",
-    "lastUsed": 1745910003504,
+    "lastUsed": 1745910254001,
     "description": "Money management and financial wellbeing"
   },
   {
     "category": "personal_growth",
-    "lastUsed": 1745910972780,
+    "lastUsed": 1745910754001,
     "description": "Self-improvement and character development"
+  },
+  {
+    "category": "environmental_mindfulness",
+    "lastUsed": 1745911254001,
+    "description": "Sustainable practices and environmental awareness"
+  },
+  {
+    "category": "self_care",
+    "lastUsed": 1745911754001,
+    "description": "Personal well-being and nurturing activities"
+  },
+  {
+    "category": "organization",
+    "lastUsed": 1745912254001,
+    "description": "Structuring and managing physical and digital spaces"
+  },
+  {
+    "category": "technology_habits",
+    "lastUsed": 1745912754001,
+    "description": "Healthy digital practices and tech management"
+  },
+  {
+    "category": "productivity",
+    "lastUsed": 1745916254003,
+    "description": "Efficiency, task management, and getting things done"
   }
 ]
