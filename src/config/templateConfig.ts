@@ -50,6 +50,21 @@ export const templateConfig: TemplateConfig = {
       date: ""
     }
   },
+  "self-love-gradient": {
+    id: "self-love-gradient",
+    type: "quote",
+    fileCount: 1,
+    files: [
+      { fileName: "template.ejs", variableMapping: "mainTemplate" }
+    ],
+    defaultVariables: {
+      emotionalHook: "YOU'LL BLOOM",
+      actionStep: "if you take the time to water",
+      emotionalReward: "self love is the best love",
+      handle: "fixin5mins",
+      date: ""
+    }
+  },
   "post-gradient": {
     id: "post-gradient",
     type: "post",

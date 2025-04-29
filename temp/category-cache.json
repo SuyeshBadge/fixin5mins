@@ -1,42 +1,7 @@
 [
   {
-    "category": "mindfulness",
-    "lastUsed": 1745916347955,
-    "description": "Awareness, presence, and mental practices"
-  },
-  {
-    "category": "physical_health",
-    "lastUsed": 1745907254001,
-    "description": "Exercise, nutrition, and bodily wellbeing"
-  },
-  {
-    "category": "mental_health",
-    "lastUsed": 1745907754001,
-    "description": "Emotional wellness, psychology, and personal stability"
-  },
-  {
-    "category": "relationships",
-    "lastUsed": 1745908254001,
-    "description": "Interpersonal connections and social skills"
-  },
-  {
-    "category": "career",
-    "lastUsed": 1745908754001,
-    "description": "Professional growth and workplace success"
-  },
-  {
-    "category": "learning",
-    "lastUsed": 1745909254001,
-    "description": "Knowledge acquisition and cognitive skills"
-  },
-  {
-    "category": "creativity",
-    "lastUsed": 1745909754001,
-    "description": "Artistic expression and innovative thinking"
-  },
-  {
     "category": "financial",
-    "lastUsed": 1745910254001,
+    "lastUsed": 1745918984337,
     "description": "Money management and financial wellbeing"
   },
   {
@@ -68,5 +33,40 @@
     "category": "productivity",
     "lastUsed": 1745916254003,
     "description": "Efficiency, task management, and getting things done"
+  },
+  {
+    "category": "mindfulness",
+    "lastUsed": 1745916347955,
+    "description": "Awareness, presence, and mental practices"
+  },
+  {
+    "category": "physical_health",
+    "lastUsed": 1745918160571,
+    "description": "Exercise, nutrition, and bodily wellbeing"
+  },
+  {
+    "category": "mental_health",
+    "lastUsed": 1745918272168,
+    "description": "Emotional wellness, psychology, and personal stability"
+  },
+  {
+    "category": "relationships",
+    "lastUsed": 1745918297769,
+    "description": "Interpersonal connections and social skills"
+  },
+  {
+    "category": "career",
+    "lastUsed": 1745918390661,
+    "description": "Professional growth and workplace success"
+  },
+  {
+    "category": "learning",
+    "lastUsed": 1745918753599,
+    "description": "Knowledge acquisition and cognitive skills"
+  },
+  {
+    "category": "creativity",
+    "lastUsed": 1745918889268,
+    "description": "Artistic expression and innovative thinking"
   }
 ]
