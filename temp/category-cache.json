@@ -1,52 +1,52 @@
 [
   {
+    "category": "physical_health",
+    "lastUsed": 1745907339309,
+    "description": "Exercise, nutrition, and bodily wellbeing"
+  },
+  {
     "category": "mental_health",
     "lastUsed": 1745859177587,
     "description": "Emotional wellness, psychology, and personal stability"
   },
   {
     "category": "relationships",
-    "lastUsed": 1745850602194,
+    "lastUsed": 1745859240752,
     "description": "Interpersonal connections and social skills"
   },
   {
     "category": "career",
-    "lastUsed": 1745851102194,
+    "lastUsed": 1745905936917,
     "description": "Professional growth and workplace success"
   },
   {
     "category": "learning",
-    "lastUsed": 1745851602194,
+    "lastUsed": 1745906178998,
     "description": "Knowledge acquisition and cognitive skills"
   },
   {
     "category": "creativity",
-    "lastUsed": 1745852102194,
+    "lastUsed": 1745906300427,
     "description": "Artistic expression and innovative thinking"
   },
   {
     "category": "financial",
-    "lastUsed": 1745852602194,
+    "lastUsed": 1745906404648,
     "description": "Money management and financial wellbeing"
   },
   {
     "category": "personal_growth",
-    "lastUsed": 1745853102194,
+    "lastUsed": 1745906498858,
     "description": "Self-improvement and character development"
   },
   {
     "category": "productivity",
-    "lastUsed": 1745859095624,
+    "lastUsed": 1745906632576,
     "description": "Efficiency, task management, and getting things done"
   },
   {
     "category": "mindfulness",
-    "lastUsed": 1745859128093,
+    "lastUsed": 1745906889687,
     "description": "Awareness, presence, and mental practices"
-  },
-  {
-    "category": "physical_health",
-    "lastUsed": 1745859152224,
-    "description": "Exercise, nutrition, and bodily wellbeing"
   }
 ]

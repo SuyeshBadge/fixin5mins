@@ -509,8 +509,12 @@ export async function postSingleImageToInstagram(
         logger.debug(`Uploading image: ${image.id} (${image.filePath})`);
         
         const url = await uploadImageToCloudinary(image.filePath);
-        const fileName = path.basename(image.filePath);
-        const publicId = `fixin5mins/${fileName.replace(/\.\w+$/, '')}-${Date.now()}`;
+        
+        // Extract the public ID from the URL for cleanup later
+        const urlParts = url.split('/');
+        const filenameWithExt = urlParts[urlParts.length - 1];
+        const publicIdWithExt = urlParts.slice(urlParts.length - 2).join('/');
+        const publicId = publicIdWithExt.split('.')[0]; // Remove file extension
         
         cloudinaryPublicId = publicId;
         cloudinaryUrl = url;
@@ -585,6 +589,7 @@ export async function postSingleImageToInstagram(
         if (cloudinaryPublicId) {
             try {
                 await deleteImageFromCloudinary(cloudinaryPublicId);
+                logger.debug(`Cleaned up Cloudinary image after error: ${cloudinaryPublicId}`);
             } catch (cleanupError) {
                 // Just log, don't throw
                 logger.warn(`Failed to delete Cloudinary image during error cleanup: ${cleanupError}`);
