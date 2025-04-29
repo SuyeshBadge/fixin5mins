@@ -126,19 +126,24 @@
       display: flex;
       flex-direction: column;
       gap: 30px;
+      width: 100%;
     }
     
+    /* Dynamic font size classes for emotional hook */
     .emotional-hook {
-      font-size: 56px;
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
       line-height: 1.2;
       color: #e63a3a;
       font-weight: 400;
-      font-family: 'DM Serif Display', serif;
-      font-style: italic;
       letter-spacing: -0.5px;
       text-shadow: 1px 1px 2px rgba(230, 58, 58, 0.1);
       position: relative;
       padding-bottom: 20px;
+      /* Default size, will be overridden by JS */
+      font-size: 56px;
+      width: 100%; 
+      box-sizing: border-box;
     }
     
     .emotional-hook::after {
@@ -152,13 +157,12 @@
       border-radius: 3px;
     }
     
+    /* Dynamic font size classes for action step */
     .action-step {
-      font-size: 50px;
-      line-height: 1.3;
-      color: #e63a3a;
-      font-weight: 400;
       font-family: 'Cormorant Garamond', serif;
       font-weight: 600;
+      line-height: 1.3;
+      color: #e63a3a;
       letter-spacing: -0.2px;
       text-shadow: 1px 1px 2px rgba(230, 58, 58, 0.1);
       position: relative;
@@ -166,20 +170,27 @@
       border-left: 5px solid rgba(230, 58, 58, 0.6);
       padding-left: 25px;
       margin-left: 10px;
+      /* Default size, will be overridden by JS */
+      font-size: 50px;
+      width: 100%;
+      box-sizing: border-box;
     }
     
+    /* Dynamic font size classes for emotional reward */
     .emotional-reward {
-      font-size: 44px;
-      line-height: 1.3;
-      color: #e63a3a;
-      font-weight: 400;
       font-family: 'Cormorant Garamond', serif;
       font-weight: 600;
       font-style: italic;
+      line-height: 1.3;
+      color: #e63a3a;
       letter-spacing: -0.3px;
       text-shadow: 1px 1px 2px rgba(230, 58, 58, 0.1);
       position: relative;
       padding-top: 20px;
+      /* Default size, will be overridden by JS */
+      font-size: 44px;
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .emotional-reward::before {
@@ -226,6 +237,45 @@
       border-bottom: 2px solid rgba(230, 58, 58, 0.3);
     }
   </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Function to calculate dynamic font size
+      function adjustFontSize(element, maxLength, initialSize, minSize, step) {
+        if (!element) return;
+        
+        const text = element.textContent || '';
+        let fontSize = initialSize;
+        
+        // Calculate new font size based on text length
+        if (text.length > maxLength) {
+          // Reduce font size proportionally to text length
+          const reduction = Math.min(Math.floor((text.length - maxLength) / step), (initialSize - minSize));
+          fontSize = Math.max(initialSize - reduction, minSize);
+        }
+        
+        element.style.fontSize = `${fontSize}px`;
+        console.log(`Adjusted ${element.className} font size to ${fontSize}px (${text.length} chars)`);
+      }
+      
+      // Adjust font sizes for all emotional content sections
+      const hookElement = document.querySelector('.emotional-hook');
+      const actionElement = document.querySelector('.action-step');
+      const rewardElement = document.querySelector('.emotional-reward');
+      
+      // Adjust each section with appropriate parameters
+      if (hookElement) {
+        adjustFontSize(hookElement, 40, 56, 36, 5); // Start reducing at 40 chars, from 56px to min 36px
+      }
+      
+      if (actionElement) {
+        adjustFontSize(actionElement, 60, 50, 30, 5); // Start reducing at 60 chars, from 50px to min 30px
+      }
+      
+      if (rewardElement) {
+        adjustFontSize(rewardElement, 50, 44, 28, 5); // Start reducing at 50 chars, from 44px to min 28px
+      }
+    });
+  </script>
 </head>
 <body>
   <div class="container">
@@ -243,9 +293,9 @@
       
       <% if (typeof emotionalHook !== 'undefined' && typeof actionStep !== 'undefined' && typeof emotionalReward !== 'undefined') { %>
         <div class="emotional-structure">
-          <div class="emotional-hook"><%= emotionalHook %></div>
-          <div class="action-step"><%= actionStep %></div>
-          <div class="emotional-reward"><%= emotionalReward %></div>
+          <div class="emotional-hook" data-length="<%= emotionalHook.length %>"><%= emotionalHook %></div>
+          <div class="action-step" data-length="<%= actionStep.length %>"><%= actionStep %></div>
+          <div class="emotional-reward" data-length="<%= emotionalReward.length %>"><%= emotionalReward %></div>
         </div>
       <% } else if (typeof quote !== 'undefined') { %>
         <div class="quote"><%= quote %></div>
