@@ -122,10 +122,28 @@ async function main() {
     };
     
     // Build the caption
-    const caption = `${emotionalContent.emotionalHook}\n\n${emotionalContent.actionStep}\n\n${emotionalContent.emotionalReward}`;
+    let caption = '';
+    let hashtags: string[] = [];
     
-    // Define hashtags
-    const hashtags = ['productivity', 'quicktips', 'fixin5mins', 'lifehack', 'selfimprovement'];
+    // Use the AI-generated caption if available
+    if (emotionalContent.caption) {
+      caption = emotionalContent.caption;
+      logger.info(`Using AI-generated caption: "${caption}"`);
+    } else {
+      // Fall back to default caption structure if AI didn't provide one
+      caption = `${emotionalContent.emotionalHook}\n\n${emotionalContent.actionStep}\n\n${emotionalContent.emotionalReward}`;
+      logger.info(`No AI-generated caption available, building from content: "${caption}"`);
+    }
+    
+    // Use the AI-generated hashtags if available
+    if (emotionalContent.hashtags && emotionalContent.hashtags.length > 0) {
+      hashtags = emotionalContent.hashtags;
+      logger.info(`Using AI-generated hashtags: ${hashtags.join(', ')}`);
+    } else {
+      // Fall back to default hashtags if AI didn't provide any
+      hashtags = ['productivity', 'quicktips', 'fixin5mins', 'lifehack', 'selfimprovement'];
+      logger.info(`No AI-generated hashtags available, using defaults: ${hashtags.join(', ')}`);
+    }
     
     // Post to Instagram as a single image instead of a carousel
     const postId = await postSingleImageToInstagram(
@@ -199,44 +217,74 @@ Example: npm run generate-and-post -- --category mindfulness
  */
 function getMockContent(topic: string): EmotionalContentFormat {
   // Basic content templates for different topics
-  const templates: Record<string, EmotionalContentFormat> = {
-    'productivity': {
+  const defaultHashtags = ['productivity', 'quicktips', 'fixin5mins', 'lifehack', 'selfimprovement'];
+  
+  // Topic-specific templates
+  if (topic.toLowerCase() === 'productivity') {
+    return {
       emotionalHook: 'Feeling overwhelmed by your to-do list?',
       actionStep: 'Spend 5 minutes prioritizing just your top 3 tasks for today.',
-      emotionalReward: 'Experience immediate relief and clarity about what truly matters.'
-    },
-    'exercise': {
+      emotionalReward: 'Experience immediate relief and clarity about what truly matters.',
+      caption: 'We all get bogged down by endless to-do lists. The key is to focus on what truly matters. Try this simple exercise and watch how your mindset shifts!',
+      hashtags: ['productivity', 'prioritization', 'todolist', 'timemanagement', 'focus', 'fixin5mins']
+    };
+  }
+  
+  if (topic.toLowerCase() === 'exercise') {
+    return {
       emotionalHook: 'Finding it hard to fit workouts into your busy schedule?',
       actionStep: 'Try a 5-minute high-intensity interval routine right where you are.',
-      emotionalReward: 'Feel energized and proud that you prioritized your health today.'
-    },
-    'mindfulness': {
+      emotionalReward: 'Feel energized and proud that you prioritized your health today.',
+      caption: 'No time for a full workout? No problem! Even 5 minutes of movement can boost your energy and mood. Consistency beats perfection every time.',
+      hashtags: ['quickworkout', 'hiit', 'exerciseathome', 'fitness', 'healthyhabits', 'fixin5mins']
+    };
+  }
+  
+  if (topic.toLowerCase() === 'mindfulness') {
+    return {
       emotionalHook: 'Mind racing with too many thoughts?',
       actionStep: 'Take 5 minutes to focus only on your breathing—in for 4, hold for 4, out for 4.',
-      emotionalReward: 'Return to your tasks with a calmer mind and renewed focus.'
-    },
-    'stress': {
+      emotionalReward: 'Return to your tasks with a calmer mind and renewed focus.',
+      caption: 'Your mind is like a browser with too many tabs open. Taking even 5 minutes to reset can make all the difference. Try this simple breathing exercise whenever you feel overwhelmed.',
+      hashtags: ['mindfulness', 'breathing', 'meditation', 'stressrelief', 'mentalhealth', 'fixin5mins']
+    };
+  }
+  
+  if (topic.toLowerCase() === 'stress') {
+    return {
       emotionalHook: 'Feeling tense and stressed out?',
       actionStep: 'Spend 5 minutes doing progressive muscle relaxation, tensing and releasing each muscle group.',
-      emotionalReward: 'Experience immediate physical relief and a clearer mindset.'
-    },
-    'focus': {
+      emotionalReward: 'Experience immediate physical relief and a clearer mindset.',
+      caption: "Stress shows up in our bodies before we even realize it. This simple technique helps release tension you didn't even know you were holding. Your body will thank you!",
+      hashtags: ['stressmanagement', 'relaxation', 'selfcare', 'tension', 'mindfulness', 'fixin5mins']
+    };
+  }
+  
+  if (topic.toLowerCase() === 'focus') {
+    return {
       emotionalHook: 'Struggling to concentrate on important work?',
       actionStep: 'Set a 5-minute timer and work on just one task with zero distractions.',
-      emotionalReward: 'Build momentum and break through the mental block that was holding you back.'
-    }
-  };
-  
-  // Return the template for the given topic or a generic one if not found
-  if (templates[topic.toLowerCase()]) {
-    return templates[topic.toLowerCase()];
+      emotionalReward: 'Build momentum and break through the mental block that was holding you back.',
+      caption: 'Distractions are everywhere. But sometimes all you need is 5 minutes of focused work to break through resistance. Try this mini-focus session and see what happens!',
+      hashtags: ['deepwork', 'focus', 'productivity', 'concentration', 'pomodoro', 'fixin5mins']
+    };
   }
   
   // Generate a generic template based on the topic
+  const cleanTopicTag = topic.toLowerCase().replace(/\s+/g, '');
+  const genericHashtags = ['selfimprovement', 'personalgrowth', 'habits', 'mindset', 'fixin5mins'];
+  
+  // Add the topic as a hashtag if it's not empty
+  if (cleanTopicTag) {
+    genericHashtags.push(cleanTopicTag);
+  }
+  
   return {
     emotionalHook: `Feeling challenged with ${topic}?`,
     actionStep: `Take 5 minutes to write down one small step you can take today to improve your ${topic}.`,
-    emotionalReward: `Gain confidence and direction in your ${topic} journey with this simple action.`
+    emotionalReward: `Gain confidence and direction in your ${topic} journey with this simple action.`,
+    caption: `We all face challenges when it comes to ${topic}. But sometimes the smallest actions lead to the biggest breakthroughs. Try this quick exercise today!`,
+    hashtags: genericHashtags
   };
 }
 

@@ -1,17 +1,7 @@
 [
   {
-    "category": "financial",
-    "lastUsed": 1745910003504,
-    "description": "Money management and financial wellbeing"
-  },
-  {
-    "category": "personal_growth",
-    "lastUsed": 1745906498858,
-    "description": "Self-improvement and character development"
-  },
-  {
     "category": "productivity",
-    "lastUsed": 1745906632576,
+    "lastUsed": 1745911093245,
     "description": "Efficiency, task management, and getting things done"
   },
   {
@@ -48,5 +38,15 @@
     "category": "creativity",
     "lastUsed": 1745909940517,
     "description": "Artistic expression and innovative thinking"
+  },
+  {
+    "category": "financial",
+    "lastUsed": 1745910003504,
+    "description": "Money management and financial wellbeing"
+  },
+  {
+    "category": "personal_growth",
+    "lastUsed": 1745910972780,
+    "description": "Self-improvement and character development"
   }
 ]

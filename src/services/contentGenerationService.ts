@@ -34,6 +34,10 @@ export interface EmotionalContentFormat {
   actionStep: string;
   /** Emotional benefit or outcome of taking the action */
   emotionalReward: string;
+  /** Caption for Instagram post (optional) */
+  caption?: string;
+  /** Hashtags for Instagram post (optional) */
+  hashtags?: string[];
 }
 
 /**
@@ -186,7 +190,9 @@ Respond ONLY with the JSON, no other text.`;
     const schema: EmotionalContentFormat = {
       emotionalHook: "Feeling overwhelmed by your to-do list?",
       actionStep: "Spend 5 minutes making a simple daily task planner to stay focused and productive.",
-      emotionalReward: "Regain a sense of calm and control over your day."
+      emotionalReward: "Regain a sense of calm and control over your day.",
+      caption: "We all have those moments where our to-do list feels never-ending. But sometimes the simplest solution is to take a step back and organize our thoughts.",
+      hashtags: ["productivity", "mindfulness", "planning", "organizeyourlife", "fixin5mins"]
     };
     
     // Default system prompt for emotional content generation
@@ -199,6 +205,10 @@ Respond ONLY with the JSON, no other text.`;
       "Keep each section concise and impactful to fit within the display constraints. " +
       "Keep the content concise and to the point. " +
       "Use simple language and avoid complex words. " +
+      "\n\n" +
+      "Also create a caption (2-3 sentences, max 150 characters) that expands on the emotional content and connects with the audience. " +
+      "Generate 5-8 relevant hashtags for the post, each being 1-2 words and related to the topic. " +
+      "Include popular hashtags that would increase discoverability. Always include #fixin5mins as one of the hashtags. " +
       "\n\n" +
       "IMPORTANT FORMATTING RULES:\n" +
       "1. DO NOT use asterisks (*), underscores (_), or any other markdown formatting\n" +
@@ -233,14 +243,18 @@ Respond ONLY with the JSON, no other text.`;
       const cleanedContent: EmotionalContentFormat = {
         emotionalHook: this.cleanFormatting(result.content.emotionalHook),
         actionStep: this.cleanFormatting(result.content.actionStep),
-        emotionalReward: this.cleanFormatting(result.content.emotionalReward)
+        emotionalReward: this.cleanFormatting(result.content.emotionalReward),
+        caption: this.cleanFormatting(result.content.caption || ''),
+        hashtags: this.cleanHashtags(result.content.hashtags || [])
       };
       
       // Then apply length limits
       const limitedContent: EmotionalContentFormat = {
-        emotionalHook: this.truncateText(cleanedContent.emotionalHook, 50),
-        actionStep: this.truncateText(cleanedContent.actionStep, 75),
-        emotionalReward: this.truncateText(cleanedContent.emotionalReward, 60)
+        emotionalHook: this.truncateText(cleanedContent.emotionalHook, 80),
+        actionStep: this.truncateText(cleanedContent.actionStep, 100),
+        emotionalReward: this.truncateText(cleanedContent.emotionalReward, 120),
+        caption: cleanedContent.caption ? this.truncateText(cleanedContent.caption, 200) : undefined,
+        hashtags: cleanedContent.hashtags
       };
       
       // Log the character counts for debugging
@@ -248,6 +262,8 @@ Respond ONLY with the JSON, no other text.`;
       console.log(`- Emotional Hook (${limitedContent.emotionalHook.length}/50): ${limitedContent.emotionalHook}`);
       console.log(`- Action Step (${limitedContent.actionStep.length}/75): ${limitedContent.actionStep}`);
       console.log(`- Emotional Reward (${limitedContent.emotionalReward.length}/60): ${limitedContent.emotionalReward}`);
+      console.log(`- Caption (${limitedContent.caption?.length || 0}/150): ${limitedContent.caption}`);
+      console.log(`- Hashtags (${limitedContent.hashtags?.length || 0}): ${limitedContent.hashtags?.join(', ')}`);
       
       return {
         content: limitedContent,
@@ -256,6 +272,44 @@ Respond ONLY with the JSON, no other text.`;
     }
     
     return result;
+  }
+  
+  /**
+   * Clean and validate hashtags
+   * @param hashtags The array of hashtags to clean
+   * @returns Cleaned hashtags array
+   */
+  private cleanHashtags(hashtags: string[]): string[] {
+    // Ensure we have an array to work with
+    if (!Array.isArray(hashtags)) {
+      return ['fixin5mins'];
+    }
+    
+    // Process each hashtag
+    const cleanedHashtags = hashtags.map(tag => {
+      // Remove any # prefix as we'll add them in the post
+      let clean = tag.startsWith('#') ? tag.substring(1) : tag;
+      
+      // Replace spaces and special characters with underscores
+      clean = clean
+        .replace(/\s+/g, '')
+        .replace(/[^a-zA-Z0-9_]/g, '')
+        .toLowerCase();
+      
+      return clean;
+    })
+    // Filter out empty or too short hashtags
+    .filter(tag => tag && tag.length > 1);
+    
+    // Limit to a reasonable number (max 10)
+    const limitedHashtags = cleanedHashtags.slice(0, 10);
+    
+    // Ensure #fixin5mins is included
+    if (!limitedHashtags.includes('fixin5mins')) {
+      limitedHashtags.push('fixin5mins');
+    }
+    
+    return limitedHashtags;
   }
   
   /**
