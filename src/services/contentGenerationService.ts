@@ -76,27 +76,52 @@ export class ContentGenerationService {
         options.systemPrompt
       );
 
-      // Try to parse as JSON
+      console.log("Raw AI response:", rawContent);
+
+      // First, try to extract JSON from markdown code blocks if present
+      // This handles responses like "```json\n{...}\n```"
+      const markdownJsonMatch = rawContent.match(/```(?:json)?\s*\n([\s\S]*?)\n```/);
+      if (markdownJsonMatch && markdownJsonMatch[1]) {
+        try {
+          const extractedJson = JSON.parse(markdownJsonMatch[1]);
+          console.log("Successfully extracted JSON from markdown code block");
+          return {
+            content: extractedJson,
+            success: true
+          };
+        } catch (markdownError) {
+          console.log("Failed to parse JSON from markdown:", markdownError);
+          // Continue to other extraction methods
+        }
+      }
+
+      // Try to parse the entire response as JSON
       try {
         const jsonContent = JSON.parse(rawContent);
+        console.log("Successfully parsed entire response as JSON");
         return {
           content: jsonContent,
           success: true
         };
       } catch (parseError: unknown) {
+        console.log("Failed to parse entire response as JSON:", parseError);
+        
         // If JSON parsing fails but forceJsonFormat was not set, 
         // try to extract JSON from the text response
         if (!options.forceJsonFormat) {
+          // Look for any JSON-like structure in the response
           const jsonMatch = rawContent.match(/\{[\s\S]*\}/);
           if (jsonMatch) {
             try {
               const extractedJson = JSON.parse(jsonMatch[0]);
+              console.log("Successfully extracted JSON using regex");
               return {
                 content: extractedJson,
                 success: true
               };
             } catch (extractError) {
-              // Extraction failed, return error
+              console.log("Failed to extract JSON using regex:", extractError);
+              // Extraction failed, continue to error handling
             }
           }
         }
@@ -110,6 +135,7 @@ export class ContentGenerationService {
       }
     } catch (error: unknown) {
       // Handle general errors from the AI service
+      console.error("Error in generateContent:", error);
       return {
         content: null,
         success: false,
@@ -174,7 +200,7 @@ Respond ONLY with the JSON, no other text.`;
     // Use the provided system prompt or the default one
     const systemPrompt = options.systemPrompt || defaultSystemPrompt;
 
-    const model = 'claude:claude-3-5-sonnet-20240620';
+    const model = 'gemini:gemini-2.0-flash';
     
     // Generate the content using the structured content method
     return this.generateStructuredContent(

@@ -139,11 +139,30 @@ async function main() {
 
     // Delete local file after successful posting
     try {
-      logger.info(`Deleting local image file: ${image.path}...`);
-      await fs.promises.unlink(image.path);
+      const imagePath = image.path;
+      const imageDir = path.dirname(imagePath);
+      
+      // 1. Delete the image file
+      logger.info(`Deleting local image file: ${imagePath}...`);
+      await fs.promises.unlink(imagePath);
       logger.info('Successfully cleaned up local image file');
+      
+      // 2. Check if the directory is empty and delete it if it is
+      const dirContents = await fs.promises.readdir(imageDir);
+      
+      if (dirContents.length === 0) {
+        logger.info(`Deleting empty directory: ${imageDir}...`);
+        try {
+          await fs.promises.rmdir(imageDir);
+          logger.info('Successfully removed empty directory');
+        } catch (dirError) {
+          logger.warn(`Could not delete directory: ${dirError instanceof Error ? dirError.message : String(dirError)}`);
+        }
+      } else {
+        logger.info(`Directory ${imageDir} is not empty, skipping deletion.`);
+      }
     } catch (error) {
-      logger.warn(`Error deleting local image file: ${error instanceof Error ? error.message : String(error)}`);
+      logger.warn(`Error during cleanup: ${error instanceof Error ? error.message : String(error)}`);
     }
     
   } catch (error) {
