@@ -1,22 +1,7 @@
 [
   {
-    "category": "organization",
-    "lastUsed": 1746001430892,
-    "description": "Structuring and managing physical and digital spaces"
-  },
-  {
-    "category": "technology_habits",
-    "lastUsed": 1745912754001,
-    "description": "Healthy digital practices and tech management"
-  },
-  {
-    "category": "productivity",
-    "lastUsed": 1745916254003,
-    "description": "Efficiency, task management, and getting things done"
-  },
-  {
     "category": "mindfulness",
-    "lastUsed": 1745916347955,
+    "lastUsed": 1746013500818,
     "description": "Awareness, presence, and mental practices"
   },
   {
@@ -68,5 +53,20 @@
     "category": "self_care",
     "lastUsed": 1746001338376,
     "description": "Personal well-being and nurturing activities"
+  },
+  {
+    "category": "organization",
+    "lastUsed": 1746001430892,
+    "description": "Structuring and managing physical and digital spaces"
+  },
+  {
+    "category": "technology_habits",
+    "lastUsed": 1746002005972,
+    "description": "Healthy digital practices and tech management"
+  },
+  {
+    "category": "productivity",
+    "lastUsed": 1746013403630,
+    "description": "Efficiency, task management, and getting things done"
   }
 ]
