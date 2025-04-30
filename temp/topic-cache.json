@@ -1,15 +1,5 @@
 [
   {
-    "topic": "time management",
-    "category": "productivity",
-    "lastUsed": 1745916254003
-  },
-  {
-    "topic": "deep work",
-    "category": "productivity",
-    "lastUsed": 1745906255001
-  },
-  {
     "topic": "pomodoro technique",
     "category": "productivity",
     "lastUsed": 1745906256001
@@ -100,11 +90,6 @@
     "lastUsed": 1745906273001
   },
   {
-    "topic": "meditation basics",
-    "category": "mindfulness",
-    "lastUsed": 1745916347955
-  },
-  {
     "topic": "body scan meditation",
     "category": "mindfulness",
     "lastUsed": 1745906275001
@@ -173,11 +158,6 @@
     "topic": "end-of-day reflection",
     "category": "mindfulness",
     "lastUsed": 1745906288001
-  },
-  {
-    "topic": "functional fitness",
-    "category": "physical_health",
-    "lastUsed": 1745918160571
   },
   {
     "topic": "mobility drills",
@@ -250,11 +230,6 @@
     "lastUsed": 1745906303001
   },
   {
-    "topic": "mental fitness routines",
-    "category": "mental_health",
-    "lastUsed": 1745918272168
-  },
-  {
     "topic": "emotional resilience",
     "category": "mental_health",
     "lastUsed": 1745906305001
@@ -323,11 +298,6 @@
     "topic": "simple gratitude exercises",
     "category": "mental_health",
     "lastUsed": 1745906318001
-  },
-  {
-    "topic": "effective communication",
-    "category": "relationships",
-    "lastUsed": 1745918297769
   },
   {
     "topic": "nonviolent communication",
@@ -400,11 +370,6 @@
     "lastUsed": 1745906333001
   },
   {
-    "topic": "career roadmap building",
-    "category": "career",
-    "lastUsed": 1745918390661
-  },
-  {
     "topic": "mentorship seeking",
     "category": "career",
     "lastUsed": 1745906335001
@@ -473,11 +438,6 @@
     "topic": "setting a career intention for the day",
     "category": "career",
     "lastUsed": 1745906348001
-  },
-  {
-    "topic": "spaced repetition techniques",
-    "category": "learning",
-    "lastUsed": 1745918753599
   },
   {
     "topic": "Feynman technique",
@@ -550,11 +510,6 @@
     "lastUsed": 1745906363001
   },
   {
-    "topic": "creative constraints",
-    "category": "creativity",
-    "lastUsed": 1745918889268
-  },
-  {
     "topic": "rapid prototyping ideas",
     "category": "creativity",
     "lastUsed": 1745906365001
@@ -623,11 +578,6 @@
     "topic": "5-minute imagination practice",
     "category": "creativity",
     "lastUsed": 1745906378001
-  },
-  {
-    "topic": "building an emergency fund",
-    "category": "financial",
-    "lastUsed": 1745918984337
   },
   {
     "topic": "zero-based budgeting",
@@ -700,11 +650,6 @@
     "lastUsed": 1745906393001
   },
   {
-    "topic": "vision setting",
-    "category": "personal_growth",
-    "lastUsed": 1745919055688
-  },
-  {
     "topic": "life audit exercises",
     "category": "personal_growth",
     "lastUsed": 1745906395001
@@ -775,11 +720,6 @@
     "lastUsed": 1745906408001
   },
   {
-    "topic": "reduce daily plastic use",
-    "category": "environmental_mindfulness",
-    "lastUsed": 1745906409001
-  },
-  {
     "topic": "turn off unused lights",
     "category": "environmental_mindfulness",
     "lastUsed": 1745906410001
@@ -823,11 +763,6 @@
     "topic": "eco-conscious meal planning",
     "category": "environmental_mindfulness",
     "lastUsed": 1745906418001
-  },
-  {
-    "topic": "hydration reminders",
-    "category": "self_care",
-    "lastUsed": 1745906419001
   },
   {
     "topic": "short walk break",
@@ -877,7 +812,7 @@
   {
     "topic": "declutter one small space",
     "category": "organization",
-    "lastUsed": 1745906429001
+    "lastUsed": 1746001430892
   },
   {
     "topic": "review to-do list",
@@ -973,5 +908,70 @@
     "topic": "learn a tech shortcut",
     "category": "technology_habits",
     "lastUsed": 1745906448001
+  },
+  {
+    "topic": "time management",
+    "category": "productivity",
+    "lastUsed": 1745916254003
+  },
+  {
+    "topic": "meditation basics",
+    "category": "mindfulness",
+    "lastUsed": 1745916347955
+  },
+  {
+    "topic": "functional fitness",
+    "category": "physical_health",
+    "lastUsed": 1745918160571
+  },
+  {
+    "topic": "mental fitness routines",
+    "category": "mental_health",
+    "lastUsed": 1745918272168
+  },
+  {
+    "topic": "effective communication",
+    "category": "relationships",
+    "lastUsed": 1745918297769
+  },
+  {
+    "topic": "career roadmap building",
+    "category": "career",
+    "lastUsed": 1745918390661
+  },
+  {
+    "topic": "spaced repetition techniques",
+    "category": "learning",
+    "lastUsed": 1745918753599
+  },
+  {
+    "topic": "creative constraints",
+    "category": "creativity",
+    "lastUsed": 1745918889268
+  },
+  {
+    "topic": "building an emergency fund",
+    "category": "financial",
+    "lastUsed": 1745918984337
+  },
+  {
+    "topic": "vision setting",
+    "category": "personal_growth",
+    "lastUsed": 1745919055688
+  },
+  {
+    "topic": "reduce daily plastic use",
+    "category": "environmental_mindfulness",
+    "lastUsed": 1745998549398
+  },
+  {
+    "topic": "hydration reminders",
+    "category": "self_care",
+    "lastUsed": 1746001338376
+  },
+  {
+    "topic": "mental clarity",
+    "category": "other",
+    "lastUsed": 1746001379144
   }
 ]

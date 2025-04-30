@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motivation Accent Template</title>
+  <style>
+    /* Import Google Font for clean typography */
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+    
+    .container {
+      width: 1080px;
+      height: 1080px;
+      position: relative;
+      background-color: #f9f3e8; /* Cream/beige background */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 80px;
+      box-sizing: border-box;
+    }
+    
+    .header {
+      position: absolute;
+      top: 80px;
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: #000;
+      text-align: center;
+    }
+    
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 900px;
+    }
+    
+    .main-text {
+      display: inline-block;
+      font-size: 90px;
+      line-height: 1.1;
+      font-weight: 800;
+      color: #000;
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+    }
+    
+    /* Style for the accent dot */
+    .accent-dot {
+      width: 28px;
+      height: 28px;
+      background-color: #ff8d48; /* Orange accent color */
+      border-radius: 50%;
+      position: absolute;
+      left: -40px;
+      top: 25%;
+    }
+    
+    /* Style for the highlighted words */
+    .highlight-gray {
+      display: inline-block;
+      background-color: #e3e7ed; /* Light gray background */
+      padding: 5px 25px;
+      border-radius: 15px;
+      margin: 0 5px;
+    }
+    
+    .highlight-orange {
+      display: inline-block;
+      background-color: #ff8d48; /* Orange background */
+      padding: 5px 25px;
+      border-radius: 15px;
+      margin: 0 5px;
+    }
+    /* Style for the black dots */
+    .black-dot {
+      width: 12px;
+      height: 12px;
+      background-color: #000;
+      border-radius: 50%;
+      position: absolute;
+    }
+    
+    .black-dot.top-right {
+      right: -90px;
+      top: -60px;
+    }
+    
+    .black-dot.bottom-right {
+      right: -10px;
+      bottom: -60px;
+    }
+    
+    .reward-text {
+      font-size: 28px;
+      line-height: 1.3;
+      font-weight: 400;
+      color: #000;
+      margin-top: 30px;
+      max-width: 700px;
+      text-align: center;
+    }
+    
+    .date {
+      position: absolute;
+      bottom: 80px;
+      font-size: 18px;
+      font-weight: 400;
+      color: #555;
+    }
+
+    @media only screen {
+      /* Dynamic sizing for longer text */
+      .main-text.medium {
+        font-size: 80px;
+      }
+      
+      .main-text.long {
+        font-size: 70px;
+      }
+      
+      .main-text.very-long {
+        font-size: 60px;
+      }
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Function to adjust text size based on length
+      function adjustTextSize() {
+        const mainText = document.querySelector('.main-text');
+        if (!mainText) return;
+        
+        const totalLength = mainText.textContent.trim().length;
+        
+        // Remove any existing classes
+        mainText.classList.remove('medium', 'long', 'very-long');
+        
+        // Add appropriate class based on text length
+        if (totalLength > 70) {
+          mainText.classList.add('very-long');
+        } else if (totalLength > 50) {
+          mainText.classList.add('long');
+        } else if (totalLength > 30) {
+          mainText.classList.add('medium');
+        }
+      }
+      
+      // Call the adjustment function
+      adjustTextSize();
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">@<%= handle %></div>
+    
+    <div class="content">
+      <div class="main-text">
+        <div class="accent-dot"></div>
+        <div class="black-dot top-right"></div>
+        <div class="black-dot bottom-right"></div>
+        
+        <% 
+          // Split the emotional hook to highlight the first word
+          const hookWords = emotionalHook.split(' ');
+          const firstHookWord = hookWords.shift();
+          const restHookText = hookWords.join(' ');
+          
+          // Split the action step to highlight the third word
+          const actionWords = actionStep.split(' ');
+          
+          // Make sure there are at least 3 words
+          let thirdActionWord = '';
+          let beforeThirdWord = '';
+          let afterThirdWord = '';
+          
+          if (actionWords.length >= 3) {
+            // Get the first two words
+            beforeThirdWord = actionWords.slice(0, 2).join(' ');
+            // Get the third word
+            thirdActionWord = actionWords[2];
+            // Get the rest of the words after the third
+            afterThirdWord = actionWords.slice(3).join(' ');
+          } else {
+            // Not enough words, just use the original split
+            const firstActionWord = actionWords.shift();
+            beforeThirdWord = '';
+            thirdActionWord = firstActionWord || '';
+            afterThirdWord = actionWords.join(' ');
+          }
+        %>
+        
+        <span class="highlight-gray"><%= firstHookWord %></span> <%= restHookText %>
+        <br>
+         <%= beforeThirdWord %> <span class="highlight-orange"><%= thirdActionWord %></span> <%= afterThirdWord %>
+      </div>
+      
+      <div class="reward-text"><%= emotionalReward %></div>
+    </div>
+    
+    <% if (date && date.trim() !== '') { %>
+      <div class="date"><%= date %></div>
+    <% } %>
+  </div>
+</body>
+</html> 

@@ -1,22 +1,7 @@
 [
   {
-    "category": "personal_growth",
-    "lastUsed": 1745919055688,
-    "description": "Self-improvement and character development"
-  },
-  {
-    "category": "environmental_mindfulness",
-    "lastUsed": 1745911254001,
-    "description": "Sustainable practices and environmental awareness"
-  },
-  {
-    "category": "self_care",
-    "lastUsed": 1745911754001,
-    "description": "Personal well-being and nurturing activities"
-  },
-  {
     "category": "organization",
-    "lastUsed": 1745912254001,
+    "lastUsed": 1746001430892,
     "description": "Structuring and managing physical and digital spaces"
   },
   {
@@ -68,5 +53,20 @@
     "category": "financial",
     "lastUsed": 1745918984337,
     "description": "Money management and financial wellbeing"
+  },
+  {
+    "category": "personal_growth",
+    "lastUsed": 1745919055688,
+    "description": "Self-improvement and character development"
+  },
+  {
+    "category": "environmental_mindfulness",
+    "lastUsed": 1745998549398,
+    "description": "Sustainable practices and environmental awareness"
+  },
+  {
+    "category": "self_care",
+    "lastUsed": 1746001338376,
+    "description": "Personal well-being and nurturing activities"
   }
 ]

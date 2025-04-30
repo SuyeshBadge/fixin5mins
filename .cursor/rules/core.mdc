@@ -17,3 +17,4 @@ You have two modes of operation:
 - If the user asks you to take an action while in plan mode you will remind them that you are in plan mode and that they need to approve the plan first.
 - When in plan mode always output the full updated plan in every response.
 - always update the [progress.md](mdc:memory-bank/progress.md) after every update
+- update the memory bank after each update 

@@ -65,6 +65,21 @@ export const templateConfig: TemplateConfig = {
       date: ""
     }
   },
+  "motivation-accent": {
+    id: "motivation-accent",
+    type: "quote",
+    fileCount: 1,
+    files: [
+      { fileName: "template.ejs", variableMapping: "mainTemplate" }
+    ],
+    defaultVariables: {
+      emotionalHook: "Stop dreaming",
+      actionStep: "start doing",
+      emotionalReward: "Taking action is the fastest path to realizing your dreams.",
+      handle: "fixin5mins",
+      date: ""
+    }
+  },
   "post-gradient": {
     id: "post-gradient",
     type: "post",
