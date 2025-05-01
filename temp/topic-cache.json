@@ -1,15 +1,5 @@
 [
   {
-    "topic": "pomodoro technique",
-    "category": "productivity",
-    "lastUsed": 1746013403630
-  },
-  {
-    "topic": "energy management",
-    "category": "productivity",
-    "lastUsed": 1745906257001
-  },
-  {
     "topic": "goal setting",
     "category": "productivity",
     "lastUsed": 1745906258001
@@ -90,11 +80,6 @@
     "lastUsed": 1745906273001
   },
   {
-    "topic": "body scan meditation",
-    "category": "mindfulness",
-    "lastUsed": 1746013500818
-  },
-  {
     "topic": "mindful breathing",
     "category": "mindfulness",
     "lastUsed": 1745906276001
@@ -160,11 +145,6 @@
     "lastUsed": 1745906288001
   },
   {
-    "topic": "mobility drills",
-    "category": "physical_health",
-    "lastUsed": 1746017461848
-  },
-  {
     "topic": "dynamic stretching",
     "category": "physical_health",
     "lastUsed": 1745906291001
@@ -228,11 +208,6 @@
     "topic": "consistent sleep schedule",
     "category": "physical_health",
     "lastUsed": 1745906303001
-  },
-  {
-    "topic": "emotional resilience",
-    "category": "mental_health",
-    "lastUsed": 1746066121611
   },
   {
     "topic": "managing self-talk",
@@ -810,11 +785,6 @@
     "lastUsed": 1745906428001
   },
   {
-    "topic": "declutter one small space",
-    "category": "organization",
-    "lastUsed": 1746001430892
-  },
-  {
     "topic": "review to-do list",
     "category": "organization",
     "lastUsed": 1745906430001
@@ -858,11 +828,6 @@
     "topic": "prep clothes for tomorrow",
     "category": "organization",
     "lastUsed": 1745906438001
-  },
-  {
-    "topic": "limit social media time",
-    "category": "technology_habits",
-    "lastUsed": 1746002005972
   },
   {
     "topic": "unsubscribe from one email list",
@@ -973,5 +938,40 @@
     "topic": "mental clarity",
     "category": "other",
     "lastUsed": 1746001379144
+  },
+  {
+    "topic": "declutter one small space",
+    "category": "organization",
+    "lastUsed": 1746001430892
+  },
+  {
+    "topic": "limit social media time",
+    "category": "technology_habits",
+    "lastUsed": 1746002005972
+  },
+  {
+    "topic": "pomodoro technique",
+    "category": "productivity",
+    "lastUsed": 1746013403630
+  },
+  {
+    "topic": "body scan meditation",
+    "category": "mindfulness",
+    "lastUsed": 1746013500818
+  },
+  {
+    "topic": "mobility drills",
+    "category": "physical_health",
+    "lastUsed": 1746017461848
+  },
+  {
+    "topic": "emotional resilience",
+    "category": "mental_health",
+    "lastUsed": 1746066121611
+  },
+  {
+    "topic": "mindfulness meditation",
+    "category": "other",
+    "lastUsed": 1746083421262
   }
 ]

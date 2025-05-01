@@ -19,6 +19,13 @@ interface AiServiceConfig {
   apiKey: string | undefined;
 }
 
+interface OpenRouterConfig {
+  apiKey: string | undefined;
+  defaultModel: string | undefined;
+  referrerUrl: string | undefined;
+  siteName: string | undefined;
+}
+
 interface Html2ImageConfig {
   apiKey: string | undefined;
 }
@@ -33,6 +40,7 @@ interface Config {
   instagram: InstagramConfig;
   facebook: FacebookConfig;
   aiService: AiServiceConfig;
+  openRouter: OpenRouterConfig;
   html2image: Html2ImageConfig;
   cloudinary: CloudinaryConfig;
 }
@@ -50,6 +58,12 @@ const config: Config = {
   aiService: {
     baseUrl: process.env.AI_SERVICE_BASE_URL || 'http://localhost:5293',
     apiKey: process.env.AI_SERVICE_API_KEY
+  },
+  openRouter: {
+    apiKey: process.env.OPENROUTER_API_KEY,
+    defaultModel: process.env.OPENROUTER_DEFAULT_MODEL || 'qwen/qwen3-4b:free',
+    referrerUrl: process.env.OPENROUTER_REFERRER_URL,
+    siteName: process.env.OPENROUTER_SITE_NAME || 'Fixin5mins'
   },
   html2image: {
     apiKey: process.env.HTML2IMAGE_API_KEY

@@ -24,7 +24,7 @@ if (!fs.existsSync(outputDir)) {
 }
 
 // Create an instance of the AI service client
-const aiClient = new AiServiceClient(config.aiService.baseUrl);
+const aiClient = new AiServiceClient();
 
 // Define content types for generation
 export type ContentType = 'ai-image' | 'html-post' | 'quote';

@@ -7,7 +7,7 @@ import templateManager from './templateManager';
 import { renderHtmlToImages, HtmlContent } from './html2image-puppeteer';
 
 const writeFile = promisify(fs.writeFile);
-const aiClient = new AiServiceClient(config.aiService.baseUrl);
+const aiClient = new AiServiceClient();
 
 export interface ImageGenerationOptions {
   prompt?: string;
