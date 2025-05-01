@@ -83,6 +83,9 @@
       line-height: 0.9;
       margin: 0 0 10px;
       text-shadow: 2px 2px 0 rgba(230, 58, 58, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     /* Unit/descriptor for the big stat */
@@ -94,6 +97,18 @@
       text-transform: uppercase;
       margin-bottom: 40px;
       letter-spacing: 2px;
+    }
+    
+    /* Special style for percentage unit to appear inline with the number */
+    .percent-unit {
+      font-family: 'DM Serif Display', serif;
+      font-size: 90px;
+      font-weight: 700;
+      color: #333;
+      margin-left: 0;
+      margin-bottom: 10px;
+      align-self: flex-end;
+      line-height: 0.7;
     }
     
     /* Caption that explains the stat */
@@ -150,6 +165,7 @@
       max-width: 600px;
       width: 100%;
       margin-bottom: 30px;
+      padding-top: 20px; /* Add padding at the top for the save button */
     }
     
     .result-box {
@@ -180,8 +196,8 @@
     /* Save prompt box */
     .save-box {
       position: absolute;
-      right: 60px;
-      bottom: 80px;
+      right: -15px;
+      top: -15px;
       background-color: #e63a3a;
       color: white;
       font-family: 'Poppins', sans-serif;
@@ -284,8 +300,10 @@
             
             // Determine appropriate unit
             let unit = '';
+            let isPercent = false;
             if (hookText.includes('%')) {
               unit = '%';
+              isPercent = true;
             } else if (hookText.toLowerCase().includes('minute')) {
               unit = 'MIN';
             } else if (hookText.toLowerCase().includes('second')) {
@@ -296,9 +314,22 @@
               unit = 'DAYS';
             }
             
-            // Update the unit
-            const statUnit = document.querySelector('.stat-unit');
-            if (statUnit) statUnit.textContent = unit;
+            // Handle percent display differently
+            if (isPercent) {
+              // Create percent span inside the big-stat
+              const percentSpan = document.createElement('span');
+              percentSpan.className = 'percent-unit';
+              percentSpan.textContent = unit;
+              bigStat.appendChild(percentSpan);
+              
+              // Hide the regular unit display
+              const statUnit = document.querySelector('.stat-unit');
+              if (statUnit) statUnit.style.display = 'none';
+            } else {
+              // Update the unit for non-percentage values
+              const statUnit = document.querySelector('.stat-unit');
+              if (statUnit) statUnit.textContent = unit;
+            }
             
             // Add stat-focus class to the container
             document.querySelector('.content').classList.add('stat-focus');
@@ -375,8 +406,8 @@
         
         <% /* Stat container that adapts based on content type */ %>
         <div class="stat-box">
-          <div class="big-stat">23</div>
-          <div class="stat-unit">MIN</div>
+          <div class="big-stat">40</div>
+          <div class="stat-unit" id="stat-unit">MIN</div>
         </div>
         
         <div class="stat-caption"><%= patternInterruptHook %></div>
@@ -385,21 +416,20 @@
         <div class="action-step"><%= actionStep %></div>
         
         <div class="result-container">
+          <% if (typeof saveReason !== 'undefined' && saveReason) { %>
+            <div class="save-box">Save this!</div>
+          <% } %>
           <div class="result-box">
             <div class="result-icon">🚀</div>
             <div class="result-text"><%= emotionalReward %></div>
           </div>
-          
-          <% if (typeof saveReason !== 'undefined' && saveReason) { %>
-            <div class="save-box">Save this!</div>
-          <% } %>
         </div>
       
       <% /* Fallback for legacy format */ %>
       <% } else if (typeof emotionalHook !== 'undefined') { %>
         <div class="stat-box">
-          <div class="big-stat">23</div>
-          <div class="stat-unit">MIN</div>
+          <div class="big-stat">40</div>
+          <div class="stat-unit" id="stat-unit">MIN</div>
         </div>
         
         <div class="stat-caption"><%= emotionalHook %></div>
@@ -408,15 +438,14 @@
         <div class="action-step"><%= actionStep %></div>
         
         <div class="result-container">
+          <% if (typeof saveReason !== 'undefined' && saveReason) { %>
+            <div class="save-box">Save this!</div>
+          <% } %>
           <div class="result-box">
             <div class="result-icon">🚀</div>
             <div class="result-text"><%= emotionalReward %></div>
           </div>
         </div>
-        
-        <% if (typeof saveReason !== 'undefined' && saveReason) { %>
-          <div class="save-box">Save this!</div>
-        <% } %>
       <% } %>
     </div>
     

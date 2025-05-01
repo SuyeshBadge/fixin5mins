@@ -1,72 +1,72 @@
 [
   {
-    "category": "mindfulness",
-    "lastUsed": 1746095513799,
-    "description": "Awareness, presence, and mental practices"
-  },
-  {
     "category": "physical_health",
-    "lastUsed": 1746092148918,
+    "lastUsed": 1746116845747,
     "description": "Exercise, nutrition, and bodily wellbeing"
   },
   {
     "category": "mental_health",
-    "lastUsed": 1746092206271,
+    "lastUsed": 1746116172534,
     "description": "Emotional wellness, psychology, and personal stability"
   },
   {
     "category": "relationships",
-    "lastUsed": 1746092427681,
+    "lastUsed": 1746116217761,
     "description": "Interpersonal connections and social skills"
   },
   {
     "category": "career",
-    "lastUsed": 1746092901122,
+    "lastUsed": 1746116263791,
     "description": "Professional growth and workplace success"
   },
   {
     "category": "learning",
-    "lastUsed": 1746093037282,
+    "lastUsed": 1746116319808,
     "description": "Knowledge acquisition and cognitive skills"
   },
   {
     "category": "creativity",
-    "lastUsed": 1746093122761,
+    "lastUsed": 1746116405714,
     "description": "Artistic expression and innovative thinking"
   },
   {
     "category": "financial",
-    "lastUsed": 1746093307319,
+    "lastUsed": 1746116468756,
     "description": "Money management and financial wellbeing"
   },
   {
     "category": "personal_growth",
-    "lastUsed": 1746093409596,
+    "lastUsed": 1746116480195,
     "description": "Self-improvement and character development"
   },
   {
     "category": "environmental_mindfulness",
-    "lastUsed": 1746093690773,
+    "lastUsed": 1746116498808,
     "description": "Sustainable practices and environmental awareness"
   },
   {
     "category": "self_care",
-    "lastUsed": 1746093819378,
+    "lastUsed": 1746116602249,
     "description": "Personal well-being and nurturing activities"
   },
   {
     "category": "organization",
-    "lastUsed": 1746095133707,
+    "lastUsed": 1746116651455,
     "description": "Structuring and managing physical and digital spaces"
   },
   {
     "category": "technology_habits",
-    "lastUsed": 1746095300140,
+    "lastUsed": 1746116670949,
     "description": "Healthy digital practices and tech management"
   },
   {
     "category": "productivity",
-    "lastUsed": 1746095331015,
+    "lastUsed": 1746116811410,
     "description": "Efficiency, task management, and getting things done"
+  },
+  {
+    "category": "mindfulness",
+    "lastUsed": 1746116825539,
+    "description": "Awareness, presence, and mental practices"
   }
 ]
