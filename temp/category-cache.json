@@ -1,17 +1,7 @@
 [
   {
-    "category": "mindfulness",
-    "lastUsed": 1746013500818,
-    "description": "Awareness, presence, and mental practices"
-  },
-  {
-    "category": "physical_health",
-    "lastUsed": 1745918160571,
-    "description": "Exercise, nutrition, and bodily wellbeing"
-  },
-  {
     "category": "mental_health",
-    "lastUsed": 1745918272168,
+    "lastUsed": 1746066121611,
     "description": "Emotional wellness, psychology, and personal stability"
   },
   {
@@ -68,5 +58,15 @@
     "category": "productivity",
     "lastUsed": 1746013403630,
     "description": "Efficiency, task management, and getting things done"
+  },
+  {
+    "category": "mindfulness",
+    "lastUsed": 1746013500818,
+    "description": "Awareness, presence, and mental practices"
+  },
+  {
+    "category": "physical_health",
+    "lastUsed": 1746017461848,
+    "description": "Exercise, nutrition, and bodily wellbeing"
   }
 ]

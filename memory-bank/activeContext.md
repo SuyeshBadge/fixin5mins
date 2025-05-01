@@ -4,8 +4,6 @@
 
 We have been enhancing the project's content creation capabilities by adding a new motivation-accent template that features a clean, modern design with accent-highlighted words in colored boxes. The template is designed for motivational quotes and action-oriented content, using a warm cream/beige background with bold typography and strategic highlighting of key words. The design includes distinctive visual elements such as an orange accent dot, arrow, and black dots to create a contemporary, professional aesthetic.
 
-Previously, we created a self-love-gradient template that features an elegant gradient background with modern typography. The template is designed for self-care and personal growth content, using a soothing gradient background that transitions from light blue/lavender to pinkish-orange. The template includes proper dynamic font sizing to accommodate various content lengths and uses "The Young Serif" and "Burgues Script" inspired fonts for a premium aesthetic.
-
 We've also been enhancing the project's capabilities by adding proper Cloudinary integration and fixing Instagram posting issues. We've updated the configuration file to include Cloudinary keys and integrated Cloudinary image hosting into the content generation workflow. Additionally, we've fixed an issue with Instagram posting by implementing a dedicated single image posting function that works correctly with the Instagram API instead of trying to use the carousel function for single images. We've also updated the heading in the template from "Quick Fix" to "Fix your life in 5 minutes" to better reflect the brand messaging.
 
 We also enhanced the content generation script with a mock mode to make it work without requiring an external AI service. This improvement addresses the error we encountered when trying to run the script with the AI service unavailable. The script now:
@@ -27,7 +25,17 @@ The EmotionalContentFormat consists of:
 - actionStep: Provides a concrete action that can be completed in 5 minutes
 - emotionalReward: Describes the emotional benefit of taking the action
 
+We have been implementing an automatic daily post scheduler that handles Instagram content posting with randomly generated times and template rotation. The scheduler posts content twice daily - once in the morning and once in the evening - using random times that change each day to maintain unpredictability and engagement. The scheduler also ensures that consecutive posts use different templates to maintain visual variety.
+
 ## Recent Changes
+
+- Created a daily posting scheduler:
+  - Implemented random time generation for morning (6-11 AM) and evening (4-9 PM) posts
+  - Created template rotation system to avoid using the same template consecutively
+  - Added state persistence to track last used templates and scheduled times
+  - Set up automatic rescheduling at midnight for new random post times
+  - Created comprehensive documentation for setup and production deployment
+  - Added proper error handling and logging for the scheduling process
 
 - Created a new motivation-accent template:
   - Implemented a clean design with cream/beige background and bold typography
@@ -94,87 +102,107 @@ The EmotionalContentFormat consists of:
 
 ## Active Decisions
 
-1. **Template Design**: Created motivation-accent template with a clean cream background, bold typography, and highlighted words
-2. **Word Highlighting**: Implementing automatic extraction and highlighting of first words from emotionalHook and actionStep
-3. **Visual Elements**: Using accent dot, arrow, and black dots for visual interest and modern aesthetic
-4. **Previous Template Design**: Created self-love-gradient template with a soothing gradient background and premium typography
-5. **Font Selection**: Using Outfit for motivation-accent template; using Playfair Display, Great Vibes, and Cormorant Garamond for self-love-gradient template
-6. **Layout Design**: Positioned handle name at the top, emotionalReward below main text, and date at the bottom
-7. **Responsive Design**: Implemented dynamic font sizing to accommodate various content lengths
-8. **Cloud Image Hosting**: Integrated Cloudinary for reliable image hosting before posting to Instagram
-9. **Instagram API Approach**: Implemented separate functions for carousel and single image posting to handle Instagram's API requirements correctly
-10. **Brand Messaging**: Updated template heading to better reflect brand voice ("Fix your life in 5 minutes")
-11. **Offline Capability**: Added mock mode to ensure the script can function without external AI services
-12. **Graceful Degradation**: Implemented automatic fallback to predefined templates when AI service fails
-13. **Topic-Specific Templates**: Created custom templates for common topics to ensure quality content
-14. **End-to-End Automation**: Created a single script to handle the entire process from content generation to Instagram posting
-15. **Command-Line Interface**: Implemented a flexible CLI with options to control topic, template, and posting behavior
-16. **Emotional Content Structure**: Standardized the emotional content format with three components - hook, action step, and reward
-17. **System Prompt Design**: Created a detailed system prompt for emotional content generation that emphasizes concise, actionable advice
-18. **Content Structure**: Using hooks, action steps, and rewards for the emotional structure format
-19. **Image Generation**: Using Puppeteer for headless browser rendering
-20. **Social Media Integration**: Enhanced Instagram carousel posting for multi-image content
-21. **Emotional Themes**: Implemented support for various emotional themes in templates
-22. **Inline Styles**: Used inline styles in the EJS template to avoid CSS parsing issues
-23. **Content Generation Service**: Used TypeScript interfaces for better type safety
-24. **JSON Extraction**: Implemented JSON extraction for cases where the AI might add extra text
-25. **Error Handling**: Added error handling for all potential failure points
-26. **Structured Content Generation**: Created a specialized method for generating structured content
-27. **Compatibility**: Maintained compatibility with the existing AiServiceClient
+1. **Scheduling Strategy**: Implementing twice-daily posting with randomized times in morning and evening windows
+2. **Template Rotation**: Ensuring consecutive posts use different templates for visual variety
+3. **State Persistence**: Using a local JSON file to track last used template and posting times
+4. **Schedule Regeneration**: Creating new random schedules at midnight each day
+5. **Production Deployment**: Recommending PM2 for running the scheduler in production environments
+6. **Template Design**: Created motivation-accent template with a clean cream background, bold typography, and highlighted words
+7. **Word Highlighting**: Implementing automatic extraction and highlighting of first words from emotionalHook and actionStep
+8. **Visual Elements**: Using accent dot, arrow, and black dots for visual interest and modern aesthetic
+9. **Previous Template Design**: Created self-love-gradient template with a soothing gradient background and premium typography
+10. **Font Selection**: Using Outfit for motivation-accent template; using Playfair Display, Great Vibes, and Cormorant Garamond for self-love-gradient template
+11. **Layout Design**: Positioned handle name at the top, emotionalReward below main text, and date at the bottom
+12. **Responsive Design**: Implemented dynamic font sizing to accommodate various content lengths
+13. **Cloud Image Hosting**: Integrated Cloudinary for reliable image hosting before posting to Instagram
+14. **Instagram API Approach**: Implemented separate functions for carousel and single image posting to handle Instagram's API requirements correctly
+15. **Brand Messaging**: Updated template heading to better reflect brand voice ("Fix your life in 5 minutes")
+16. **Offline Capability**: Added mock mode to ensure the script can function without external AI services
+17. **Graceful Degradation**: Implemented automatic fallback to predefined templates when AI service fails
+18. **Topic-Specific Templates**: Created custom templates for common topics to ensure quality content
+19. **End-to-End Automation**: Created a single script to handle the entire process from content generation to Instagram posting
+20. **Command-Line Interface**: Implemented a flexible CLI with options to control topic, template, and posting behavior
+21. **Emotional Content Structure**: Standardized the emotional content format with three components - hook, action step, and reward
+22. **System Prompt Design**: Created a detailed system prompt for emotional content generation that emphasizes concise, actionable advice
+23. **Content Structure**: Using hooks, action steps, and rewards for the emotional structure format
+24. **Image Generation**: Using Puppeteer for headless browser rendering
+25. **Social Media Integration**: Enhanced Instagram carousel posting for multi-image content
+26. **Emotional Themes**: Implemented support for various emotional themes in templates
+27. **Inline Styles**: Used inline styles in the EJS template to avoid CSS parsing issues
+28. **Content Generation Service**: Used TypeScript interfaces for better type safety
+29. **JSON Extraction**: Implemented JSON extraction for cases where the AI might add extra text
+30. **Error Handling**: Added error handling for all potential failure points
+31. **Structured Content Generation**: Created a specialized method for generating structured content
+32. **Compatibility**: Maintained compatibility with the existing AiServiceClient
 
 ## Next Steps
 
-1. **Test Motivation-Accent Template**:
+1. **Test Daily Scheduler**:
+   - Test the scheduler with different time windows
+   - Verify that template rotation works correctly
+   - Test state persistence between restarts
+   - Ensure proper error handling for failed posts
+
+2. **Deploy Scheduler to Production**:
+   - Set up PM2 for process management
+   - Configure automatic startup after system reboots
+   - Implement monitoring and alerting
+
+3. **Test Motivation-Accent Template**:
    - Test the template with different content types and lengths
    - Verify that the word highlighting works correctly
    - Test with various emotionalHook and actionStep combinations
    - Ensure responsive sizing works well for different content lengths
 
-2. **Test Self-Love Gradient Template**:
+4. **Test Self-Love Gradient Template**:
    - Test the template with different content types and lengths
    - Verify that the pill alignment is correct in all cases
    - Test across different topics and themes
 
-3. **Create Additional Templates**:
+5. **Create Additional Templates**:
    - Create more template variations with different styles
    - Explore other color schemes and typography options
    - Create templates for different emotional tones
 
-4. **Test Instagram Posting**:
+6. **Test Instagram Posting**:
    - Test the fixed single image posting functionality
    - Verify that the Cloudinary integration works properly
    - Document the Instagram posting workflow
 
-5. **Test Cloudinary Integration**:
+7. **Test Cloudinary Integration**:
    - Verify that images are properly uploaded to Cloudinary
    - Test the cleanup process after successful posting
    - Ensure error handling works correctly when Cloudinary operations fail
 
-6. **Test Updated Template**:
+8. **Test Updated Template**:
    - Verify that the updated heading appears correctly in generated images
    - Test with different content topics to ensure it works with various content types
 
-7. **Test Mock Mode**:
+9. **Test Mock Mode**:
    - Test the mock mode functionality with various topics
    - Validate the quality of the predefined templates
    - Add more topic-specific templates for common use cases
 
-8. **Test Automation Script**:
-   - Test the new script with various topics and templates
-   - Verify the end-to-end process works correctly
-   - Document usage examples and patterns
+10. **Test Automation Script**:
+    - Test the new script with various topics and templates
+    - Verify the end-to-end process works correctly
+    - Document usage examples and patterns
 
-9. **Content Generation Testing**:
-   - Create example scripts using the new generateEmotionalContent method
-   - Test with various topics and emotional themes
-   - Validate output quality and consistency
+11. **Content Generation Testing**:
+    - Create example scripts using the new generateEmotionalContent method
+    - Test with various topics and emotional themes
+    - Validate output quality and consistency
 
-10. **Template Improvements**:
+12. **Template Improvements**:
     - Create additional template variations
     - Add more visual design options
     - Implement advanced typography features
 
 ## Implementation Considerations
+- Consider adjusting the morning and evening time windows based on audience engagement patterns
+- Implement analytics to track post performance by time of day
+- Explore more template rotation strategies (e.g., weighted, least recently used)
+- Consider creating a web interface for viewing/editing scheduled posts
 - Explore different highlight styles and colors for the motivation-accent template
 - Consider creating more accent-style templates with different color schemes
 - Create variations of the motivation-accent template for different content types
@@ -194,6 +222,10 @@ The EmotionalContentFormat consists of:
 - Ensure content is accessible and readable on mobile devices
 
 ## Open Questions
+- What are the optimal time windows for maximum engagement based on audience analytics?
+- Should we implement more sophisticated scheduling algorithms based on engagement data?
+- Should we add support for skipping scheduled posts on certain days (e.g., holidays)?
+- Would it be beneficial to add different time windows for weekdays vs. weekends?
 - What additional accent colors should we explore for the motivation-accent template?
 - Should we create variations of the motivation-accent template with different highlight shapes?
 - What additional template styles would best support the brand?
@@ -211,16 +243,19 @@ The EmotionalContentFormat consists of:
 - How can we measure the engagement impact of different post formats?
 
 ## Current Priorities
-1. Test the motivation-accent template with various content types
-2. Test the self-love-gradient template with various content types
-3. Create additional template variations with different styles
-4. Test the single image Instagram posting functionality
-5. Test the Cloudinary integration in the content generation workflow
-6. Test the updated template heading in different contexts
-7. Test the mock mode with various topics
-8. Test the new generateAndPostContent.ts script with various topics
-9. Create examples using the new generateEmotionalContent method
-10. Create variations of templates for different emotional themes
-11. Test template-based image generation with sample content
-12. Optimize template visual design
-13. Document template usage process 
+1. Test the daily scheduler with various time configurations
+2. Deploy the scheduler to production using PM2
+3. Monitor initial posts for engagement patterns
+4. Test the motivation-accent template with various content types
+5. Test the self-love-gradient template with various content types
+6. Create additional template variations with different styles
+7. Test the single image Instagram posting functionality
+8. Test the Cloudinary integration in the content generation workflow
+9. Test the updated template heading in different contexts
+10. Test the mock mode with various topics
+11. Test the new generateAndPostContent.ts script with various topics
+12. Create examples using the new generateEmotionalContent method
+13. Create variations of templates for different emotional themes
+14. Test template-based image generation with sample content
+15. Optimize template visual design
+16. Document template usage process 

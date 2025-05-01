@@ -21,7 +21,8 @@
     "run-once": "ts-node src/scripts/run-automation.ts",
     "test-cloudinary": "ts-node src/scripts/test-cloudinary.ts",
     "generate-content": "ts-node src/jobs/generateAndPostContent.ts",
-    "generate-and-post": "ts-node src/jobs/generateAndPostContent.ts"
+    "generate-and-post": "ts-node src/jobs/generateAndPostContent.ts",
+    "schedule-posts": "ts-node src/jobs/dailyPostScheduler.ts"
   },
   "keywords": [
     "ai",
