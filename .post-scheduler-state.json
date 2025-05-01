@@ -1,6 +1,9 @@
 {
-  "lastUsedTemplate": "self-love-gradient",
-  "lastPostTime": "2025-05-01T02:22:00.635Z",
-  "nextMorningSchedule": "2025-05-01T02:22:00.000Z",
-  "nextEveningSchedule": "2025-05-01T11:17:00.000Z"
+  "lastUsedTemplate": "quote-red",
+  "lastPostTime": "2023-05-01T00:00:00.000Z",
+  "nextMorningSchedule": null,
+  "nextEveningSchedule": null,
+  "nextOptimal1Schedule": "2025-05-01T15:20:00.000Z",
+  "nextOptimal2Schedule": "2025-05-01T08:25:00.000Z",
+  "nextOptimal3Schedule": null
 }

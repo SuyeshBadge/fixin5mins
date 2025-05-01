@@ -6,18 +6,21 @@ A Node.js TypeScript application that uses AI to generate content and post it to
 
 - Generate image prompts based on simple themes
 - Create images using AI image generation (OpenAI DALL-E)
+- Create images using template-based generation with various designs
 - Generate HTML templates and convert them to images
 - Create beautiful quote images from AI-generated content
 - Generate engaging captions for Instagram posts
 - Post images to Instagram automatically via Graph API
+- Schedule posts at research-backed optimal times for maximum engagement
+- Automatically rotate between different templates for visual variety
 
 ## Prerequisites
 
 - Node.js (v14 or higher)
 - Instagram Business Account connected to a Facebook Page
 - Facebook Developer Account and App
-- Access to AI service API
-- HTML2Image API key (get it from [html2image.net](https://www.html2image.net/))
+- Access to AI service API (OpenRouter for free models)
+- Cloudinary account for image hosting
 
 ## Installation
 
@@ -32,8 +35,8 @@ npm install
 2. Create a `.env` file in the root directory with the following variables:
 
 ```
-# OpenAI API key (fallback if AI service doesn't generate images)
-OPENAI_API_KEY=your_openai_api_key
+# OpenRouter API key (for free AI models)
+OPENROUTER_API_KEY=your_openrouter_api_key
 
 # Instagram/Facebook Graph API credentials
 INSTAGRAM_ACCESS_TOKEN=your_long_lived_access_token_here
@@ -44,12 +47,10 @@ FACEBOOK_APP_ID=your_facebook_app_id_here
 FACEBOOK_APP_SECRET=your_facebook_app_secret_here
 FACEBOOK_PAGE_ID=your_facebook_page_id_here
 
-# AI Service
-AI_SERVICE_BASE_URL=http://your-ai-service-url.com
-AI_SERVICE_API_KEY=your_ai_service_api_key
-
-# HTML2Image API
-HTML2IMAGE_API_KEY=your_html2image_api_key
+# Cloudinary credentials
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
 ## Usage
@@ -60,27 +61,37 @@ HTML2IMAGE_API_KEY=your_html2image_api_key
 npm run build
 ```
 
-### Run the application
+### Generate and Post Content
 
 ```bash
-# Generate and post with a random theme (HTML post by default)
-npm start
+# Generate and post with a random topic
+npm run generate-and-post
 
-# Generate with a specific theme
-npm start -- --theme="sunset at beach"
+# Generate with a specific topic
+npm run generate-and-post -- --topic="mindfulness"
 
-# Generate a specific content type (ai-image, html-post, or quote)
-npm start -- --type=quote --theme="perseverance"
+# Generate with a specific template
+npm run generate-and-post -- --template="self-love-gradient"
 
-# Generate with a specific prompt (for ai-image type)
-npm start -- --type=ai-image --prompt="A serene lake surrounded by mountains at dawn with mist rising from the water"
-
-# Generate HTML post with specific title and content
-npm start -- --type=html-post --title="Morning Motivation" --content="Start your day with positive thoughts and watch how it transforms your life."
-
-# Generate but skip posting to Instagram
-npm start -- --skip-posting
+# Generate in mock mode (no AI service needed)
+npm run generate-and-post -- --mock
 ```
+
+### Schedule Posts at Optimal Times
+
+```bash
+# Start the post scheduler
+npm run schedule-posts
+```
+
+The scheduler will automatically:
+- Determine the current day of the week
+- Select optimal posting times based on Instagram engagement research
+- Add small random variations to maintain unpredictability
+- Rotate between different templates for visual variety
+- Persist scheduling state between runs
+
+For more details about the optimal posting times, see [OPTIMAL_POSTING_TIMES.md](OPTIMAL_POSTING_TIMES.md).
 
 ### Run examples
 
@@ -91,37 +102,46 @@ npm run example
 # Run the HTML2Image example
 npm run example:html
 
-# Test the AI service connection
-npm run test:ai
+# Test the OpenRouter AI service
+npm run test:openrouter
+
+# Test Instagram content generation
+npm run test:instagram
+
+# Generate with the quote-red template
+npm run example:quote-red
 ```
 
-## Content Types
+## Templates
 
-This project supports three types of content generation:
+This project includes several templates for content generation:
 
-1. **AI Image (`--type=ai-image`)**: Uses OpenAI DALL-E to generate custom images from prompts
-2. **HTML Post (`--type=html-post`)**: Creates stylized text posts using HTML templates
-3. **Quote (`--type=quote`)**: Generates inspirational quotes with beautiful backgrounds
+1. **Quote Red**: Motivational quotes with red typography on a cream background
+2. **Self-love Gradient**: Elegant design with gradient background for self-care content
+3. **Motivation Accent**: Clean design with highlighted accent words for bold motivational content
 
 ## How It Works
 
-1. **Theme/Content Selection**: Choose a theme or provide specific content
+1. **Topic Selection**: Choose a topic or let the system select one
 2. **Content Generation**: 
-   - For AI images: Generate detailed prompts and create images with DALL-E
-   - For HTML posts: Create HTML templates and convert to images with HTML2Image
-   - For quotes: Generate inspiring quotes and create stylized images
-3. **Caption Creation**: The AI service generates an engaging caption
-4. **Instagram Posting**: The image and caption are posted to Instagram
+   - Generate emotional content with hook, action step, and reward
+   - Create images using the template system
+   - Apply appropriate typography and design elements
+3. **Image Hosting**: Upload images to Cloudinary for reliable hosting
+4. **Instagram Posting**: Post images to Instagram with engaging captions
+5. **Scheduling**: Schedule posts at optimal times for maximum engagement
 
 ## Services Used
 
-### AI Service
-- External API for text generation (see OpenAPI schema in project)
+### OpenRouter
+- Access to free, open-source AI models like Mistral and Llama
+- Model fallback mechanism for reliability
+- Learn more at [openrouter.ai](https://openrouter.ai/)
 
-### HTML2Image API
-- Converts HTML templates to images
-- Free API with unlimited requests
-- Learn more at [html2image.net](https://www.html2image.net/)
+### Cloudinary
+- Cloud-based image hosting and manipulation
+- Reliable image URLs for Instagram posting
+- Learn more at [cloudinary.com](https://cloudinary.com/)
 
 ### Instagram Graph API
 - Posts content to Instagram business accounts

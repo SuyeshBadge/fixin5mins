@@ -10,7 +10,9 @@ import {
   TimeWindow,
   generateRandomTimeInWindow,
   formatDateToCron,
-  generateRandomTimeString
+  generateRandomTimeString,
+  generateOptimalPostingTime,
+  OPTIMAL_POSTING_TIMES
 } from '../config/scheduleConfig';
 import {
   selectNextTemplate,
@@ -69,7 +71,60 @@ async function runContentGeneration(templateId: string): Promise<void> {
 }
 
 /**
- * Schedule a post for a specific time window
+ * Schedule a post based on the optimal posting times for the given day
+ * @param scheduleName Identifier for this schedule (e.g., 'morning', 'optimal1')
+ */
+async function scheduleOptimalPost(scheduleName: string): Promise<void> {
+  try {
+    // Get the day of week (0-6, Sunday-Saturday)
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    
+    // Generate a random time based on the optimal posting times for this day
+    const scheduleTime = generateOptimalPostingTime(dayOfWeek);
+    const cronExpression = formatDateToCron(scheduleTime);
+    
+    logger.info(`Scheduling ${scheduleName} post at ${scheduleTime.toLocaleTimeString()} (based on optimal time for ${getDayName(dayOfWeek)})`);
+    
+    // Store the schedule in the state
+    await updateState({
+      [`next${scheduleName.charAt(0).toUpperCase() + scheduleName.slice(1)}Schedule`]: scheduleTime.toISOString()
+    });
+    
+    // Schedule the job
+    const job = cron.schedule(cronExpression, async () => {
+      try {
+        // Select a template that's different from the last used one
+        const templateId = await selectNextTemplate();
+        logger.info(`Selected template for ${scheduleName} post: ${templateId}`);
+        
+        // Run the content generation with the selected template
+        await runContentGeneration(templateId);
+        
+        // If this is a one-time job, destroy it after completion
+        job.stop();
+        
+      } catch (error) {
+        logger.error(`Error in scheduled ${scheduleName} post: ${error instanceof Error ? error.message : String(error)}`);
+      }
+    });
+    
+    logger.info(`Successfully scheduled ${scheduleName} post for ${scheduleTime.toLocaleTimeString()}`);
+  } catch (error) {
+    logger.error(`Failed to schedule ${scheduleName} post: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+/**
+ * Helper function to get day name from day number
+ */
+function getDayName(dayOfWeek: number): string {
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  return days[dayOfWeek];
+}
+
+/**
+ * Schedule a post for a specific time window (legacy function)
  * @param window The time window to schedule within
  */
 async function schedulePost(window: TimeWindow): Promise<void> {
@@ -110,7 +165,27 @@ async function schedulePost(window: TimeWindow): Promise<void> {
 }
 
 /**
- * Schedule both morning and evening posts for today
+ * Schedule posts for today using optimal posting times
+ */
+async function scheduleTodaysOptimalPosts(): Promise<void> {
+  logger.info('Scheduling today\'s posts using optimal posting times...');
+  
+  const now = new Date();
+  const dayOfWeek = now.getDay();
+  const optimalTimes = OPTIMAL_POSTING_TIMES[dayOfWeek];
+  
+  // Determine how many posts we can schedule for today
+  const timesToSchedule = Math.min(optimalTimes.length, 2); // Limit to 2 posts per day
+  
+  for (let i = 0; i < timesToSchedule; i++) {
+    await scheduleOptimalPost(`optimal${i + 1}`);
+  }
+  
+  logger.info(`Today's ${timesToSchedule} posts have been scheduled using optimal times for ${getDayName(dayOfWeek)}`);
+}
+
+/**
+ * Schedule both morning and evening posts for today (legacy function)
  */
 async function scheduleTodaysPosts(): Promise<void> {
   logger.info('Scheduling today\'s posts...');
@@ -133,7 +208,7 @@ function setupDailyScheduler(): void {
   // Run at midnight every day
   cron.schedule('0 0 * * *', async () => {
     logger.info('Midnight trigger: Scheduling posts for the new day');
-    await scheduleTodaysPosts();
+    await scheduleTodaysOptimalPosts();
   });
   
   logger.info('Daily scheduler has been set up to run at midnight');
@@ -147,38 +222,17 @@ async function checkAndScheduleForToday(): Promise<void> {
   const now = new Date();
   const state = await getState();
   
-  const morningSchedule = state.nextMorningSchedule 
-    ? new Date(state.nextMorningSchedule) 
-    : null;
-    
-  const eveningSchedule = state.nextEveningSchedule 
-    ? new Date(state.nextEveningSchedule) 
-    : null;
+  // Check if we have scheduled any optimal posts for today
+  const hasScheduledOptimal = state.nextOptimal1Schedule && 
+    new Date(state.nextOptimal1Schedule).getDate() === now.getDate() &&
+    new Date(state.nextOptimal1Schedule).getMonth() === now.getMonth() &&
+    new Date(state.nextOptimal1Schedule).getFullYear() === now.getFullYear();
   
-  // Check if the morning schedule is for today and valid
-  const needsMorningSchedule = !morningSchedule || 
-    morningSchedule.getDate() !== now.getDate() ||
-    morningSchedule.getMonth() !== now.getMonth() ||
-    morningSchedule.getFullYear() !== now.getFullYear();
-  
-  // Check if the evening schedule is for today and valid
-  const needsEveningSchedule = !eveningSchedule || 
-    eveningSchedule.getDate() !== now.getDate() ||
-    eveningSchedule.getMonth() !== now.getMonth() ||
-    eveningSchedule.getFullYear() !== now.getFullYear();
-  
-  if (needsMorningSchedule && needsEveningSchedule) {
-    // If both need scheduling, schedule for today
-    await scheduleTodaysPosts();
+  if (!hasScheduledOptimal) {
+    // No optimal posts scheduled for today, schedule them now
+    await scheduleTodaysOptimalPosts();
   } else {
-    // Schedule individually if needed
-    if (needsMorningSchedule) {
-      await schedulePost(MORNING_WINDOW);
-    }
-    
-    if (needsEveningSchedule) {
-      await schedulePost(EVENING_WINDOW);
-    }
+    logger.info('Optimal posts already scheduled for today');
   }
 }
 
@@ -196,8 +250,17 @@ async function main(): Promise<void> {
     setupDailyScheduler();
     
     logger.info('Daily post scheduler is running');
-    logger.info(`Morning posts will be scheduled between ${MORNING_WINDOW.startHour}:00 and ${MORNING_WINDOW.endHour}:00`);
-    logger.info(`Evening posts will be scheduled between ${EVENING_WINDOW.startHour}:00 and ${EVENING_WINDOW.endHour}:00`);
+    logger.info('Posts will be scheduled at optimal times based on research for each day of the week');
+    
+    // Log optimal times for today
+    const dayOfWeek = new Date().getDay();
+    const optimalTimes = OPTIMAL_POSTING_TIMES[dayOfWeek];
+    const dayName = getDayName(dayOfWeek);
+    
+    logger.info(`Today (${dayName}) optimal posting times:`);
+    optimalTimes.forEach((time) => {
+      logger.info(`- ${time.hour}:${time.minute.toString().padStart(2, '0')}`);
+    });
     
     // Keep the process alive
     process.stdin.resume();
@@ -217,4 +280,4 @@ if (require.main === module) {
 }
 
 // Export for testing
-export { main, schedulePost, runContentGeneration }; 
+export { main, schedulePost, scheduleOptimalPost, runContentGeneration }; 

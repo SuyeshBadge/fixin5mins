@@ -1,7 +1,7 @@
 # Progress
 
 ## Current Status
-The project has been updated to use local templates for image generation instead of relying on external AI services. The template system is now in place, with the configuration and management services implemented. We have successfully created the @fixin5mins post template based on the new content strategy. Additionally, we've integrated automation capabilities from the automation project, including enhanced Instagram carousel posting, Cloudinary image hosting, and improved image generation with Puppeteer. We've also added a new example script to generate sample images with random data and created a new template (quote-red) that replicates a motivational quote image with red typography on a cream background. Most recently, we've updated the configuration file to properly include Cloudinary credentials and integrated Cloudinary image hosting into the content generation and posting workflow. Furthermore, we've fixed an issue with Instagram posting by implementing a single image posting function that works properly with the Instagram API instead of trying to use the carousel function for single images. We've implemented automatic cleanup of both local and Cloudinary images after successful Instagram posting to prevent resource accumulation. We've added an LRU (Least Recently Used) topic cache system that stores 100 diverse topics and selects the least recently used one for content generation, enabling automatic topic rotation without manual intervention. The topic cache has been enhanced with category awareness to ensure content is selected from the least recently used category, maximizing topic variety and preventing similar topics from appearing consecutively. The content generation CLI now includes options to list available categories and select topics from specific categories, making the system more flexible for content creation. We've also eliminated redundant Cloudinary uploads by consolidating image management within the Instagram service to improve efficiency and reduce potential costs. We've further improved the cleanup process to remove empty image directories, preventing storage buildup from temporary image folders. Most recently, we've enhanced the AI response parsing to handle JSON content wrapped in markdown code blocks, making the system more robust against different response formats from AI services. We've now also implemented two solutions to prevent content overflow in images: a character limit in the content generation process and dynamic font sizing in the templates that automatically adjusts text size based on content length. We've further improved the content generation process by adding explicit formatting rules to prevent markdown formatting in the AI output and implementing a cleanup function to remove any special formatting that might interfere with display in the EJS templates. We've added a new self-love-gradient template featuring a beautiful gradient background with elegant typography for self-care and personal growth content. Our latest addition is a new motivation-accent template that features a clean cream background with highlighted accent words in gray and orange boxes, perfect for bold motivational content with a modern, clean aesthetic. We have now created a comprehensive plan and detailed implementation strategy for adding relevant audio to Instagram posts through video content, leveraging the Instagram Reels API. We've implemented an automatic daily posting scheduler that randomly posts content twice daily (morning and evening) and rotates between different templates to ensure visual variety. We have now replaced the previous AI service with OpenRouter, which provides access to free open-source models like Mistral and Llama. This integration includes a fallback mechanism to try multiple models if the primary one fails, as well as enhanced prompting for better results with smaller models. We also expanded the mock content system to provide high-quality fallbacks if all AI services are unavailable.
+The project has been updated to use local templates for image generation instead of relying on external AI services. The template system is now in place, with the configuration and management services implemented. We have successfully created the @fixin5mins post template based on the new content strategy. Additionally, we've integrated automation capabilities from the automation project, including enhanced Instagram carousel posting, Cloudinary image hosting, and improved image generation with Puppeteer. We've also added a new example script to generate sample images with random data and created a new template (quote-red) that replicates a motivational quote image with red typography on a cream background. Most recently, we've updated the configuration file to properly include Cloudinary credentials and integrated Cloudinary image hosting into the content generation and posting workflow. Furthermore, we've fixed an issue with Instagram posting by implementing a single image posting function that works properly with the Instagram API instead of trying to use the carousel function for single images. We've implemented automatic cleanup of both local and Cloudinary images after successful Instagram posting to prevent resource accumulation. We've added an LRU (Least Recently Used) topic cache system that stores 100 diverse topics and selects the least recently used one for content generation, enabling automatic topic rotation without manual intervention. The topic cache has been enhanced with category awareness to ensure content is selected from the least recently used category, maximizing topic variety and preventing similar topics from appearing consecutively. The content generation CLI now includes options to list available categories and select topics from specific categories, making the system more flexible for content creation. We've also eliminated redundant Cloudinary uploads by consolidating image management within the Instagram service to improve efficiency and reduce potential costs. We've further improved the cleanup process to remove empty image directories, preventing storage buildup from temporary image folders. Most recently, we've enhanced the AI response parsing to handle JSON content wrapped in markdown code blocks, making the system more robust against different response formats from AI services. We've now also implemented two solutions to prevent content overflow in images: a character limit in the content generation process and dynamic font sizing in the templates that automatically adjusts text size based on content length. We've further improved the content generation process by adding explicit formatting rules to prevent markdown formatting in the AI output and implementing a cleanup function to remove any special formatting that might interfere with display in the EJS templates. We've added a new self-love-gradient template featuring a beautiful gradient background with elegant typography for self-care and personal growth content. Our latest addition is a new motivation-accent template that features a clean cream background with highlighted accent words in gray and orange boxes, perfect for bold motivational content with a modern, clean aesthetic. We have now created a comprehensive plan and detailed implementation strategy for adding relevant audio to Instagram posts through video content, leveraging the Instagram Reels API. We've implemented an automatic daily posting scheduler that randomly posts content twice daily (morning and evening) and rotates between different templates to ensure visual variety. We have now replaced the previous AI service with OpenRouter, which provides access to free open-source models like Mistral and Llama. This integration includes a fallback mechanism to try multiple models if the primary one fails, as well as enhanced prompting for better results with smaller models. We also expanded the mock content system to provide high-quality fallbacks if all AI services are unavailable. We've now enhanced the post scheduler to use optimal posting times for each day of the week based on Instagram engagement research, with small random variations to maintain unpredictability.
 
 ## What Works
 Based on the codebase review:
@@ -32,7 +32,7 @@ Based on the codebase review:
    - Content overflow prevention with character limits
    - Dynamic font sizing for content adaptation
    - Markdown/formatting cleanup for AI-generated content
-   - Automatic daily post scheduling with random times
+   - Automatic daily post scheduling with research-backed optimal times (UPDATED)
    - Template rotation to prevent visual repetition
    - High-quality mock content system for offline operation (NEW)
 
@@ -66,6 +66,7 @@ Based on the codebase review:
    - Configuration object with typed interfaces
    - OpenRouter configuration with model selection (NEW)
    - Cloudinary credentials properly configured
+   - Day-specific optimal posting times (NEW)
 
 6. **Content Generation Workflow**:
    - End-to-end process from content generation to image creation to social posting
@@ -82,6 +83,7 @@ Based on the codebase review:
    - Enhanced AI response handling for different formats
    - Automatic content sizing to prevent overflow
    - Formatting cleanup for template compatibility
+   - Intelligent posting schedule based on optimal engagement times (NEW)
 
 7. **Planning and Documentation**:
    - Detailed PRD for audio integration feature
@@ -189,6 +191,7 @@ Based on the codebase review:
 - [x] Create comprehensive plan for audio integration feature
 - [x] Implement automatic post scheduling with random times and template rotation
 - [x] Replace AI service with OpenRouter for free open-source models (NEW)
+- [x] Enhance scheduler to use optimal posting times based on research (NEW)
 - [ ] Implement video generation from static templates
 - [ ] Create audio selection and matching algorithm
 - [ ] Integrate with Instagram Reels API for video with audio
@@ -224,7 +227,8 @@ Based on the codebase review:
   - System architecture diagrams
   - Data flow and database schema design
 - Implemented daily post scheduler with the following features:
-  - Randomly generated posting times within morning and evening windows
+  - Optimal posting times based on day-specific research
+  - Small random time variations (±15 minutes) for unpredictability
   - Automatic template rotation to ensure visual variety
   - Persistent state tracking between runs
   - Automatic rescheduling at midnight each day
@@ -235,6 +239,13 @@ Based on the codebase review:
   - Enhanced system prompts for better results with smaller models
   - Expanded mock content system for offline operation
   - Test scripts for API integration and content generation
+- Enhanced post scheduler with research-backed optimal times:
+  - Implemented day-specific optimal posting times configuration
+  - Added function to generate times with small random variations
+  - Updated scheduler to use optimal times for each day of the week
+  - Created comprehensive documentation in OPTIMAL_POSTING_TIMES.md
+  - Updated README.md with new scheduling features
+  - Updated state management to support the new scheduling approach
 
 ## In Progress
 - Research and planning for video generation with audio
@@ -251,4 +262,5 @@ Based on the codebase review:
 - The template creation guide is now available in the memory-bank directory
 - The guide provides all necessary information for developers to create new templates without breaking the existing system
 - Audio integration documentation is available in the memory-bank/features/audio-integration directory
-- Free open-source models like Mistral and Llama are now used via OpenRouter for content generation 
+- Free open-source models like Mistral and Llama are now used via OpenRouter for content generation
+- Optimal posting times were implemented based on research showing the best times to post on Instagram for each day of the week 

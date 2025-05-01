@@ -10,6 +10,9 @@ interface SchedulerState {
   lastPostTime: string;
   nextMorningSchedule: string | null;
   nextEveningSchedule: string | null;
+  nextOptimal1Schedule: string | null;
+  nextOptimal2Schedule: string | null;
+  nextOptimal3Schedule: string | null; // Some days have up to 3 optimal slots
 }
 
 // Default template list - will be populated dynamically when available
@@ -46,7 +49,10 @@ async function initializeStateFile(): Promise<SchedulerState> {
     lastUsedTemplate: '',
     lastPostTime: new Date().toISOString(),
     nextMorningSchedule: null,
-    nextEveningSchedule: null
+    nextEveningSchedule: null,
+    nextOptimal1Schedule: null,
+    nextOptimal2Schedule: null,
+    nextOptimal3Schedule: null
   };
 
   try {

@@ -27,6 +27,62 @@ export const EVENING_WINDOW: TimeWindow = {
 };
 
 /**
+ * Optimal posting times for each day of the week based on research
+ * Times are stored in 24-hour format
+ */
+export interface OptimalTime {
+  hour: number;
+  minute: number;
+}
+
+export interface DailyOptimalTimes {
+  [day: number]: OptimalTime[];
+}
+
+/**
+ * Optimal posting times for each day of the week
+ * Day numbers are 0-6 (Sunday-Saturday)
+ */
+export const OPTIMAL_POSTING_TIMES: DailyOptimalTimes = {
+  0: [ // Sunday
+    { hour: 10, minute: 0 }, // 10am
+    { hour: 19, minute: 0 }  // 7pm
+  ],
+  1: [ // Monday
+    { hour: 15, minute: 0 }, // 3pm
+    { hour: 17, minute: 0 }, // 5pm
+    { hour: 19, minute: 0 }  // 7pm
+  ],
+  2: [ // Tuesday
+    { hour: 16, minute: 0 }, // 4pm
+    { hour: 18, minute: 0 }, // 6pm
+    { hour: 19, minute: 0 }  // 7pm
+  ],
+  3: [ // Wednesday
+    { hour: 14, minute: 0 }, // 2pm
+    { hour: 17, minute: 0 }, // 5pm
+    { hour: 20, minute: 0 }  // 8pm
+  ],
+  4: [ // Thursday
+    { hour: 14, minute: 0 }, // 2pm
+    { hour: 16, minute: 0 }, // 4pm
+    { hour: 21, minute: 0 }  // 9pm
+  ],
+  5: [ // Friday
+    { hour: 10, minute: 0 }, // 10am
+    { hour: 13, minute: 0 }, // 1pm
+    { hour: 15, minute: 0 }  // 3pm
+  ],
+  6: [ // Saturday
+    { hour: 11, minute: 0 }, // 11am
+    { hour: 14, minute: 0 }  // 2pm
+  ]
+};
+
+// Maximum random variation in minutes to add or subtract from optimal times
+export const MAX_TIME_VARIATION_MINUTES = 15;
+
+/**
  * Generate a random time within a specified window
  * @param window Time window to generate within
  * @returns ISO string of the randomly generated time for today
@@ -52,6 +108,41 @@ export function generateRandomTimeInWindow(window: TimeWindow): Date {
   
   // Add the random minutes to the start time
   date.setMinutes(randomMinutes);
+  
+  return date;
+}
+
+/**
+ * Generates a random time based on the optimal posting times for the given day
+ * with small random variation (±15 minutes)
+ * @param dayOfWeek Day of week (0-6, Sunday-Saturday)
+ * @returns Random time based on optimal posting times
+ */
+export function generateOptimalPostingTime(dayOfWeek: number): Date {
+  const now = new Date();
+  const optimalTimes = OPTIMAL_POSTING_TIMES[dayOfWeek];
+  
+  if (!optimalTimes || optimalTimes.length === 0) {
+    throw new Error(`No optimal times configured for day ${dayOfWeek}`);
+  }
+  
+  // Randomly select one of the optimal times for this day
+  const randomIndex = Math.floor(Math.random() * optimalTimes.length);
+  const selectedTime = optimalTimes[randomIndex];
+  
+  // Create date object for today with the selected time
+  const date = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    selectedTime.hour,
+    selectedTime.minute,
+    0
+  );
+  
+  // Add random variation (±MAX_TIME_VARIATION_MINUTES minutes)
+  const randomVariation = Math.floor(Math.random() * (MAX_TIME_VARIATION_MINUTES * 2 + 1)) - MAX_TIME_VARIATION_MINUTES;
+  date.setMinutes(date.getMinutes() + randomVariation);
   
   return date;
 }
