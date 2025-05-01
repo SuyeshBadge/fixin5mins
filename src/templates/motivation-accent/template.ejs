@@ -23,20 +23,23 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 80px;
+      padding: 60px;
       box-sizing: border-box;
     }
     
     .header {
       position: absolute;
-      top: 80px;
-      font-size: 26px;
+      top: 60px;
+      font-size: 22px;
       font-weight: 500;
       letter-spacing: 1px;
       color: #000;
       text-align: center;
     }
     
+    /* REDESIGNED ATTENTION-GRABBING ELEMENTS */
+    
+    /* Main content container */
     .content {
       display: flex;
       flex-direction: column;
@@ -44,122 +47,287 @@
       justify-content: center;
       text-align: center;
       max-width: 900px;
+      width: 100%;
     }
     
-    .main-text {
-      display: inline-block;
-      font-size: 90px;
-      line-height: 1.1;
+    /* Ultra-bold attention-grabbing stat */
+    .stat-container {
+      margin-bottom: 40px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .big-stat {
+      font-size: 190px;
+      line-height: 1;
+      font-weight: 900;
+      color: #ff8d48;
+      display: flex;
+      margin: 0;
+      position: relative;
+      text-align: center;
+      text-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+    }
+    
+    /* Circle behind the stat */
+    .stat-circle {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      background-color: rgba(255, 141, 72, 0.15);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+    }
+    
+    .stat-unit {
+      font-size: 36px;
       font-weight: 800;
       color: #000;
-      margin-bottom: 30px;
-      text-align: center;
-      position: relative;
-    }
-    
-    /* Style for the accent dot */
-    .accent-dot {
-      width: 28px;
-      height: 28px;
-      background-color: #ff8d48; /* Orange accent color */
-      border-radius: 50%;
       position: absolute;
-      left: -40px;
-      top: 25%;
+      bottom: 20px;
+      right: -30px;
+      background: #fff;
+      padding: 5px 15px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* Adaptive styles for text vs. statistics */
+    .text-only .key-insight {
+      font-size: 44px;
+      line-height: 1.15;
+      max-width: 800px;
+      margin-bottom: 40px;
+      font-weight: 800;
     }
     
-    /* Style for the highlighted words */
-    .highlight-gray {
-      display: inline-block;
-      background-color: #e3e7ed; /* Light gray background */
-      padding: 5px 25px;
-      border-radius: 15px;
-      margin: 0 5px;
+    .text-only .stat-container {
+      display: none;
     }
     
-    .highlight-orange {
-      display: inline-block;
-      background-color: #ff8d48; /* Orange background */
-      padding: 5px 25px;
-      border-radius: 15px;
-      margin: 0 5px;
-    }
-    /* Style for the black dots */
-    .black-dot {
-      width: 12px;
-      height: 12px;
-      background-color: #000;
-      border-radius: 50%;
-      position: absolute;
+    .text-only .highlighted-word {
+      background-color: #ff8d48;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 6px;
+      display: inline;
+      white-space: pre-wrap;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
     }
     
-    .black-dot.top-right {
-      right: -90px;
-      top: -60px;
-    }
-    
-    .black-dot.bottom-right {
-      right: -10px;
-      bottom: -60px;
-    }
-    
-    .reward-text {
-      font-size: 28px;
-      line-height: 1.3;
-      font-weight: 400;
+    /* Explanation text */
+    .key-insight {
+      font-size: 34px;
+      font-weight: 800;
       color: #000;
-      margin-top: 30px;
+      line-height: 1.2;
+      margin: 0 0 40px;
+      max-width: 800px;
+      letter-spacing: -0.5px;
+    }
+    
+    /* Highlight words with background color */
+    .highlight-orange {
+      display: inline;
+      background-color: #ff8d48;
+      color: white;
+      padding: 0 10px;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+    
+    /* The 5-minute fix section */
+    .fix-box {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 20px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      position: relative;
       max-width: 700px;
-      text-align: center;
+    }
+    
+    .fix-label {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ff8d48;
+      color: white;
+      font-weight: 800;
+      font-size: 20px;
+      padding: 5px 20px;
+      border-radius: 30px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    
+    .fix-label::before {
+      content: "⏱️";
+      margin-right: 6px;
+    }
+    
+    .fix-text {
+      font-size: 30px;
+      font-weight: 700;
+      color: #333;
+      line-height: 1.3;
+      letter-spacing: -0.5px;
+    }
+    
+    /* Outcome section */
+    .outcome-container {
+      position: relative;
+      max-width: 700px;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+    
+    .outcome-box {
+      display: flex;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.7);
+      border: 3px solid #ff8d48;
+      border-radius: 15px;
+      padding: 20px 30px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .outcome-icon {
+      font-size: 50px;
+      margin-right: 20px;
+    }
+    
+    .outcome-text {
+      font-size: 26px;
+      font-weight: 600;
+      color: #333;
+      line-height: 1.3;
+      text-align: left;
+    }
+    
+    /* Save this prompt */
+    .save-box {
+      position: absolute;
+      right: 60px;
+      bottom: 80px;
+      background-color: #ff8d48;
+      color: white;
+      font-weight: 800;
+      font-size: 22px;
+      padding: 12px 25px;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(255, 141, 72, 0.4);
+      z-index: 10;
+    }
+    
+    .save-box::before {
+      content: "🔖";
+      margin-right: 8px;
     }
     
     .date {
       position: absolute;
-      bottom: 80px;
-      font-size: 18px;
+      bottom: 60px;
+      font-size: 16px;
       font-weight: 400;
       color: #555;
-    }
-
-    @media only screen {
-      /* Dynamic sizing for longer text */
-      .main-text.medium {
-        font-size: 80px;
-      }
-      
-      .main-text.long {
-        font-size: 70px;
-      }
-      
-      .main-text.very-long {
-        font-size: 60px;
-      }
     }
   </style>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Function to adjust text size based on length
-      function adjustTextSize() {
-        const mainText = document.querySelector('.main-text');
-        if (!mainText) return;
+      // Adaptive content enhancement
+      function enhanceContent() {
+        // Get the text content
+        const insightElement = document.querySelector('.key-insight');
+        if (!insightElement) return;
         
-        const totalLength = mainText.textContent.trim().length;
+        const insightText = insightElement.textContent;
         
-        // Remove any existing classes
-        mainText.classList.remove('medium', 'long', 'very-long');
+        // Check for numbers in the text
+        const numberMatch = insightText.match(/\b(\d+)(?:\.\d+)?%?\b/);
         
-        // Add appropriate class based on text length
-        if (totalLength > 70) {
-          mainText.classList.add('very-long');
-        } else if (totalLength > 50) {
-          mainText.classList.add('long');
-        } else if (totalLength > 30) {
-          mainText.classList.add('medium');
+        if (numberMatch && numberMatch[1]) {
+          // STATISTICAL CONTENT
+          // Extract the number and set it in the big stat
+          const number = numberMatch[1];
+          const bigStat = document.querySelector('.big-stat');
+          if (bigStat) bigStat.textContent = number;
+          
+          // Determine unit based on text context
+          let unit = '';
+          if (insightText.includes('%')) {
+            unit = '%';
+          } else if (insightText.toLowerCase().includes('minute')) {
+            unit = 'MIN';
+          } else if (insightText.toLowerCase().includes('second')) {
+            unit = 'SEC';
+          } else if (insightText.toLowerCase().includes('hour')) {
+            unit = 'HRS';
+          } else if (insightText.toLowerCase().includes('day')) {
+            unit = 'DAYS';
+          }
+          
+          // Set the unit
+          const statUnit = document.querySelector('.stat-unit');
+          if (statUnit) statUnit.textContent = unit;
+          
+          // Add number-based class
+          document.querySelector('.content').classList.add('stat-focus');
+        } else {
+          // TEXT-BASED CONTENT
+          // Mark as text-only to trigger appropriate styling
+          document.querySelector('.content').classList.add('text-only');
+          
+          // Find keywords to highlight
+          const keywords = findKeywordsToHighlight(insightText);
+          if (keywords.length > 0) {
+            // Highlight the most important keyword
+            const keyword = keywords[0];
+            const startPos = insightText.toLowerCase().indexOf(keyword.toLowerCase());
+            if (startPos > -1) {
+              const endPos = startPos + keyword.length;
+              const actualWord = insightText.substring(startPos, endPos);
+              const newText = insightText.substring(0, startPos) + 
+                            '<span class="highlighted-word">' + actualWord + '</span>' + 
+                            insightText.substring(endPos);
+              
+              insightElement.innerHTML = newText;
+            }
+          }
         }
       }
       
-      // Call the adjustment function
-      adjustTextSize();
+      // Helper function to find keywords worth highlighting
+      function findKeywordsToHighlight(text) {
+        const lowercaseText = text.toLowerCase();
+        const keywords = [
+          'wrong', 'mistake', 'myth', 'lie', 'fail', 'never', 'always',
+          'forget', 'ignore', 'stop', 'quit', 'avoid', 'worst',
+          'best', 'only', 'fastest', 'easiest', 'most', 'least',
+          'every', 
+          'secret', 'hidden', 'surprising', 'shocking', 'unusual', 'rare',
+          'stopping'
+        ];
+        
+        // Return keywords that match as whole words using regex word boundaries
+        return keywords.filter(keyword => {
+          const regex = new RegExp('\\b' + keyword + '\\b', 'i');
+          return regex.test(lowercaseText);
+        });
+      }
+      
+      // Apply content enhancements
+      enhanceContent();
     });
   </script>
 </head>
@@ -168,47 +336,49 @@
     <div class="header">@<%= handle %></div>
     
     <div class="content">
-      <div class="main-text">
-        <div class="accent-dot"></div>
-        <div class="black-dot top-right"></div>
-        <div class="black-dot bottom-right"></div>
+      <% // Determine which content to use - enhanced viral or legacy %>
+      <% if (typeof patternInterruptHook !== 'undefined' && patternInterruptHook) { %>
+        <div class="stat-container">
+          <div class="stat-circle"></div>
+          <div class="big-stat">23</div>
+          <div class="stat-unit">MIN</div>
+        </div>
         
-        <% 
-          // Split the emotional hook to highlight the first word
-          const hookWords = emotionalHook.split(' ');
-          const firstHookWord = hookWords.shift();
-          const restHookText = hookWords.join(' ');
-          
-          // Split the action step to highlight the third word
-          const actionWords = actionStep.split(' ');
-          
-          // Make sure there are at least 3 words
-          let thirdActionWord = '';
-          let beforeThirdWord = '';
-          let afterThirdWord = '';
-          
-          if (actionWords.length >= 3) {
-            // Get the first two words
-            beforeThirdWord = actionWords.slice(0, 2).join(' ');
-            // Get the third word
-            thirdActionWord = actionWords[2];
-            // Get the rest of the words after the third
-            afterThirdWord = actionWords.slice(3).join(' ');
-          } else {
-            // Not enough words, just use the original split
-            const firstActionWord = actionWords.shift();
-            beforeThirdWord = '';
-            thirdActionWord = firstActionWord || '';
-            afterThirdWord = actionWords.join(' ');
-          }
-        %>
+        <div class="key-insight"><%= patternInterruptHook %></div>
         
-        <span class="highlight-gray"><%= firstHookWord %></span> <%= restHookText %>
-        <br>
-         <%= beforeThirdWord %> <span class="highlight-orange"><%= thirdActionWord %></span> <%= afterThirdWord %>
-      </div>
+        <div class="fix-box">
+          <div class="fix-label">5-MINUTE FIX</div>
+          <div class="fix-text"><%= actionStep %></div>
+        </div>
+        
+        <div class="outcome-box">
+          <div class="outcome-icon">⚡️</div>
+          <div class="outcome-text"><%= emotionalReward %></div>
+        </div>
+        
+        <% if (typeof saveReason !== 'undefined' && saveReason) { %>
+          <div class="save-box">Save this!</div>
+        <% } %>
       
-      <div class="reward-text"><%= emotionalReward %></div>
+      <% } else { %>
+        <div class="stat-container">
+          <div class="stat-circle"></div>
+          <div class="big-stat">23</div>
+          <div class="stat-unit">MIN</div>
+        </div>
+        
+        <div class="key-insight"><%= emotionalHook %></div>
+        
+        <div class="fix-box">
+          <div class="fix-label">5-MINUTE FIX</div>
+          <div class="fix-text"><%= actionStep %></div>
+        </div>
+        
+        <div class="outcome-box">
+          <div class="outcome-icon">⚡️</div>
+          <div class="outcome-text"><%= emotionalReward %></div>
+        </div>
+      <% } %>
     </div>
     
     <% if (date && date.trim() !== '') { %>

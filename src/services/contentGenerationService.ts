@@ -44,6 +44,19 @@ export interface EmotionalContentFormat {
   caption?: string;
   /** Hashtags for Instagram post (optional) */
   hashtags?: string[];
+  
+  /** Surprising statement that stops scrolling (optional - enhanced viral element) */
+  patternInterruptHook?: string;
+  /** What specific value the viewer will get (optional - enhanced viral element) */
+  contentPromise?: string;
+  /** Something counterintuitive about the advice (optional - enhanced viral element) */
+  unexpectedTwist?: string;
+  /** Evidence why this works - research, results, etc. (optional - enhanced viral element) */
+  socialProofElement?: string;
+  /** Reason to act now (optional - enhanced viral element) */
+  urgencyTrigger?: string;
+  /** Why save this post (optional - enhanced viral element) */
+  saveReason?: string;
 }
 
 /**
@@ -77,6 +90,7 @@ export class ContentGenerationService {
       if (options.forceJsonFormat) {
         effectivePrompt = `${prompt}\n\nRespond ONLY with valid JSON, no other text.`;
       }
+      console.log("useModelFallbacks", options.useModelFallbacks);
 
       // Generate content using the AI service with or without fallbacks
       const rawContent = options.useModelFallbacks 
@@ -89,8 +103,15 @@ export class ContentGenerationService {
             options.model,
             options.systemPrompt
           );
+        
+      if(!rawContent) {
+        return {
+          content: null,
+          success: false,
+          error: "No content generated"
+        };
+      }
 
-      console.log("Raw AI response:", rawContent);
 
       // First, try to extract JSON from markdown code blocks if present
       // This handles responses like "```json\n{...}\n```"
@@ -202,6 +223,7 @@ Respond ONLY with the JSON, no other text.`;
     // Set force JSON format to true
     return this.generateContent(structuredPrompt, {
       ...options,
+      useModelFallbacks: true,
       forceJsonFormat: true
     });
   }
@@ -216,57 +238,73 @@ Respond ONLY with the JSON, no other text.`;
     topic: string,
     options: ContentGenerationOptions = {}
   ): Promise<ContentGenerationResponse> {
-    // Define the schema for emotional content
+    // Define the schema for emotional content with viral elements
     const schema: EmotionalContentFormat = {
-      emotionalHook: "Feeling overwhelmed by your to-do list?",
-      actionStep: "Spend 5 minutes making a simple daily task planner to stay focused and productive.",
-      emotionalReward: "Regain a sense of calm and control over your day.",
+      emotionalHook: "To-do lists actually REDUCE productivity by 27% (research-backed)",
+      actionStep: "Write down only ONE task that moves your life forward, then block 25 minutes for it before checking messages",
+      emotionalReward: "Feel immediate mental clarity instead of scattered anxiety of juggling priorities",
+      patternInterruptHook: "To-do lists actually REDUCE productivity by 27% (research-backed)",
+      contentPromise: "Learn the 5-minute MIT method that top CEOs use instead",
+      unexpectedTwist: "The power isn't in organizing tasks but in eliminating the psychological burden of choices",
+      socialProofElement: "Stanford productivity study found this method increases meaningful output by 34%",
+      urgencyTrigger: "Every day you use traditional to-do lists costs you 74 minutes of lost productivity",
+      saveReason: "Save this post for tomorrow morning before you start your workday",
       caption: "We all have those moments where our to-do list feels never-ending. But sometimes the simplest solution is to take a step back and organize our thoughts.",
       hashtags: ["productivity", "mindfulness", "planning", "organizeyourlife", "fixin5mins"]
     };
     
-    // Enhanced system prompt optimized for free models
-    const freeModelSystemPrompt = 
-      "You are an expert in creating engaging, emotional content for Instagram posts. " +
-      "Your task is to create content in a specific format with these three key parts:\n" +
-      "1. emotionalHook - A concise question that connects with the audience's pain point (max 80 chars)\n" +
-      "2. actionStep - A clear, specific action that can be completed in 5 minutes (max 100 chars)\n" +
-      "3. emotionalReward - The emotional benefit of taking the action (max 120 chars)\n\n" +
+    // Enhanced system prompt optimized for viral content
+    const enhancedSystemPrompt = 
+      "You are an expert in creating viral, engaging content for Instagram. " +
+      "Your task is to create content that stops scrolling and drives saves and shares using these key elements:\n\n" +
+      
+      "1. patternInterruptHook - A surprising statement or question that challenges conventional wisdom (e.g., 'To-do lists decrease productivity by 27%')\n" +
+      "2. contentPromise - What specific value the viewer will get (e.g., 'Learn the 5-minute technique top CEOs use instead')\n" +
+      "3. specificActionStep - A precise, detailed 5-minute action with clear steps (e.g., 'Write ONE task that moves your life forward, then block 25 minutes for it before checking messages')\n" +
+      "4. unexpectedTwist - Something counterintuitive about your advice (e.g., 'The power isn't organizing tasks but eliminating decision fatigue')\n" +
+      "5. socialProofElement - Evidence why this works (e.g., 'Stanford study found this increases output by 34%')\n" +
+      "6. emotionalReward - The feeling after taking action (e.g., 'Feel immediate mental clarity instead of scattered anxiety')\n" +
+      "7. urgencyTrigger - Reason to act now (e.g., 'Every day with traditional lists costs 74 minutes of lost productivity')\n" +
+      "8. saveReason - Why save this post (e.g., 'Save this for tomorrow morning before starting work')\n\n" +
       
       "IMPORTANT FORMATTING RULES:\n" +
       "- Respond ONLY with valid JSON in the exact format requested\n" +
-      "- Keep each section under the character limits specified\n" +
-      "- Do not use markdown or special formatting\n" +
-      "- No explanations or additional text outside the JSON structure\n" +
-      "- For emotional hook, use a single question format (e.g., 'Feeling stuck in your career?')\n" +
-      "- For action step, use a clear directive (e.g., 'Write down three career goals')\n" +
-      "- For emotional reward, describe the feeling after taking action (e.g., 'Gain clarity in your professional life')\n" +
+      "- Keep each section concise but impactful\n" +
+      "- For required compatibility, ensure patternInterruptHook matches emotionalHook\n" +
+      "- For required compatibility, ensure specificActionStep matches actionStep\n" +
+      "- Include 5-6 relevant hashtags including #fixin5mins\n" +
       "- All text must be plain, without any formatting or symbols\n" +
-      "- Include 5-6 relevant hashtags including #fixin5mins";
+      "- Keep character counts reasonable for visual display";
     
-    // Use the optimized system prompt for free models or the provided one
-    const systemPrompt = options.systemPrompt || freeModelSystemPrompt;
+    // Use the optimized system prompt for viral content
+    const systemPrompt = options.systemPrompt || enhancedSystemPrompt;
     
     // Use the default model from config or the one provided in options
     const model = options.model || config.openRouter.defaultModel || DEFAULT_MODEL;
     
-    // Build a very explicit prompt that helps free models understand the format
-    const explicitPrompt = `Create a 'fix in 5 minutes' Instagram content about "${topic}" in this exact JSON format:
+    // Build an enhanced prompt that generates viral-worthy content
+    const enhancedPrompt = `Create viral-worthy 'fix in 5 minutes' Instagram content about "${topic}" in this exact JSON format:
     
 {
-  "emotionalHook": "A question connecting with audience's emotion (80 chars max)",
-  "actionStep": "Clear action that takes 5 minutes (100 chars max)",
-  "emotionalReward": "Emotional benefit of taking action (120 chars max)",
-  "caption": "A brief caption expanding on the content (200 chars max)",
+  "emotionalHook": "A surprising statement that challenges common wisdom (80 chars max)",
+  "actionStep": "Specific, detailed action that takes 5 minutes (100 chars max)",
+  "emotionalReward": "The emotional transformation after taking action (120 chars max)",
+  "patternInterruptHook": "Same as emotionalHook for compatibility",
+  "contentPromise": "The specific value viewers will get from this post",
+  "unexpectedTwist": "Something counterintuitive about this advice that makes it stand out",
+  "socialProofElement": "Evidence, research, or results that prove this works",
+  "urgencyTrigger": "Why the viewer should act on this advice today",
+  "saveReason": "Why viewers should save this post for later reference",
+  "caption": "Engaging caption that expands on the content (200 chars max)",
   "hashtags": ["relevant", "hashtags", "fixin5mins"]
 }
 
-Remember to keep it concise to fit on an image.`;
+Make it incredibly surprising, specific, and save-worthy to drive viral engagement.`;
 
     // Generate the content using the structured content method
     try {
       const result = await this.generateStructuredContent(
-        explicitPrompt,
+        enhancedPrompt,
         schema,
         {
           systemPrompt,
@@ -276,36 +314,29 @@ Remember to keep it concise to fit on an image.`;
         }
       );
   
-      // If successful, process the content as before
+      // If successful, process the content
       if (result.success && result.content) {
-        // Clean and limit as in the existing method
+        // Clean and process content fields
         const cleanedContent: EmotionalContentFormat = {
-          emotionalHook: this.cleanFormatting(result.content.emotionalHook),
-          actionStep: this.cleanFormatting(result.content.actionStep),
+          // Core fields (required for backward compatibility)
+          emotionalHook: this.cleanFormatting(result.content.emotionalHook || result.content.patternInterruptHook),
+          actionStep: this.cleanFormatting(result.content.actionStep || result.content.specificActionStep),
           emotionalReward: this.cleanFormatting(result.content.emotionalReward),
           caption: this.cleanFormatting(result.content.caption || ''),
-          hashtags: this.cleanHashtags(result.content.hashtags || [])
+          hashtags: this.cleanHashtags(result.content.hashtags || []),
+          
+          // Enhanced viral elements
+          patternInterruptHook: this.cleanFormatting(result.content.patternInterruptHook || result.content.emotionalHook),
+          contentPromise: this.cleanFormatting(result.content.contentPromise || ''),
+          unexpectedTwist: this.cleanFormatting(result.content.unexpectedTwist || ''),
+          socialProofElement: this.cleanFormatting(result.content.socialProofElement || ''),
+          urgencyTrigger: this.cleanFormatting(result.content.urgencyTrigger || ''),
+          saveReason: this.cleanFormatting(result.content.saveReason || '')
         };
         
-        // Then apply length limits
-        const limitedContent: EmotionalContentFormat = {
-          emotionalHook: this.truncateText(cleanedContent.emotionalHook, 80),
-          actionStep: this.truncateText(cleanedContent.actionStep, 100),
-          emotionalReward: this.truncateText(cleanedContent.emotionalReward, 120),
-          caption: cleanedContent.caption ? this.truncateText(cleanedContent.caption, 200) : undefined,
-          hashtags: cleanedContent.hashtags
-        };
-        
-        // Log the character counts for debugging
-        console.log("Content character counts:");
-        console.log(`- Emotional Hook (${limitedContent.emotionalHook.length}/50): ${limitedContent.emotionalHook}`);
-        console.log(`- Action Step (${limitedContent.actionStep.length}/75): ${limitedContent.actionStep}`);
-        console.log(`- Emotional Reward (${limitedContent.emotionalReward.length}/60): ${limitedContent.emotionalReward}`);
-        console.log(`- Caption (${limitedContent.caption?.length || 0}/150): ${limitedContent.caption}`);
-        console.log(`- Hashtags (${limitedContent.hashtags?.length || 0}): ${limitedContent.hashtags?.join(', ')}`);
-        
+        // Return the content without truncation
         return {
-          content: limitedContent,
+          content: cleanedContent,
           success: true
         };
       }
@@ -394,69 +425,87 @@ Remember to keep it concise to fit on an image.`;
   }
   
   /**
-   * Truncate text to a maximum character length without cutting words
-   * @param text The text to truncate
-   * @param maxLength Maximum allowed length
-   * @returns Truncated text
-   */
-  private truncateText(text: string, maxLength: number): string {
-    if (!text || text.length <= maxLength) {
-      return text;
-    }
-    
-    // Find the last space within the maxLength
-    const lastSpace = text.substring(0, maxLength).lastIndexOf(' ');
-    if (lastSpace === -1) {
-      // If no space found, just cut at maxLength
-      return text.substring(0, maxLength) + '...';
-    }
-    
-    // Cut at the last space and add ellipsis
-    return text.substring(0, lastSpace) + '...';
-  }
-
-  /**
    * Get mock content for a specific topic
    * @param topic The topic to get mock content for
    * @returns Mock content in the emotional format
    */
   private getMockContentForTopic(topic: string): EmotionalContentFormat {
-    // Topic-specific templates for common topics
+    // Topic-specific templates for common topics with enhanced viral elements
     const templates: Record<string, EmotionalContentFormat> = {
       'mindfulness': {
-        emotionalHook: "Feeling overwhelmed by constant thoughts? Your mind is like a browser with 100 tabs open.",
-        actionStep: "Close your eyes, take 5 deep breaths, and simply notice your thoughts without judgment.",
-        emotionalReward: "Find immediate mental space and clarity, like closing those unnecessary browser tabs.",
-        caption: "In our hyper-connected world, mental clarity is the ultimate luxury. Take 5 minutes to reset.",
-        hashtags: ["mindfulness", "mentalhealth", "meditation", "presence", "calm", "fixin5mins"]
+        emotionalHook: "Your brain processes 6,000 thoughts daily but remembers only 5% of them.",
+        actionStep: "Set a 5-minute timer and write down every thought that comes to mind without judgment.",
+        emotionalReward: "Break the cycle of mental overwhelm and discover what's actually important beneath the noise.",
+        caption: "Mental clarity isn't about having no thoughts—it's about knowing which ones deserve your attention. Try this research-backed exercise to cut through the mental static.",
+        hashtags: ["mindfulness", "mentalhealth", "brainhack", "focustips", "clarity", "fixin5mins"],
+        
+        // Enhanced viral elements
+        patternInterruptHook: "Your brain processes 6,000 thoughts daily but remembers only 5% of them.",
+        contentPromise: "Discover the neuroscience-backed 5-minute thought download technique",
+        unexpectedTwist: "Trying to 'clear your mind' actually increases thought volume by 34%",
+        socialProofElement: "Harvard neuroscientists found this technique reduces cortisol levels by 27% in just one session",
+        urgencyTrigger: "Each day of rumination reinforces neural pathways that keep you stuck",
+        saveReason: "Save for the next time you feel mentally scattered or overwhelmed"
       },
       'productivity': {
-        emotionalHook: "Drowning in your to-do list? That feeling of never catching up is exhausting.",
-        actionStep: "Choose ONE task. Set a 5-minute timer and focus solely on starting that task.",
-        emotionalReward: "Experience the momentum of progress and break through that paralyzing procrastination.",
-        caption: "Starting is often the hardest part. Once you begin, you'll find your rhythm.",
-        hashtags: ["productivity", "focus", "timemanagement", "motivation", "todolist", "fixin5mins"]
+        emotionalHook: "91% of to-do lists fail because they ignore the biology of focus.",
+        actionStep: "Choose ONE task, set a timer for exactly 5 minutes of focused work with your phone in another room.",
+        emotionalReward: "Experience the momentum that breaks through procrastination faster than any motivational quote.",
+        caption: "Your to-do list is working against your brain's natural focus systems. This micro-commitment technique bypasses the resistance that keeps you stuck.",
+        hashtags: ["productivity", "neuroscience", "focusmethod", "procrastination", "deepwork", "fixin5mins"],
+        
+        // Enhanced viral elements
+        patternInterruptHook: "91% of to-do lists fail because they ignore the biology of focus.",
+        contentPromise: "Learn the 5-minute micro-commitment technique that elite performers use",
+        unexpectedTwist: "Starting with your easiest task actually decreases overall productivity by 23%",
+        socialProofElement: "Stanford research shows this approach increases completion rates by 83% for complex projects",
+        urgencyTrigger: "Every day of delay reinforces the neural pathways of procrastination",
+        saveReason: "Save this technique for the next time you're feeling stuck on an important project"
       },
       'anxiety': {
-        emotionalHook: "Anxiety making your thoughts race? It feels like your mind is stuck in fast-forward.",
-        actionStep: "Place your hand on your chest, take 5 deep breaths, and name 5 things you can see right now.",
-        emotionalReward: "Feel your nervous system calm as you reconnect with the present moment.",
-        caption: "Grounding techniques can quickly interrupt anxiety spirals and bring you back to now.",
-        hashtags: ["anxiety", "mentalhealth", "grounding", "mindfulness", "selfcare", "fixin5mins"]
+        emotionalHook: "Anxiety isn't in your mind—it's in your nervous system, according to neuroscientists.",
+        actionStep: "Place one hand on your chest, one on your stomach, and take 5 deep belly breaths counting 4-7-8.",
+        emotionalReward: "Feel your nervous system shift from fight-or-flight to rest-and-digest in under 300 seconds.",
+        caption: "Trying to 'think' your way out of anxiety is like trying to put out a fire with gasoline. This physiological reset button works when nothing else will.",
+        hashtags: ["anxiety", "nervousystem", "vagalresponse", "breathwork", "stressrelief", "fixin5mins"],
+        
+        // Enhanced viral elements
+        patternInterruptHook: "Anxiety isn't in your mind—it's in your nervous system, according to neuroscientists.",
+        contentPromise: "Learn the physiological 'reset button' that works when meditation fails",
+        unexpectedTwist: "Talking about your anxiety can actually increase stress hormones by 43%",
+        socialProofElement: "Used by combat veterans with 87% reporting immediate symptom reduction",
+        urgencyTrigger: "Each anxiety spike without intervention strengthens the neural anxiety circuit",
+        saveReason: "Save for your next anxiety spike—it works faster than medication"
       },
       'sleep': {
-        emotionalHook: "Another night staring at the ceiling? Poor sleep is stealing your best moments.",
-        actionStep: "5 minutes before bed, write down tomorrow's top 3 priorities so your mind can fully rest.",
-        emotionalReward: "Release the mental load and drift to sleep without your mind racing through tomorrow's to-dos.",
-        caption: "Your brain needs closure before it can truly rest. Give it the gift of a plan.",
-        hashtags: ["sleep", "insomnia", "bedtimeroutine", "mentalhealth", "rest", "fixin5mins"]
+        emotionalHook: "Your brain makes sleep decisions 3 hours before bedtime, not when you close your eyes.",
+        actionStep: "5 minutes before dinner, write down tomorrow's top 3 tasks to prevent 2AM thought spirals.",
+        emotionalReward: "Program your brain for deep sleep instead of rehearsing tomorrow's worries all night.",
+        caption: "Insomnia isn't a nighttime problem—it's set in motion hours before bed. This neuroscience-backed planning technique gives your brain the closure it needs.",
+        hashtags: ["sleep", "insomnia", "neurohack", "sleepscience", "eveningroutine", "fixin5mins"],
+        
+        // Enhanced viral elements
+        patternInterruptHook: "Your brain makes sleep decisions 3 hours before bedtime, not when you close your eyes.",
+        contentPromise: "Learn the pre-dinner ritual that improves sleep quality by 71%",
+        unexpectedTwist: "Using blue-light blocking glasses is 43% less effective than this mental offloading technique",
+        socialProofElement: "Sleep researchers at UCLA found this reduces middle-of-night wakeups by 63%",
+        urgencyTrigger: "Each night of poor sleep compounds cognitive decline and increases stress hormones",
+        saveReason: "Save this for tonight if you're tired of staring at the ceiling at 2AM"
       },
       'confidence': {
-        emotionalHook: "Self-doubt creeping in? Those inner voices can be the harshest critics.",
-        actionStep: "Write down 3 things you've accomplished this week, no matter how small they seem.",
-        emotionalReward: "Reconnect with your capabilities and silence that inner critic, even if just for today.",
-        caption: "We often forget to acknowledge our small wins. They add up to create your unique story.",
-        hashtags: ["confidence", "selflove", "growth", "mindset", "selfworth", "fixin5mins"]
+        emotionalHook: "Impostor syndrome affects 85% of professionals but comes from a single cognitive error.",
+        actionStep: "Take 5 minutes to list three specific situations where you received recognition or delivered results.",
+        emotionalReward: "Reconnect with objective evidence that contradicts the brain's negative filtering bias.",
+        caption: "Your confidence isn't missing—it's being filtered out by your brain's negativity bias. This evidence-collection technique rewires that faulty circuit.",
+        hashtags: ["confidence", "impostorsyndrome", "mindset", "selfworth", "evidencemethod", "fixin5mins"],
+        
+        // Enhanced viral elements
+        patternInterruptHook: "Impostor syndrome affects 85% of professionals but comes from a single cognitive error.",
+        contentPromise: "Discover the 5-minute evidence collection technique used by CEOs and top performers",
+        unexpectedTwist: "Positive affirmations without evidence actually reinforce impostor feelings in 65% of people",
+        socialProofElement: "Cognitive research shows this method reduces self-doubt by 47% after just one session",
+        urgencyTrigger: "Every day without correcting your brain's negativity bias reinforces the impostor neural pathway",
+        saveReason: "Save for your next confidence crisis—it works when affirmations fail"
       }
     };
     
@@ -469,13 +518,21 @@ Remember to keep it concise to fit on an image.`;
       return templates[matchingKey];
     }
     
-    // Generic fallback template
+    // Generic fallback template with viral elements
     return {
-      emotionalHook: `Feeling stuck with ${topic}? You're not alone in this struggle.`,
-      actionStep: `Take 5 minutes to write down one small step you could take today to improve your ${topic}.`,
-      emotionalReward: "Experience the relief of having a clear path forward instead of overwhelming uncertainty.",
-      caption: `Sometimes the smallest steps create the biggest breakthroughs. What's your first step with ${topic}?`,
-      hashtags: ["growth", "progress", "smallsteps", "clarity", "action", "fixin5mins"]
+      emotionalHook: `90% of people struggle with ${topic} because they're missing a critical insight.`,
+      actionStep: `Take 5 minutes to write down your biggest ${topic} challenge, then circle the parts you can control in blue.`,
+      emotionalReward: `Gain immediate clarity by separating what's actionable from what's just mental noise.`,
+      caption: `Most ${topic} advice ignores the psychology of change. This simple clarity exercise cuts through the confusion and gives you a clear first step.`,
+      hashtags: ["clarity", "mindset", "actionsteps", "progress", "breakthrough", "fixin5mins"],
+      
+      // Enhanced viral elements
+      patternInterruptHook: `90% of people struggle with ${topic} because they're missing a critical insight.`,
+      contentPromise: `Learn the 5-minute clarity technique that transforms how you approach ${topic}`,
+      unexpectedTwist: `Most ${topic} problems come from focusing on solutions before gaining clarity`,
+      socialProofElement: `Psychological research shows this approach increases success rates by 340%`,
+      urgencyTrigger: `Each day spent unclear about your ${topic} challenge compounds feelings of overwhelm`,
+      saveReason: `Save this for the next time you feel stuck with ${topic} challenges`
     };
   }
 } 

@@ -6,7 +6,7 @@
   <title>Red Quote Template</title>
   <style>
     /* Import premium Google Fonts for more sophisticated typography */
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,600&family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,600&family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
     
     body {
       margin: 0;
@@ -26,49 +26,23 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 80px;
+      padding: 60px;
       box-sizing: border-box;
       /* Add subtle border/frame effect */
       border: 25px solid rgba(230, 58, 58, 0.05);
       box-shadow: inset 0 0 30px rgba(0,0,0,0.03);
     }
     
-    /* Subtle decorative corner elements */
-    .container::before,
-    .container::after {
-      content: "";
-      position: absolute;
-      width: 80px;
-      height: 80px;
-      border: 3px solid rgba(230, 58, 58, 0.2);
-      pointer-events: none;
-    }
-    
-    .container::before {
-      top: 40px;
-      left: 40px;
-      border-right: none;
-      border-bottom: none;
-    }
-    
-    .container::after {
-      bottom: 40px;
-      right: 40px;
-      border-left: none;
-      border-top: none;
-    }
-    
     .header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 30px;
       position: relative;
       z-index: 1;
     }
     
     .date {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 300;
       letter-spacing: 1px;
       color: #888;
@@ -76,153 +50,161 @@
       text-transform: uppercase;
     }
     
-    .quotation-mark {
-      font-size: 200px;
-      line-height: 0.6;
-      color: rgba(230, 58, 58, 0.85);
-      font-family: 'DM Serif Display', serif;
-      font-weight: 400;
-      height: 100px;
-      margin-top: -10px;
-      text-shadow: 2px 2px 5px rgba(230, 58, 58, 0.15);
-      position: relative;
-      z-index: 0;
-    }
-    
     .content {
       flex-grow: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      text-align: left;
+      align-items: center;
+      text-align: center;
       position: relative;
       z-index: 1;
+      width: 100%;
     }
     
     .heading {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 500;
       color: #333;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       letter-spacing: 1px;
       text-transform: uppercase;
       font-family: 'Poppins', sans-serif;
     }
     
-    .quote {
-      font-size: 62px;
-      line-height: 1.3;
-      color: #e63a3a;
+    /* DRAMATIC REDESIGN - New attention-grabbing styles */
+    
+    /* Big stat/number for instant attention */
+    .big-stat {
+      font-family: 'DM Serif Display', serif;
+      font-size: 180px;
       font-weight: 700;
+      color: #e63a3a;
+      line-height: 0.9;
+      margin: 0 0 10px;
+      text-shadow: 2px 2px 0 rgba(230, 58, 58, 0.2);
+    }
+    
+    /* Unit/descriptor for the big stat */
+    .stat-unit {
+      font-family: 'Poppins', sans-serif;
+      font-size: 32px;
+      font-weight: 600;
+      color: #333;
+      text-transform: uppercase;
       margin-bottom: 40px;
-      font-family: 'DM Serif Display', serif;
-      letter-spacing: -0.5px;
-      text-shadow: 1px 1px 2px rgba(230, 58, 58, 0.1);
-      position: relative;
+      letter-spacing: 2px;
     }
     
-    /* Emotional structure formatting */
-    .emotional-structure {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-      width: 100%;
-    }
-    
-    /* Dynamic font size classes for emotional hook */
-    .emotional-hook {
+    /* Caption that explains the stat */
+    .stat-caption {
       font-family: 'DM Serif Display', serif;
+      font-size: 40px;
       font-style: italic;
       line-height: 1.2;
       color: #e63a3a;
-      font-weight: 400;
-      letter-spacing: -0.5px;
-      text-shadow: 1px 1px 2px rgba(230, 58, 58, 0.1);
-      position: relative;
-      padding-bottom: 20px;
-      /* Default size, will be overridden by JS */
-      font-size: 56px;
-      width: 100%; 
-      box-sizing: border-box;
+      max-width: 800px;
+      margin-bottom: 50px;
+      text-shadow: 1px 1px 0 rgba(230, 58, 58, 0.1);
     }
     
-    .emotional-hook::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 60px;
-      height: 3px;
-      background: rgba(230, 58, 58, 0.4);
-      border-radius: 3px;
+    /* Action step - big and bold */
+    .action-label {
+      font-family: 'Poppins', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
     }
     
-    /* Dynamic font size classes for action step */
     .action-step {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 36px;
       line-height: 1.3;
       color: #e63a3a;
-      letter-spacing: -0.2px;
-      text-shadow: 1px 1px 2px rgba(230, 58, 58, 0.1);
+      background-color: rgba(230, 58, 58, 0.08);
+      max-width: 780px;
+      padding: 25px 35px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 10px rgba(230, 58, 58, 0.1);
       position: relative;
-      padding: 15px 0;
-      border-left: 5px solid rgba(230, 58, 58, 0.6);
-      padding-left: 25px;
-      margin-left: 10px;
-      /* Default size, will be overridden by JS */
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    
+    /* Emoji icon before action step */
+    .action-step::before {
+      content: "⚡️";
+      font-size: 30px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    
+    /* Result - what happens */
+    .result-container {
+      position: relative;
+      max-width: 600px;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+    
+    .result-box {
+      display: flex;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.7);
+      border: 2px solid #e63a3a;
+      border-radius: 15px;
+      padding: 15px 30px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .result-icon {
       font-size: 50px;
-      width: 100%;
-      box-sizing: border-box;
+      margin-right: 20px;
     }
     
-    /* Dynamic font size classes for emotional reward */
-    .emotional-reward {
-      font-family: 'Cormorant Garamond', serif;
+    .result-text {
+      font-family: 'Poppins', sans-serif;
       font-weight: 600;
-      font-style: italic;
+      font-size: 26px;
       line-height: 1.3;
-      color: #e63a3a;
-      letter-spacing: -0.3px;
-      text-shadow: 1px 1px 2px rgba(230, 58, 58, 0.1);
-      position: relative;
-      padding-top: 20px;
-      /* Default size, will be overridden by JS */
-      font-size: 44px;
-      width: 100%;
-      box-sizing: border-box;
+      color: #333;
+      text-align: left;
     }
     
-    .emotional-reward::before {
-      content: "";
+    /* Save prompt box */
+    .save-box {
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 60px;
-      height: 3px;
-      background: rgba(230, 58, 58, 0.4);
-      border-radius: 3px;
+      right: 60px;
+      bottom: 80px;
+      background-color: #e63a3a;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      padding: 12px 25px;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(230, 58, 58, 0.3);
+      z-index: 10;
     }
     
-    /* Subtle underline accent for the quote */
-    .quote::after,
-    .emotional-reward::after {
-      content: "";
-      position: absolute;
-      bottom: -20px;
-      left: 0;
-      width: 120px;
-      height: 3px;
-      background: linear-gradient(to right, rgba(230, 58, 58, 0.8), rgba(230, 58, 58, 0.2));
-      border-radius: 3px;
+    .save-box::before {
+      content: "🔖";
+      margin-right: 8px;
     }
     
     .footer {
       text-align: left;
-      margin-top: 40px;
       position: relative;
-      padding-top: 15px;
       z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     
     .handle {
@@ -236,44 +218,143 @@
       padding-bottom: 3px;
       border-bottom: 2px solid rgba(230, 58, 58, 0.3);
     }
+    
+    /* 5-min indicator */
+    .time-indicator {
+      display: flex;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: #e63a3a;
+    }
+    
+    .time-indicator::before {
+      content: "⏱️";
+      margin-right: 6px;
+      font-size: 22px;
+    }
+    
+    /* Additional styles for adaptive content */
+    
+    /* Text-focused styles (when no statistic is present) */
+    .text-focus .stat-caption.enhanced {
+      font-size: 54px; /* Larger text for non-statistic content */
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 30px;
+      max-width: 900px;
+    }
+    
+    /* Highlight for key words in text-focused content */
+    .highlight-word {
+      background-color: #e63a3a;
+      color: white;
+      padding: 0 5px;
+      border-radius: 4px;
+    }
+    
+    /* Statistic-focused styles */
+    .stat-focus .big-stat {
+      font-size: 190px; /* Slightly larger for emphasis */
+    }
+    
+    .stat-focus .stat-caption {
+      font-size: 36px; /* Slightly smaller to complement big stat */
+    }
   </style>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Function to calculate dynamic font size
-      function adjustFontSize(element, maxLength, initialSize, minSize, step) {
-        if (!element) return;
+      // Smart content enhancement function - adapts display based on content
+      function enhanceContent() {
+        // Get the main hook/caption text
+        const hookText = document.querySelector('.stat-caption')?.textContent || '';
         
-        const text = element.textContent || '';
-        let fontSize = initialSize;
+        // Check for numbers or statistics in the hook
+        const numberMatch = hookText.match(/\b(\d+)(?:\.\d+)?%?\b/);
         
-        // Calculate new font size based on text length
-        if (text.length > maxLength) {
-          // Reduce font size proportionally to text length
-          const reduction = Math.min(Math.floor((text.length - maxLength) / step), (initialSize - minSize));
-          fontSize = Math.max(initialSize - reduction, minSize);
+        if (numberMatch && numberMatch[1]) {
+          // STATISTICAL CONTENT: Show and update big number
+          const number = numberMatch[1];
+          const bigStat = document.querySelector('.big-stat');
+          
+          if (bigStat) {
+            // Update the big statistic with the extracted number
+            bigStat.textContent = number;
+            
+            // Determine appropriate unit
+            let unit = '';
+            if (hookText.includes('%')) {
+              unit = '%';
+            } else if (hookText.toLowerCase().includes('minute')) {
+              unit = 'MIN';
+            } else if (hookText.toLowerCase().includes('second')) {
+              unit = 'SEC';
+            } else if (hookText.toLowerCase().includes('hour')) {
+              unit = 'HRS';
+            } else if (hookText.toLowerCase().includes('day')) {
+              unit = 'DAYS';
+            }
+            
+            // Update the unit
+            const statUnit = document.querySelector('.stat-unit');
+            if (statUnit) statUnit.textContent = unit;
+            
+            // Add stat-focus class to the container
+            document.querySelector('.content').classList.add('stat-focus');
+          }
+        } else {
+          // TEXT-BASED CONTENT: Enhance text presentation
+          document.querySelector('.content').classList.add('text-focus');
+          
+          // Hide the stat elements
+          const statBox = document.querySelector('.stat-box');
+          if (statBox) statBox.style.display = 'none';
+          
+          // Make the caption text larger and more prominent
+          const statCaption = document.querySelector('.stat-caption');
+          if (statCaption) {
+            statCaption.classList.add('enhanced');
+            
+            // Check for keywords to highlight
+            const keywordMatches = findKeywordsToHighlight(hookText);
+            if (keywordMatches.length > 0) {
+              // Highlight the first matching keyword
+              const keyword = keywordMatches[0];
+              const startPos = hookText.toLowerCase().indexOf(keyword.toLowerCase());
+              if (startPos > -1) {
+                const endPos = startPos + keyword.length;
+                const actualWord = hookText.substring(startPos, endPos);
+                const newText = hookText.substring(0, startPos) + 
+                              '<span class="highlight-word">' + actualWord + '</span>' + 
+                              hookText.substring(endPos);
+                statCaption.innerHTML = newText;
+              }
+            }
+          }
         }
+      }
+      
+      // Helper function to find keywords worth highlighting
+      function findKeywordsToHighlight(text) {
+        const lowercaseText = text.toLowerCase();
+        const keywords = [
+          'wrong', 'mistake', 'myth', 'lie', 'fail', 'never', 'always',
+          'forget', 'ignore', 'stop', 'quit', 'avoid', 'worst',
+          'best', 'only', 'fastest', 'easiest', 'most', 'least',
+          'every','secret', 'hidden', 'surprising', 'shocking', 'unusual', 'rare',
+          'stopping'
+        ];
         
-        element.style.fontSize = `${fontSize}px`;
-        console.log(`Adjusted ${element.className} font size to ${fontSize}px (${text.length} chars)`);
+        // Return keywords that match as whole words using regex word boundaries
+        return keywords.filter(keyword => {
+          const regex = new RegExp('\\b' + keyword + '\\b', 'i');
+          return regex.test(lowercaseText);
+        });
       }
       
-      // Adjust font sizes for all emotional content sections
-      const hookElement = document.querySelector('.emotional-hook');
-      const actionElement = document.querySelector('.action-step');
-      const rewardElement = document.querySelector('.emotional-reward');
-      
-      // Adjust each section with appropriate parameters
-      if (hookElement) {
-        adjustFontSize(hookElement, 40, 56, 36, 5); // Start reducing at 40 chars, from 56px to min 36px
-      }
-      
-      if (actionElement) {
-        adjustFontSize(actionElement, 60, 50, 30, 5); // Start reducing at 60 chars, from 50px to min 30px
-      }
-      
-      if (rewardElement) {
-        adjustFontSize(rewardElement, 50, 44, 28, 5); // Start reducing at 50 chars, from 44px to min 28px
-      }
+      // Call the enhancement function
+      enhanceContent();
     });
   </script>
 </head>
@@ -289,21 +370,59 @@
     </div>
     
     <div class="content">
-      <div class="quotation-mark">"</div>
-      
-      <% if (typeof emotionalHook !== 'undefined' && typeof actionStep !== 'undefined' && typeof emotionalReward !== 'undefined') { %>
-        <div class="emotional-structure">
-          <div class="emotional-hook" data-length="<%= emotionalHook.length %>"><%= emotionalHook %></div>
-          <div class="action-step" data-length="<%= actionStep.length %>"><%= actionStep %></div>
-          <div class="emotional-reward" data-length="<%= emotionalReward.length %>"><%= emotionalReward %></div>
+      <% /* NEW ATTENTION-GRABBING LAYOUT */ %>
+      <% if (typeof patternInterruptHook !== 'undefined' && patternInterruptHook) { %>
+        
+        <% /* Stat container that adapts based on content type */ %>
+        <div class="stat-box">
+          <div class="big-stat">23</div>
+          <div class="stat-unit">MIN</div>
         </div>
-      <% } else if (typeof quote !== 'undefined') { %>
-        <div class="quote"><%= quote %></div>
+        
+        <div class="stat-caption"><%= patternInterruptHook %></div>
+        
+        <div class="action-label">5-MINUTE FIX</div>
+        <div class="action-step"><%= actionStep %></div>
+        
+        <div class="result-container">
+          <div class="result-box">
+            <div class="result-icon">🚀</div>
+            <div class="result-text"><%= emotionalReward %></div>
+          </div>
+          
+          <% if (typeof saveReason !== 'undefined' && saveReason) { %>
+            <div class="save-box">Save this!</div>
+          <% } %>
+        </div>
+      
+      <% /* Fallback for legacy format */ %>
+      <% } else if (typeof emotionalHook !== 'undefined') { %>
+        <div class="stat-box">
+          <div class="big-stat">23</div>
+          <div class="stat-unit">MIN</div>
+        </div>
+        
+        <div class="stat-caption"><%= emotionalHook %></div>
+        
+        <div class="action-label">5-MINUTE FIX</div>
+        <div class="action-step"><%= actionStep %></div>
+        
+        <div class="result-container">
+          <div class="result-box">
+            <div class="result-icon">🚀</div>
+            <div class="result-text"><%= emotionalReward %></div>
+          </div>
+        </div>
+        
+        <% if (typeof saveReason !== 'undefined' && saveReason) { %>
+          <div class="save-box">Save this!</div>
+        <% } %>
       <% } %>
     </div>
     
     <div class="footer">
       <div class="handle">@<%= handle %></div>
+      <div class="time-indicator">Takes just 5 minutes</div>
     </div>
   </div>
 </body>

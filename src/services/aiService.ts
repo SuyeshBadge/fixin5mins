@@ -47,7 +47,11 @@ export class AiServiceClient {
         max_tokens: 1000
       });
 
-      return response.choices[0].message.content || '';
+      const content = response.choices[0].message.content;
+      if (!content) {
+        throw new Error('Unable to generate content: AI returned empty response');
+      }
+      return content;
     } catch (error: any) {
       // Check if error is a 404 "No endpoints found" error
       if (error.status === 404 && error.error?.message?.includes('No endpoints found')) {
