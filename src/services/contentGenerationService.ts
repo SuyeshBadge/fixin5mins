@@ -57,6 +57,12 @@ export interface EmotionalContentFormat {
   urgencyTrigger?: string;
   /** Why save this post (optional - enhanced viral element) */
   saveReason?: string;
+  /** Whether to display a metric (number) in the post */
+  hasMetric?: boolean;
+  /** The actual metric value to display (e.g., "87%", "1 hour", "3 steps") */
+  metricValue?: string;
+  /** The unit to display with the metric (e.g., "%", "MIN", "HR") */
+  metricUnit?: string;
 }
 
 /**
@@ -238,6 +244,9 @@ Respond ONLY with the JSON, no other text.`;
     topic: string,
     options: ContentGenerationOptions = {}
   ): Promise<ContentGenerationResponse> {
+    // Random chance to include metrics (approximately 30% of posts)
+    const shouldIncludeMetric = Math.random() < 0.3;
+    
     // Define the schema for emotional content with viral elements
     const schema: EmotionalContentFormat = {
       emotionalHook: "To-do lists actually REDUCE productivity by 27% (research-backed)",
@@ -250,8 +259,18 @@ Respond ONLY with the JSON, no other text.`;
       urgencyTrigger: "Every day you use traditional to-do lists costs you 74 minutes of lost productivity",
       saveReason: "Save this post for tomorrow morning before you start your workday",
       caption: "We all have those moments where our to-do list feels never-ending. But sometimes the simplest solution is to take a step back and organize our thoughts.",
-      hashtags: ["productivity", "mindfulness", "planning", "organizeyourlife", "fixin5mins"]
+      hashtags: ["productivity", "mindfulness", "planning", "organizeyourlife", "fixin5mins"],
+      hasMetric: shouldIncludeMetric // Randomly set to true or false
     };
+    
+    // Adjust schema based on randomization
+    if (shouldIncludeMetric) {
+      schema.metricValue = "27";
+      schema.metricUnit = "%";
+    } else {
+      schema.metricValue = "";
+      schema.metricUnit = "";
+    }
     
     // Enhanced system prompt optimized for viral content
     const enhancedSystemPrompt = 
@@ -265,13 +284,19 @@ Respond ONLY with the JSON, no other text.`;
       "5. socialProofElement - Evidence why this works (e.g., 'Stanford study found this increases output by 34%')\n" +
       "6. emotionalReward - The feeling after taking action (e.g., 'Feel immediate mental clarity instead of scattered anxiety')\n" +
       "7. urgencyTrigger - Reason to act now (e.g., 'Every day with traditional lists costs 74 minutes of lost productivity')\n" +
-      "8. saveReason - Why save this post (e.g., 'Save this for tomorrow morning before starting work')\n\n" +
+      "8. saveReason - Why save this post (e.g., 'Save this for tomorrow morning before starting work')\n" +
+      "9. hasMetric - Whether to display a metric/number (true or false) - IMPORTANT: Most posts should NOT have metrics\n" +
+      "10. metricValue - The actual value to display (only when hasMetric is true)\n" +
+      "11. metricUnit - The unit for the metric (e.g., '%', 'MIN', 'HR')\n\n" +
       
       "IMPORTANT FORMATTING RULES:\n" +
       "- Respond ONLY with valid JSON in the exact format requested\n" +
       "- Keep each section concise but impactful\n" +
       "- For required compatibility, ensure patternInterruptHook matches emotionalHook\n" +
       "- For required compatibility, ensure specificActionStep matches actionStep\n" +
+      "- VERY IMPORTANT: Set hasMetric to false for most posts. Only set to true when the content actually focuses on a specific numeric statistic\n" +
+      "- Do not add metrics artificially. Most posts should not have metrics displayed.\n" +
+      "- When hasMetric is true, extract the actual number for metricValue and appropriate unit for metricUnit\n" +
       "- Include 5-6 relevant hashtags including #fixin5mins\n" +
       "- All text must be plain, without any formatting or symbols\n" +
       "- Keep character counts reasonable for visual display";
@@ -296,10 +321,18 @@ Respond ONLY with the JSON, no other text.`;
   "urgencyTrigger": "Why the viewer should act on this advice today",
   "saveReason": "Why viewers should save this post for later reference",
   "caption": "Engaging caption that expands on the content (200 chars max)",
-  "hashtags": ["relevant", "hashtags", "fixin5mins"]
+  "hashtags": ["relevant", "hashtags", "fixin5mins"],
+  "hasMetric": ${shouldIncludeMetric}, // Default ${shouldIncludeMetric ? "true" : "false"} for this post
+  "metricValue": "${shouldIncludeMetric ? "27" : ""}", // ${shouldIncludeMetric ? "Example value" : "Only provide when hasMetric is true"}
+  "metricUnit": "${shouldIncludeMetric ? "%" : ""}" // ${shouldIncludeMetric ? "Example unit" : "Only provide when hasMetric is true"}
 }
 
-Make it incredibly surprising, specific, and save-worthy to drive viral engagement.`;
+CRITICAL INSTRUCTIONS:
+1. ${shouldIncludeMetric ? "This post template includes a metric, but you can change hasMetric to false if it doesn't fit your content" : "The default for this post is no metric, but you can set hasMetric to true if your content has a strong numeric focus"}
+2. Only use metrics when they're the central focus of the content (like "87% of people...")
+3. Do not force metrics into content where they don't naturally fit
+4. If you set hasMetric to true, make sure the emotionalHook clearly mentions the specific number
+5. Make content incredibly surprising, specific, and save-worthy to drive viral engagement`;
 
     // Generate the content using the structured content method
     try {
@@ -331,7 +364,10 @@ Make it incredibly surprising, specific, and save-worthy to drive viral engageme
           unexpectedTwist: this.cleanFormatting(result.content.unexpectedTwist || ''),
           socialProofElement: this.cleanFormatting(result.content.socialProofElement || ''),
           urgencyTrigger: this.cleanFormatting(result.content.urgencyTrigger || ''),
-          saveReason: this.cleanFormatting(result.content.saveReason || '')
+          saveReason: this.cleanFormatting(result.content.saveReason || ''),
+          hasMetric: result.content.hasMetric,
+          metricValue: result.content.metricValue,
+          metricUnit: result.content.metricUnit
         };
         
         // Return the content without truncation
@@ -430,6 +466,9 @@ Make it incredibly surprising, specific, and save-worthy to drive viral engageme
    * @returns Mock content in the emotional format
    */
   private getMockContentForTopic(topic: string): EmotionalContentFormat {
+    // Random chance to include metrics (approximately 30% of posts)
+    const shouldIncludeMetric = Math.random() < 0.3;
+    
     // Topic-specific templates for common topics with enhanced viral elements
     const templates: Record<string, EmotionalContentFormat> = {
       'mindfulness': {
@@ -445,7 +484,10 @@ Make it incredibly surprising, specific, and save-worthy to drive viral engageme
         unexpectedTwist: "Trying to 'clear your mind' actually increases thought volume by 34%",
         socialProofElement: "Harvard neuroscientists found this technique reduces cortisol levels by 27% in just one session",
         urgencyTrigger: "Each day of rumination reinforces neural pathways that keep you stuck",
-        saveReason: "Save for the next time you feel mentally scattered or overwhelmed"
+        saveReason: "Save for the next time you feel mentally scattered or overwhelmed",
+        hasMetric: true,
+        metricValue: "6000",
+        metricUnit: ""
       },
       'productivity': {
         emotionalHook: "91% of to-do lists fail because they ignore the biology of focus.",
@@ -460,7 +502,10 @@ Make it incredibly surprising, specific, and save-worthy to drive viral engageme
         unexpectedTwist: "Starting with your easiest task actually decreases overall productivity by 23%",
         socialProofElement: "Stanford research shows this approach increases completion rates by 83% for complex projects",
         urgencyTrigger: "Every day of delay reinforces the neural pathways of procrastination",
-        saveReason: "Save this technique for the next time you're feeling stuck on an important project"
+        saveReason: "Save this technique for the next time you're feeling stuck on an important project",
+        hasMetric: true,
+        metricValue: "91",
+        metricUnit: "%"
       },
       'anxiety': {
         emotionalHook: "Anxiety isn't in your mind—it's in your nervous system, according to neuroscientists.",
@@ -475,7 +520,10 @@ Make it incredibly surprising, specific, and save-worthy to drive viral engageme
         unexpectedTwist: "Talking about your anxiety can actually increase stress hormones by 43%",
         socialProofElement: "Used by combat veterans with 87% reporting immediate symptom reduction",
         urgencyTrigger: "Each anxiety spike without intervention strengthens the neural anxiety circuit",
-        saveReason: "Save for your next anxiety spike—it works faster than medication"
+        saveReason: "Save for your next anxiety spike—it works faster than medication",
+        hasMetric: false,
+        metricValue: "",
+        metricUnit: ""
       },
       'sleep': {
         emotionalHook: "Your brain makes sleep decisions 3 hours before bedtime, not when you close your eyes.",
@@ -490,7 +538,10 @@ Make it incredibly surprising, specific, and save-worthy to drive viral engageme
         unexpectedTwist: "Using blue-light blocking glasses is 43% less effective than this mental offloading technique",
         socialProofElement: "Sleep researchers at UCLA found this reduces middle-of-night wakeups by 63%",
         urgencyTrigger: "Each night of poor sleep compounds cognitive decline and increases stress hormones",
-        saveReason: "Save this for tonight if you're tired of staring at the ceiling at 2AM"
+        saveReason: "Save this for tonight if you're tired of staring at the ceiling at 2AM",
+        hasMetric: false,
+        metricValue: "",
+        metricUnit: ""
       },
       'confidence': {
         emotionalHook: "Impostor syndrome affects 85% of professionals but comes from a single cognitive error.",
@@ -505,7 +556,46 @@ Make it incredibly surprising, specific, and save-worthy to drive viral engageme
         unexpectedTwist: "Positive affirmations without evidence actually reinforce impostor feelings in 65% of people",
         socialProofElement: "Cognitive research shows this method reduces self-doubt by 47% after just one session",
         urgencyTrigger: "Every day without correcting your brain's negativity bias reinforces the impostor neural pathway",
-        saveReason: "Save for your next confidence crisis—it works when affirmations fail"
+        saveReason: "Save for your next confidence crisis—it works when affirmations fail",
+        hasMetric: true,
+        metricValue: "85",
+        metricUnit: "%"
+      },
+      'relationships': {
+        emotionalHook: "The strongest predictor of relationship success isn't compatibility—it's how you handle disagreements.",
+        actionStep: "Choose one recent conflict and write down what the other person was feeling, not just what they said.",
+        emotionalReward: "Transform recurring conflicts into opportunities for deeper understanding and connection.",
+        caption: "We obsess about finding the 'right person' when research shows relationship success depends more on how we navigate the inevitable conflicts. This simple perspective shift changes everything.",
+        hashtags: ["relationships", "communication", "emotionalintelligence", "conflictresolution", "connection", "fixin5mins"],
+        
+        // Enhanced viral elements
+        patternInterruptHook: "The strongest predictor of relationship success isn't compatibility—it's how you handle disagreements.",
+        contentPromise: "Learn the emotional reframing technique that elite couples therapists teach",
+        unexpectedTwist: "Avoiding arguments actually predicts divorce more reliably than frequent fighting",
+        socialProofElement: "Relationship researchers found couples who practice this have longer-lasting relationships",
+        urgencyTrigger: "Each conflict handled defensively creates emotional distance that becomes harder to bridge",
+        saveReason: "Save this for after your next disagreement with someone you care about",
+        hasMetric: false,
+        metricValue: "",
+        metricUnit: ""
+      },
+      'reading': {
+        emotionalHook: "Reading 1 hour daily makes you forget 87% of what you read",
+        actionStep: "Pick one article, read just 2 paragraphs now, then summarize in 3 bullet points",
+        emotionalReward: "Feel the satisfaction of actually retaining knowledge instead of forgetting",
+        caption: "We've all been there - reading for hours only to forget most of it. This simple active recall technique changes everything about how your brain processes information.",
+        hashtags: ["reading", "learning", "productivity", "knowledge", "studytips", "fixin5mins"],
+        
+        // Enhanced viral elements
+        patternInterruptHook: "Reading 1 hour daily makes you forget 87% of what you read",
+        contentPromise: "Learn the 5-minute retention hack used by top medical students",
+        unexpectedTwist: "Reading more actually decreases retention unless you use this pattern interrupt",
+        socialProofElement: "Memory researchers found this technique increases recall by 300% compared to passive reading",
+        urgencyTrigger: "Every book you read without this technique is mostly wasted time",
+        saveReason: "Save this for the next time you need to remember important information",
+        hasMetric: true,
+        metricValue: "87",
+        metricUnit: "%"
       }
     };
     
@@ -515,24 +605,57 @@ Make it incredibly surprising, specific, and save-worthy to drive viral engageme
     );
     
     if (matchingKey) {
-      return templates[matchingKey];
+      const template = { ...templates[matchingKey] };
+      
+      // Override the template's hasMetric based on randomization if it doesn't match a fixed template
+      if (matchingKey !== 'reading' && matchingKey !== 'productivity' && matchingKey !== 'mindfulness' && matchingKey !== 'confidence') {
+        template.hasMetric = shouldIncludeMetric;
+        
+        // If we're removing the metric that was set, clear the values
+        if (!shouldIncludeMetric && template.hasMetric) {
+          template.metricValue = "";
+          template.metricUnit = "";
+        }
+      }
+      
+      return template;
     }
     
     // Generic fallback template with viral elements
+    let emotionalHook, patternInterruptHook, metricValue, metricUnit;
+    
+    if (shouldIncludeMetric) {
+      // With metric version
+      metricValue = "90";
+      metricUnit = "%";
+      emotionalHook = `90% of people struggle with ${topic} because they're missing a critical insight.`;
+      patternInterruptHook = emotionalHook;
+    } else {
+      // Without metric version
+      metricValue = "";
+      metricUnit = "";
+      emotionalHook = `Most people struggle with ${topic} because they're missing a critical insight.`;
+      patternInterruptHook = emotionalHook;
+    }
+    
     return {
-      emotionalHook: `90% of people struggle with ${topic} because they're missing a critical insight.`,
+      emotionalHook,
       actionStep: `Take 5 minutes to write down your biggest ${topic} challenge, then circle the parts you can control in blue.`,
       emotionalReward: `Gain immediate clarity by separating what's actionable from what's just mental noise.`,
       caption: `Most ${topic} advice ignores the psychology of change. This simple clarity exercise cuts through the confusion and gives you a clear first step.`,
       hashtags: ["clarity", "mindset", "actionsteps", "progress", "breakthrough", "fixin5mins"],
       
       // Enhanced viral elements
-      patternInterruptHook: `90% of people struggle with ${topic} because they're missing a critical insight.`,
+      patternInterruptHook,
       contentPromise: `Learn the 5-minute clarity technique that transforms how you approach ${topic}`,
       unexpectedTwist: `Most ${topic} problems come from focusing on solutions before gaining clarity`,
       socialProofElement: `Psychological research shows this approach increases success rates by 340%`,
       urgencyTrigger: `Each day spent unclear about your ${topic} challenge compounds feelings of overwhelm`,
-      saveReason: `Save this for the next time you feel stuck with ${topic} challenges`
+      saveReason: `Save this for the next time you feel stuck with ${topic} challenges`,
+      // Apply randomization to metrics
+      hasMetric: shouldIncludeMetric,
+      metricValue,
+      metricUnit
     };
   }
-} 
+}

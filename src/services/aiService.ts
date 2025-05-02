@@ -44,6 +44,7 @@ export class AiServiceClient {
           { role: 'user', content: prompt }
         ],
         temperature: 0.7,
+        top_p: 0.8,
         max_tokens: 1000
       });
 
@@ -88,8 +89,8 @@ export class AiServiceClient {
       const fallbackModels = [
         FREE_MODELS.QWEN_7B,
         FREE_MODELS.MISTRAL_SMALL,
-        FREE_MODELS.MISTRAL_TINY,
-        FREE_MODELS.DEEPSEEK_CHAT,
+        FREE_MODELS.META_LLAMA_3_8B,
+        FREE_MODELS.META_LLAMA_4_MAVERICK,
       ].filter(m => m !== primaryModel);
       
       for (const model of fallbackModels) {

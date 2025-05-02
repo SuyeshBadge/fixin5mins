@@ -29,9 +29,23 @@ The EmotionalContentFormat consists of:
 
 We have been implementing an automatic daily post scheduler that handles Instagram content posting with randomly generated times and template rotation. The scheduler posts content twice daily - once in the morning and once in the evening - using random times that change each day to maintain unpredictability and engagement. The scheduler also ensures that consecutive posts use different templates to maintain visual variety.
 
-We have now enhanced the scheduling system to use optimal posting times for each day of the week based on Instagram engagement research. The scheduler now randomly selects from researched optimal time slots for each day (e.g., Monday: 3pm, 5pm, 7pm) with small variations (±15 minutes) to maintain unpredictability while maximizing potential engagement. The system selects different templates for consecutive posts and maintains state between runs.
+We have now enhanced the scheduling system to use optimal posting times for each day of the week based on Instagram engagement research. The scheduler now randomly selects from researched optimal time slots for each day (e.g., Monday: 3pm, 5pm, 7pm) with small variations (±15 minutes) to maintain unpredictability while maximizing potential engagement. The system selects different templates for consecutive posts and maintains state between runs. 
+
+Most recently, we've enhanced the scheduler to always post at script startup regardless of whether posts have already been scheduled for the day, and we've removed the artificial limit of 2 posts per day, allowing all optimal posting times defined for each day to be used. We've also fixed an issue where the scheduler could randomly select the same base time multiple times, resulting in clustered posts with similar posting times. Now it ensures each unique optimal time slot is used exactly once, providing better distribution throughout the day.
 
 ## Recent Changes
+
+- Fixed the post scheduler time distribution issue:
+  - Added generateSpecificOptimalPostingTime function to use a specific time slot
+  - Updated the scheduler to assign each unique optimal time slot exactly once
+  - Improved logging to show which base time slot is being used
+  - Prevented clustered posts by ensuring better time distribution
+
+- Enhanced the daily post scheduler:
+  - Modified the scheduler to always schedule posts at startup
+  - Removed the artificial limit of 2 posts per day
+  - Updated the scheduler to use all optimal posting times defined for each day
+  - Updated logging to clearly indicate posts are being scheduled at startup
 
 - Integrated OpenRouter for AI text generation:
   - Updated configuration to support OpenRouter settings
@@ -42,13 +56,6 @@ We have now enhanced the scheduling system to use optimal posting times for each
   - Created comprehensive test scripts for OpenRouter integration
   - Expanded mock content system with high-quality topic templates
   - Updated package.json with new test scripts
-
-- Enhanced post scheduler with optimal posting times:
-  - Implemented day-specific optimal time configuration based on Instagram research
-  - Created a system to select from researched optimal posting slots for each day
-  - Added small random variations (±15 minutes) to maintain unpredictability
-  - Updated state management to track scheduled optimal time slots
-  - Enhanced logging to show the optimal time selection process
 
 - Created a new motivation-accent template:
   - Implemented a clean design with cream/beige background and bold typography
@@ -126,33 +133,36 @@ We have now enhanced the scheduling system to use optimal posting times for each
 9. **State Persistence**: Using a local JSON file to track last used template and posting times
 10. **Schedule Regeneration**: Creating new schedules at midnight each day based on the current day's optimal times
 11. **Production Deployment**: Recommending PM2 for running the scheduler in production environments
-12. **Template Design**: Created motivation-accent template with a clean cream background, bold typography, and highlighted words
-13. **Word Highlighting**: Implementing automatic extraction and highlighting of first words from emotionalHook and actionStep
-14. **Visual Elements**: Using accent dot, arrow, and black dots for visual interest and modern aesthetic
-15. **Previous Template Design**: Created self-love-gradient template with a soothing gradient background and premium typography
-16. **Font Selection**: Using Outfit for motivation-accent template; using Playfair Display, Great Vibes, and Cormorant Garamond for self-love-gradient template
-17. **Layout Design**: Positioned handle name at the top, emotionalReward below main text, and date at the bottom
-18. **Responsive Design**: Implemented dynamic font sizing to accommodate various content lengths
-19. **Cloud Image Hosting**: Integrated Cloudinary for reliable image hosting before posting to Instagram
-20. **Instagram API Approach**: Implemented separate functions for carousel and single image posting to handle Instagram's API requirements correctly
-21. **Brand Messaging**: Updated template heading to better reflect brand voice ("Fix your life in 5 minutes")
-22. **Offline Capability**: Added mock mode to ensure the script can function without external AI services
-23. **Graceful Degradation**: Implemented automatic fallback to predefined templates when AI service fails
-24. **Topic-Specific Templates**: Created custom templates for common topics to ensure quality content
-25. **End-to-End Automation**: Created a single script to handle the entire process from content generation to Instagram posting
-26. **Command-Line Interface**: Implemented a flexible CLI with options to control topic, template, and posting behavior
-27. **Emotional Content Structure**: Standardized the emotional content format with three components - hook, action step, and reward
-28. **System Prompt Design**: Created a detailed system prompt for emotional content generation that emphasizes concise, actionable advice
-29. **Content Structure**: Using hooks, action steps, and rewards for the emotional structure format
-30. **Image Generation**: Using Puppeteer for headless browser rendering
-31. **Social Media Integration**: Enhanced Instagram carousel posting for multi-image content
-32. **Emotional Themes**: Implemented support for various emotional themes in templates
-33. **Inline Styles**: Used inline styles in the EJS template to avoid CSS parsing issues
-34. **Content Generation Service**: Used TypeScript interfaces for better type safety
-35. **JSON Extraction**: Implemented JSON extraction for cases where the AI might add extra text
-36. **Error Handling**: Added error handling for all potential failure points
-37. **Structured Content Generation**: Created a specialized method for generating structured content
-38. **Compatibility**: Maintained compatibility with the existing AiServiceClient
+12. **Immediate Scheduling**: Always scheduling posts at script startup, regardless of existing schedules
+13. **Full Schedule Usage**: Using all optimal posting times defined for each day without limitation
+14. **Unique Time Slot Assignment**: Ensuring each optimal time slot is used exactly once for better distribution
+15. **Template Design**: Created motivation-accent template with a clean cream background, bold typography, and highlighted words
+16. **Word Highlighting**: Implementing automatic extraction and highlighting of first words from emotionalHook and actionStep
+17. **Visual Elements**: Using accent dot, arrow, and black dots for visual interest and modern aesthetic
+18. **Previous Template Design**: Created self-love-gradient template with a soothing gradient background and premium typography
+19. **Font Selection**: Using Outfit for motivation-accent template; using Playfair Display, Great Vibes, and Cormorant Garamond for self-love-gradient template
+20. **Layout Design**: Positioned handle name at the top, emotionalReward below main text, and date at the bottom
+21. **Responsive Design**: Implemented dynamic font sizing to accommodate various content lengths
+22. **Cloud Image Hosting**: Integrated Cloudinary for reliable image hosting before posting to Instagram
+23. **Instagram API Approach**: Implemented separate functions for carousel and single image posting to handle Instagram's API requirements correctly
+24. **Brand Messaging**: Updated template heading to better reflect brand voice ("Fix your life in 5 minutes")
+25. **Offline Capability**: Added mock mode to ensure the script can function without external AI services
+26. **Graceful Degradation**: Implemented automatic fallback to predefined templates when AI service fails
+27. **Topic-Specific Templates**: Created custom templates for common topics to ensure quality content
+28. **End-to-End Automation**: Created a single script to handle the entire process from content generation to Instagram posting
+29. **Command-Line Interface**: Implemented a flexible CLI with options to control topic, template, and posting behavior
+30. **Emotional Content Structure**: Standardized the emotional content format with three components - hook, action step, and reward
+31. **System Prompt Design**: Created a detailed system prompt for emotional content generation that emphasizes concise, actionable advice
+32. **Content Structure**: Using hooks, action steps, and rewards for the emotional structure format
+33. **Image Generation**: Using Puppeteer for headless browser rendering
+34. **Social Media Integration**: Enhanced Instagram carousel posting for multi-image content
+35. **Emotional Themes**: Implemented support for various emotional themes in templates
+36. **Inline Styles**: Used inline styles in the EJS template to avoid CSS parsing issues
+37. **Content Generation Service**: Used TypeScript interfaces for better type safety
+38. **JSON Extraction**: Implemented JSON extraction for cases where the AI might add extra text
+39. **Error Handling**: Added error handling for all potential failure points
+40. **Structured Content Generation**: Created a specialized method for generating structured content
+41. **Compatibility**: Maintained compatibility with the existing AiServiceClient
 
 ## Next Steps
 

@@ -282,36 +282,20 @@
         // Get the main text elements
         const insightText = document.querySelector('.insight-text')?.textContent || '';
         
-        // Check for numbers in the text
-        const numberMatch = insightText.match(/\b(\d+)(?:\.\d+)?%?\b/);
-        
-        if (numberMatch && numberMatch[1]) {
-          // STATISTICAL CONTENT: Emphasize the number
+        // Check if we have explicit metric configuration
+        <% if (typeof hasMetric !== 'undefined' && hasMetric === true) { %>
+          // STATISTICAL CONTENT: Use provided metric
           document.querySelector('.content').classList.add('stat-focus');
           
-          // Extract and display the number
-          const number = numberMatch[1];
+          // Set the metric value
           const bigStat = document.querySelector('.big-stat');
-          if (bigStat) bigStat.textContent = number;
+          if (bigStat) bigStat.textContent = '<%= metricValue %>';
           
-          // Determine and set appropriate unit
-          let unit = '';
-          if (insightText.includes('%')) {
-            unit = '%';
-          } else if (insightText.toLowerCase().includes('minute')) {
-            unit = 'MIN';
-          } else if (insightText.toLowerCase().includes('second')) {
-            unit = 'SEC';
-          } else if (insightText.toLowerCase().includes('hour')) {
-            unit = 'HRS';
-          } else if (insightText.toLowerCase().includes('day')) {
-            unit = 'DAYS';
-          }
-          
+          // Set the unit if provided
           const statUnit = document.querySelector('.stat-unit');
-          if (statUnit) statUnit.textContent = unit;
-        } else {
-          // TEXT-BASED CONTENT: Emphasize key phrases/words
+          if (statUnit) statUnit.textContent = '<%= metricUnit %>';
+        <% } else { %>
+          // Text-based content without metric
           document.querySelector('.content').classList.add('text-focus');
           
           // Look for key words/phrases to highlight
@@ -335,7 +319,7 @@
               if (insightElement) insightElement.innerHTML = newText;
             }
           }
-        }
+        <% } %>
       }
       
       // Find keywords that should be highlighted for emphasis
@@ -383,10 +367,14 @@
     <div class="content">
       <% // Determine if we're using enhanced viral content or legacy content %>
       <% if (typeof patternInterruptHook !== 'undefined' && patternInterruptHook) { %>
+        <% if (typeof hasMetric !== 'undefined' && hasMetric === true && metricValue) { %>
         <div class="stat-box">
-          <div class="big-stat">23</div>
-          <div class="stat-unit">MIN</div>
+          <div class="big-stat"><%= metricValue %></div>
+          <div class="stat-unit"><%= metricUnit %></div>
         </div>
+        <% } else { %>
+        <!-- No metric display for this content -->
+        <% } %>
         
         <div class="insight-text"><%= patternInterruptHook %></div>
         
@@ -404,10 +392,14 @@
           <div class="save-tag">Save this!</div>
         <% } %>
       <% } else { %>
+        <% if (typeof hasMetric !== 'undefined' && hasMetric === true && metricValue) { %>
         <div class="stat-box">
-          <div class="big-stat">23</div>
-          <div class="stat-unit">MIN</div>
+          <div class="big-stat"><%= metricValue %></div>
+          <div class="stat-unit"><%= metricUnit %></div>
         </div>
+        <% } else { %>
+        <!-- No metric display for this content -->
+        <% } %>
         
         <div class="insight-text"><%= emotionalHook %></div>
         

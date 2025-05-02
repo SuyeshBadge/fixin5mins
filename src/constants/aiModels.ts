@@ -6,10 +6,10 @@
  * Free models available on OpenRouter
  */
 export const FREE_MODELS = {
-  MISTRAL_SMALL: 'mistralai/mistral-small',
-  MISTRAL_TINY: 'mistralai/mistral-tiny',
-  DEEPSEEK_CHAT: 'deepseek-ai/deepseek-chat-1.3b',
-  QWEN_7B: 'qwen/qwen3-4b:free'
+  META_LLAMA_4_MAVERICK: 'meta-llama/llama-4-maverick:free',
+  META_LLAMA_3_8B: 'meta-llama/llama-3.1-8b-instruct:free',
+  QWEN_7B: 'qwen/qwen3-4b:free',
+  MISTRAL_SMALL: 'mistralai/mistral-small-3.1-24b-instruct:free'
 };
 
 /**

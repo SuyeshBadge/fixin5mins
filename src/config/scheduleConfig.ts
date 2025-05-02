@@ -179,4 +179,42 @@ export function formatDateToCron(date: Date): string {
   
   // cron format: minute hour * * *
   return `${minutes} ${hours} * * *`;
+}
+
+/**
+ * Generates a time based on a specific optimal posting time index for the given day
+ * with small random variation (±15 minutes)
+ * @param dayOfWeek Day of week (0-6, Sunday-Saturday)
+ * @param index Index of the optimal time to use
+ * @returns Time based on the specified optimal time
+ */
+export function generateSpecificOptimalPostingTime(dayOfWeek: number, index: number): Date {
+  const now = new Date();
+  const optimalTimes = OPTIMAL_POSTING_TIMES[dayOfWeek];
+  
+  if (!optimalTimes || optimalTimes.length === 0) {
+    throw new Error(`No optimal times configured for day ${dayOfWeek}`);
+  }
+  
+  if (index < 0 || index >= optimalTimes.length) {
+    throw new Error(`Invalid index ${index} for day ${dayOfWeek}. Valid range: 0-${optimalTimes.length - 1}`);
+  }
+  
+  const selectedTime = optimalTimes[index];
+  
+  // Create date object for today with the selected time
+  const date = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    selectedTime.hour,
+    selectedTime.minute,
+    0
+  );
+  
+  // Add random variation (±MAX_TIME_VARIATION_MINUTES minutes)
+  const randomVariation = Math.floor(Math.random() * (MAX_TIME_VARIATION_MINUTES * 2 + 1)) - MAX_TIME_VARIATION_MINUTES;
+  date.setMinutes(date.getMinutes() + randomVariation);
+  
+  return date;
 } 
