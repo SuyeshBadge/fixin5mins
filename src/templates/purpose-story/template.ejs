@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purpose Story Template</title>
+  <style>
+    /* Import Google Fonts for clean typography */
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+    
+    .container {
+      width: 1080px;
+      height: 1080px;
+      position: relative;
+      background: linear-gradient(135deg, #f8f5ef 0%, #f9efe9 50%, #fce8e1 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px;
+      box-sizing: border-box;
+    }
+    
+    .top-label {
+      position: absolute;
+      top: 60px;
+      left: 60px;
+      background-color: #0f1221;
+      color: white;
+      font-family: 'Oswald', sans-serif;
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      padding: 8px 20px;
+      text-transform: uppercase;
+      transform: skew(-10deg);
+    }
+    
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 920px;
+      width: 100%;
+      padding: 0 20px;
+    }
+    
+    .main-message {
+      font-family: 'Oswald', sans-serif;
+      font-size: 130px;
+      line-height: 1.1;
+      font-weight: 900;
+      color: #0f1221;
+      margin: 0 0 30px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    
+    /* Smaller font size for longer text */
+    .main-message.long-text {
+      font-size: 100px;
+    }
+    
+    /* Even smaller for very long text */
+    .main-message.very-long-text {
+      font-size: 76px;
+      line-height: 1.05;
+    }
+    
+    .action-step {
+      font-family: 'Oswald', sans-serif;
+      font-size: 60px;
+      line-height: 1.2;
+      font-weight: 700;
+      color: #0f1221;
+      margin: 30px 0 50px;
+      text-align: center;
+      text-transform: uppercase;
+      max-width: 850px;
+    }
+    
+    /* Smaller font for longer action step text */
+    .action-step.long-text {
+      font-size: 48px;
+    }
+    
+    /* Even smaller for very long action step text */
+    .action-step.very-long-text {
+      font-size: 36px;
+      line-height: 1.3;
+      max-width: 900px;
+    }
+    
+    .emotional-reward {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      line-height: 1.3;
+      font-weight: 500;
+      color: #333;
+      margin: 0 0 40px;
+      text-align: center;
+      max-width: 800px;
+      font-style: italic;
+    }
+    
+    .decorative-line {
+      width: 400px;
+      height: 2px;
+      background-color: rgba(236, 141, 114, 0.5);
+      margin: 30px 0 40px;
+      position: relative;
+    }
+    
+    .brand-box {
+      position: absolute;
+      bottom: 60px;
+      right: 60px;
+      background-color: #0f1221;
+      padding: 8px 20px;
+      transform: skew(-10deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .brand-name {
+      font-family: 'Oswald', sans-serif;
+      color: white;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .brand-subtitle {
+      font-family: 'Outfit', sans-serif;
+      color: white;
+      font-size: 18px;
+      font-weight: 300;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    
+    .handle {
+      position: absolute;
+      bottom: 60px;
+      left: 60px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: #0f1221;
+    }
+    
+    .date {
+      position: absolute;
+      top: 60px;
+      right: 60px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #555;
+    }
+    
+    .save-box {
+      position: absolute;
+      right: 160px;
+      bottom: 60px;
+      background-color: #0f1221;
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+      padding: 10px 25px;
+      border-radius: 50px;
+      transform: skew(-10deg);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      z-index: 10;
+    }
+    
+    .save-box::before {
+      content: "🔖";
+      margin-right: 8px;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Adaptive content enhancement
+      function adaptContent() {
+        // Check which content format we're using
+        const useEmotionalFormat = document.querySelector('.emotional-format');
+        const useStandardFormat = document.querySelector('.standard-format');
+        
+        if (useEmotionalFormat) {
+          // Using emotional content format
+          document.querySelector('.content').classList.add('emotional-content');
+        } else if (useStandardFormat) {
+          // Using standard content format
+          document.querySelector('.content').classList.add('standard-content');
+        }
+        
+        // Adjust font size based on text length for main message
+        const mainMessage = document.querySelector('.main-message');
+        if (mainMessage) {
+          const textLength = mainMessage.textContent.trim().length;
+          if (textLength > 50) {
+            mainMessage.classList.add('very-long-text');
+          } else if (textLength > 25) {
+            mainMessage.classList.add('long-text');
+          }
+        }
+        
+        // Adjust font size based on text length for action step
+        const actionStep = document.querySelector('.action-step');
+        if (actionStep) {
+          const textLength = actionStep.textContent.trim().length;
+          if (textLength > 100) {
+            actionStep.classList.add('very-long-text');
+          } else if (textLength > 60) {
+            actionStep.classList.add('long-text');
+          }
+        }
+      }
+      
+      // Apply content adaptations
+      adaptContent();
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="top-label"><%= topLabel || 'Fix It' %></div>
+    
+    <% if (typeof date !== 'undefined' && date && date.trim && date.trim() !== '') { %>
+      <div class="date"><%= date %></div>
+    <% } %>
+    
+    <% // Determine which content format to use %>
+    <% if (typeof emotionalHook !== 'undefined' || typeof patternInterruptHook !== 'undefined') { %>
+      <div class="content emotional-format">
+        <% if (typeof patternInterruptHook !== 'undefined' && patternInterruptHook) { %>
+          <div class="main-message"><%= patternInterruptHook %></div>
+        <% } else { %>
+          <div class="main-message"><%= emotionalHook %></div>
+        <% } %>
+        
+        <div class="decorative-line"></div>
+        
+        <% if (typeof actionStep !== 'undefined' && actionStep) { %>
+          <div class="action-step"><%= actionStep %></div>
+        <% } %>
+        
+        <% if (typeof emotionalReward !== 'undefined' && emotionalReward) { %>
+          <div class="emotional-reward"><%= emotionalReward %></div>
+        <% } %>
+      </div>
+    <% } else { %>
+      <div class="content standard-format">
+        <div class="main-message"><%= mainMessage || 'LIVE YOUR PURPOSE!' %></div>
+        <div class="decorative-line"></div>
+      </div>
+    <% } %>
+    
+    
+    <% if (typeof saveReason !== 'undefined' && saveReason) { %>
+      <div class="save-box">Save this!</div>
+    <% } %>
+    
+    <div class="handle">@<%= handle %></div>
+  </div>
+</body>
+</html> 

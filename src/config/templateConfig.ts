@@ -80,6 +80,21 @@ export const templateConfig: TemplateConfig = {
       date: ""
     }
   },
+  "purpose-story": {
+    id: "purpose-story",
+    type: "quote",
+    fileCount: 1,
+    files: [
+      { fileName: "template.ejs", variableMapping: "mainTemplate" }
+    ],
+    defaultVariables: {
+      topLabel: "MOTIVATION",
+      mainMessage: "LIVE YOUR PURPOSE!",
+      brandName: "HANOVER",
+      brandSubtitle: "AND TYKE",
+      handle: "fixin5mins"
+    }
+  },
   "post-gradient": {
     id: "post-gradient",
     type: "post",

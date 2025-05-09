@@ -1,33 +1,8 @@
 [
   {
-    "topic": "decision fatigue reduction",
-    "category": "productivity",
-    "lastUsed": 1746091895020
-  },
-  {
-    "topic": "distraction management",
-    "category": "productivity",
-    "lastUsed": 1746095331015
-  },
-  {
-    "topic": "habit stacking",
-    "category": "productivity",
-    "lastUsed": 1746116811410
-  },
-  {
-    "topic": "daily planning",
-    "category": "productivity",
-    "lastUsed": 1746182554801
-  },
-  {
-    "topic": "weekly reviews",
-    "category": "productivity",
-    "lastUsed": 1745906266001
-  },
-  {
     "topic": "80/20 rule application",
     "category": "productivity",
-    "lastUsed": 1745906267001
+    "lastUsed": 1746592542781
   },
   {
     "topic": "focus rituals",
@@ -60,29 +35,9 @@
     "lastUsed": 1745906273001
   },
   {
-    "topic": "mindful breathing",
-    "category": "mindfulness",
-    "lastUsed": 1746092071877
-  },
-  {
-    "topic": "loving-kindness meditation",
-    "category": "mindfulness",
-    "lastUsed": 1746095513799
-  },
-  {
-    "topic": "gratitude journaling",
-    "category": "mindfulness",
-    "lastUsed": 1746116825539
-  },
-  {
-    "topic": "mindful walking",
-    "category": "mindfulness",
-    "lastUsed": 1746185731222
-  },
-  {
     "topic": "present moment practice",
     "category": "mindfulness",
-    "lastUsed": 1745906280001
+    "lastUsed": 1746601944128
   },
   {
     "topic": "emotional regulation through mindfulness",
@@ -125,29 +80,9 @@
     "lastUsed": 1745906288001
   },
   {
-    "topic": "dynamic stretching",
-    "category": "physical_health",
-    "lastUsed": 1746092148918
-  },
-  {
-    "topic": "importance of hydration",
-    "category": "physical_health",
-    "lastUsed": 1746116108039
-  },
-  {
-    "topic": "balanced diet principles",
-    "category": "physical_health",
-    "lastUsed": 1746116845747
-  },
-  {
-    "topic": "sleep optimization",
-    "category": "physical_health",
-    "lastUsed": 1745906294001
-  },
-  {
     "topic": "circadian rhythm management",
     "category": "physical_health",
-    "lastUsed": 1745906295001
+    "lastUsed": 1746605702125
   },
   {
     "topic": "rest and recovery strategies",
@@ -190,29 +125,9 @@
     "lastUsed": 1745906303001
   },
   {
-    "topic": "managing self-talk",
-    "category": "mental_health",
-    "lastUsed": 1746092206271
-  },
-  {
-    "topic": "building self-compassion",
-    "category": "mental_health",
-    "lastUsed": 1746116172534
-  },
-  {
-    "topic": "preventing burnout",
-    "category": "mental_health",
-    "lastUsed": 1746160741823
-  },
-  {
-    "topic": "handling social comparison",
-    "category": "mental_health",
-    "lastUsed": 1745906309001
-  },
-  {
     "topic": "building psychological flexibility",
     "category": "mental_health",
-    "lastUsed": 1745906310001
+    "lastUsed": 1746617401517
   },
   {
     "topic": "coping mechanisms",
@@ -255,29 +170,9 @@
     "lastUsed": 1745906318001
   },
   {
-    "topic": "giving and receiving feedback",
-    "category": "relationships",
-    "lastUsed": 1746092427681
-  },
-  {
-    "topic": "building trust",
-    "category": "relationships",
-    "lastUsed": 1746116217761
-  },
-  {
-    "topic": "emotional availability",
-    "category": "relationships",
-    "lastUsed": 1746169762196
-  },
-  {
-    "topic": "navigating difficult conversations",
-    "category": "relationships",
-    "lastUsed": 1745906324001
-  },
-  {
     "topic": "relationship repair strategies",
     "category": "relationships",
-    "lastUsed": 1745906325001
+    "lastUsed": 1746690455074
   },
   {
     "topic": "empathy deepening exercises",
@@ -320,29 +215,9 @@
     "lastUsed": 1745906333001
   },
   {
-    "topic": "personal branding",
-    "category": "career",
-    "lastUsed": 1746092901122
-  },
-  {
-    "topic": "negotiation skills",
-    "category": "career",
-    "lastUsed": 1746116263791
-  },
-  {
-    "topic": "strategic thinking",
-    "category": "career",
-    "lastUsed": 1746171482356
-  },
-  {
-    "topic": "remote collaboration skills",
-    "category": "career",
-    "lastUsed": 1745906339001
-  },
-  {
     "topic": "leading remote teams",
     "category": "career",
-    "lastUsed": 1745906340001
+    "lastUsed": 1746690553263
   },
   {
     "topic": "time blocking at work",
@@ -385,34 +260,9 @@
     "lastUsed": 1745906348001
   },
   {
-    "topic": "Feynman technique",
-    "category": "learning",
-    "lastUsed": 1746088606893
-  },
-  {
-    "topic": "active recall methods",
-    "category": "learning",
-    "lastUsed": 1746093037282
-  },
-  {
-    "topic": "building a personal knowledge base",
-    "category": "learning",
-    "lastUsed": 1746116319808
-  },
-  {
-    "topic": "incremental reading",
-    "category": "learning",
-    "lastUsed": 1746178982008
-  },
-  {
-    "topic": "learning in public",
-    "category": "learning",
-    "lastUsed": 1745906354001
-  },
-  {
     "topic": "mental models",
     "category": "learning",
-    "lastUsed": 1745906355001
+    "lastUsed": 1746691793363
   },
   {
     "topic": "cognitive biases awareness",
@@ -455,34 +305,9 @@
     "lastUsed": 1745906363001
   },
   {
-    "topic": "rapid prototyping ideas",
-    "category": "creativity",
-    "lastUsed": 1746088619515
-  },
-  {
-    "topic": "design sprints",
-    "category": "creativity",
-    "lastUsed": 1746093122761
-  },
-  {
-    "topic": "mind mapping",
-    "category": "creativity",
-    "lastUsed": 1746116405714
-  },
-  {
-    "topic": "storytelling fundamentals",
-    "category": "creativity",
-    "lastUsed": 1746181928604
-  },
-  {
-    "topic": "reverse brainstorming",
-    "category": "creativity",
-    "lastUsed": 1745906369001
-  },
-  {
     "topic": "creative confidence building",
     "category": "creativity",
-    "lastUsed": 1745906370001
+    "lastUsed": 1746768430373
   },
   {
     "topic": "rituals for creativity",
@@ -525,34 +350,9 @@
     "lastUsed": 1745906378001
   },
   {
-    "topic": "zero-based budgeting",
-    "category": "financial",
-    "lastUsed": 1746088675279
-  },
-  {
-    "topic": "paying yourself first",
-    "category": "financial",
-    "lastUsed": 1746093307319
-  },
-  {
-    "topic": "debt snowball method",
-    "category": "financial",
-    "lastUsed": 1746116468756
-  },
-  {
-    "topic": "retirement planning basics",
-    "category": "financial",
-    "lastUsed": 1746181958035
-  },
-  {
-    "topic": "index fund investing",
-    "category": "financial",
-    "lastUsed": 1745906384001
-  },
-  {
     "topic": "building multiple income streams",
     "category": "financial",
-    "lastUsed": 1745906385001
+    "lastUsed": 1746768514813
   },
   {
     "topic": "financial literacy fundamentals",
@@ -595,34 +395,14 @@
     "lastUsed": 1745906393001
   },
   {
-    "topic": "life audit exercises",
-    "category": "personal_growth",
-    "lastUsed": 1746088749399
-  },
-  {
-    "topic": "building self-discipline",
-    "category": "personal_growth",
-    "lastUsed": 1746093409596
-  },
-  {
-    "topic": "embracing vulnerability",
-    "category": "personal_growth",
-    "lastUsed": 1746116480195
-  },
-  {
-    "topic": "growth mindset cultivation",
-    "category": "personal_growth",
-    "lastUsed": 1746182035809
-  },
-  {
     "topic": "sabbatical planning",
     "category": "personal_growth",
-    "lastUsed": 1745906399001
+    "lastUsed": 1746504219136
   },
   {
     "topic": "mindset shifts for change",
     "category": "personal_growth",
-    "lastUsed": 1745906400001
+    "lastUsed": 1746778807616
   },
   {
     "topic": "narrative reframing",
@@ -665,34 +445,14 @@
     "lastUsed": 1745906408001
   },
   {
-    "topic": "turn off unused lights",
-    "category": "environmental_mindfulness",
-    "lastUsed": 1746088867173
-  },
-  {
-    "topic": "shorter showers",
-    "category": "environmental_mindfulness",
-    "lastUsed": 1746093690773
-  },
-  {
-    "topic": "eco-friendly commuting",
-    "category": "environmental_mindfulness",
-    "lastUsed": 1746116498808
-  },
-  {
-    "topic": "recycling habits",
-    "category": "environmental_mindfulness",
-    "lastUsed": 1746182081056
-  },
-  {
     "topic": "plant a tree",
     "category": "environmental_mindfulness",
-    "lastUsed": 1745906414001
+    "lastUsed": 1746504247069
   },
   {
     "topic": "minimalist purchasing",
     "category": "environmental_mindfulness",
-    "lastUsed": 1745906415001
+    "lastUsed": 1746778884726
   },
   {
     "topic": "upcycling projects",
@@ -710,29 +470,9 @@
     "lastUsed": 1745906418001
   },
   {
-    "topic": "short walk break",
-    "category": "self_care",
-    "lastUsed": 1746090193765
-  },
-  {
-    "topic": "digital detox break",
-    "category": "self_care",
-    "lastUsed": 1746093819378
-  },
-  {
-    "topic": "positive self-talk",
-    "category": "self_care",
-    "lastUsed": 1746116602249
-  },
-  {
-    "topic": "pampering rituals",
-    "category": "self_care",
-    "lastUsed": 1746182204913
-  },
-  {
     "topic": "solo date ideas",
     "category": "self_care",
-    "lastUsed": 1745906424001
+    "lastUsed": 1746538801933
   },
   {
     "topic": "nurture a hobby",
@@ -755,29 +495,9 @@
     "lastUsed": 1745906428001
   },
   {
-    "topic": "review to-do list",
-    "category": "organization",
-    "lastUsed": 1746090564296
-  },
-  {
-    "topic": "organize digital files",
-    "category": "organization",
-    "lastUsed": 1746095133707
-  },
-  {
-    "topic": "clean out email inbox",
-    "category": "organization",
-    "lastUsed": 1746116651455
-  },
-  {
-    "topic": "refresh workspace",
-    "category": "organization",
-    "lastUsed": 1746182224012
-  },
-  {
     "topic": "set daily goals",
     "category": "organization",
-    "lastUsed": 1745906434001
+    "lastUsed": 1746592508062
   },
   {
     "topic": "plan weekly menu",
@@ -800,29 +520,9 @@
     "lastUsed": 1745906438001
   },
   {
-    "topic": "unsubscribe from one email list",
-    "category": "technology_habits",
-    "lastUsed": 1746091843657
-  },
-  {
-    "topic": "clean up phone apps",
-    "category": "technology_habits",
-    "lastUsed": 1746095300140
-  },
-  {
-    "topic": "use a focus timer app",
-    "category": "technology_habits",
-    "lastUsed": 1746116670949
-  },
-  {
-    "topic": "curate your media feed",
-    "category": "technology_habits",
-    "lastUsed": 1746182518228
-  },
-  {
     "topic": "one tech-free hour daily",
     "category": "technology_habits",
-    "lastUsed": 1745906444001
+    "lastUsed": 1746592515433
   },
   {
     "topic": "organize cloud storage",
@@ -955,11 +655,6 @@
     "lastUsed": 1746084615180
   },
   {
-    "topic": "focus",
-    "category": "other",
-    "lastUsed": 1746092637014
-  },
-  {
     "topic": "mindfulness",
     "category": "other",
     "lastUsed": 1746086427338
@@ -973,5 +668,310 @@
     "topic": "long-form productivity content with extremely detailed instructions and extensive recommendations for maximizing efficiency and time management",
     "category": "other",
     "lastUsed": 1746086995555
+  },
+  {
+    "topic": "Feynman technique",
+    "category": "learning",
+    "lastUsed": 1746088606893
+  },
+  {
+    "topic": "rapid prototyping ideas",
+    "category": "creativity",
+    "lastUsed": 1746088619515
+  },
+  {
+    "topic": "zero-based budgeting",
+    "category": "financial",
+    "lastUsed": 1746088675279
+  },
+  {
+    "topic": "life audit exercises",
+    "category": "personal_growth",
+    "lastUsed": 1746088749399
+  },
+  {
+    "topic": "turn off unused lights",
+    "category": "environmental_mindfulness",
+    "lastUsed": 1746088867173
+  },
+  {
+    "topic": "short walk break",
+    "category": "self_care",
+    "lastUsed": 1746090193765
+  },
+  {
+    "topic": "review to-do list",
+    "category": "organization",
+    "lastUsed": 1746090564296
+  },
+  {
+    "topic": "unsubscribe from one email list",
+    "category": "technology_habits",
+    "lastUsed": 1746091843657
+  },
+  {
+    "topic": "decision fatigue reduction",
+    "category": "productivity",
+    "lastUsed": 1746091895020
+  },
+  {
+    "topic": "mindful breathing",
+    "category": "mindfulness",
+    "lastUsed": 1746092071877
+  },
+  {
+    "topic": "dynamic stretching",
+    "category": "physical_health",
+    "lastUsed": 1746092148918
+  },
+  {
+    "topic": "managing self-talk",
+    "category": "mental_health",
+    "lastUsed": 1746092206271
+  },
+  {
+    "topic": "giving and receiving feedback",
+    "category": "relationships",
+    "lastUsed": 1746092427681
+  },
+  {
+    "topic": "focus",
+    "category": "other",
+    "lastUsed": 1746092637014
+  },
+  {
+    "topic": "personal branding",
+    "category": "career",
+    "lastUsed": 1746092901122
+  },
+  {
+    "topic": "active recall methods",
+    "category": "learning",
+    "lastUsed": 1746093037282
+  },
+  {
+    "topic": "design sprints",
+    "category": "creativity",
+    "lastUsed": 1746093122761
+  },
+  {
+    "topic": "paying yourself first",
+    "category": "financial",
+    "lastUsed": 1746093307319
+  },
+  {
+    "topic": "building self-discipline",
+    "category": "personal_growth",
+    "lastUsed": 1746093409596
+  },
+  {
+    "topic": "shorter showers",
+    "category": "environmental_mindfulness",
+    "lastUsed": 1746093690773
+  },
+  {
+    "topic": "digital detox break",
+    "category": "self_care",
+    "lastUsed": 1746093819378
+  },
+  {
+    "topic": "organize digital files",
+    "category": "organization",
+    "lastUsed": 1746095133707
+  },
+  {
+    "topic": "clean up phone apps",
+    "category": "technology_habits",
+    "lastUsed": 1746095300140
+  },
+  {
+    "topic": "distraction management",
+    "category": "productivity",
+    "lastUsed": 1746095331015
+  },
+  {
+    "topic": "loving-kindness meditation",
+    "category": "mindfulness",
+    "lastUsed": 1746095513799
+  },
+  {
+    "topic": "importance of hydration",
+    "category": "physical_health",
+    "lastUsed": 1746116108039
+  },
+  {
+    "topic": "building self-compassion",
+    "category": "mental_health",
+    "lastUsed": 1746116172534
+  },
+  {
+    "topic": "building trust",
+    "category": "relationships",
+    "lastUsed": 1746116217761
+  },
+  {
+    "topic": "negotiation skills",
+    "category": "career",
+    "lastUsed": 1746116263791
+  },
+  {
+    "topic": "building a personal knowledge base",
+    "category": "learning",
+    "lastUsed": 1746116319808
+  },
+  {
+    "topic": "mind mapping",
+    "category": "creativity",
+    "lastUsed": 1746116405714
+  },
+  {
+    "topic": "debt snowball method",
+    "category": "financial",
+    "lastUsed": 1746116468756
+  },
+  {
+    "topic": "embracing vulnerability",
+    "category": "personal_growth",
+    "lastUsed": 1746116480195
+  },
+  {
+    "topic": "eco-friendly commuting",
+    "category": "environmental_mindfulness",
+    "lastUsed": 1746116498808
+  },
+  {
+    "topic": "positive self-talk",
+    "category": "self_care",
+    "lastUsed": 1746116602249
+  },
+  {
+    "topic": "clean out email inbox",
+    "category": "organization",
+    "lastUsed": 1746116651455
+  },
+  {
+    "topic": "use a focus timer app",
+    "category": "technology_habits",
+    "lastUsed": 1746116670949
+  },
+  {
+    "topic": "habit stacking",
+    "category": "productivity",
+    "lastUsed": 1746116811410
+  },
+  {
+    "topic": "gratitude journaling",
+    "category": "mindfulness",
+    "lastUsed": 1746116825539
+  },
+  {
+    "topic": "balanced diet principles",
+    "category": "physical_health",
+    "lastUsed": 1746116845747
+  },
+  {
+    "topic": "preventing burnout",
+    "category": "mental_health",
+    "lastUsed": 1746160741823
+  },
+  {
+    "topic": "emotional availability",
+    "category": "relationships",
+    "lastUsed": 1746169762196
+  },
+  {
+    "topic": "strategic thinking",
+    "category": "career",
+    "lastUsed": 1746171482356
+  },
+  {
+    "topic": "incremental reading",
+    "category": "learning",
+    "lastUsed": 1746178982008
+  },
+  {
+    "topic": "storytelling fundamentals",
+    "category": "creativity",
+    "lastUsed": 1746181928604
+  },
+  {
+    "topic": "retirement planning basics",
+    "category": "financial",
+    "lastUsed": 1746181958035
+  },
+  {
+    "topic": "growth mindset cultivation",
+    "category": "personal_growth",
+    "lastUsed": 1746182035809
+  },
+  {
+    "topic": "recycling habits",
+    "category": "environmental_mindfulness",
+    "lastUsed": 1746182081056
+  },
+  {
+    "topic": "pampering rituals",
+    "category": "self_care",
+    "lastUsed": 1746182204913
+  },
+  {
+    "topic": "refresh workspace",
+    "category": "organization",
+    "lastUsed": 1746182224012
+  },
+  {
+    "topic": "curate your media feed",
+    "category": "technology_habits",
+    "lastUsed": 1746182518228
+  },
+  {
+    "topic": "daily planning",
+    "category": "productivity",
+    "lastUsed": 1746182554801
+  },
+  {
+    "topic": "mindful walking",
+    "category": "mindfulness",
+    "lastUsed": 1746185731222
+  },
+  {
+    "topic": "sleep optimization",
+    "category": "physical_health",
+    "lastUsed": 1746386112673
+  },
+  {
+    "topic": "handling social comparison",
+    "category": "mental_health",
+    "lastUsed": 1746418622006
+  },
+  {
+    "topic": "navigating difficult conversations",
+    "category": "relationships",
+    "lastUsed": 1746432629052
+  },
+  {
+    "topic": "remote collaboration skills",
+    "category": "career",
+    "lastUsed": 1746444481543
+  },
+  {
+    "topic": "learning in public",
+    "category": "learning",
+    "lastUsed": 1746504066516
+  },
+  {
+    "topic": "reverse brainstorming",
+    "category": "creativity",
+    "lastUsed": 1746504118240
+  },
+  {
+    "topic": "index fund investing",
+    "category": "financial",
+    "lastUsed": 1746504130639
+  },
+  {
+    "topic": "self-love-gradient",
+    "category": "other",
+    "lastUsed": 1746504213454
   }
 ]

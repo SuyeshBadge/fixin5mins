@@ -17,6 +17,7 @@
     "example:carousel": "ts-node src/examples/instagram-carousel-example.ts",
     "example:random": "ts-node src/examples/random-data-image.ts",
     "example:quote-red": "ts-node src/examples/quote-red-example.ts",
+    "example:purpose-story": "ts-node src/examples/purpose-story-example.ts",
     "lint": "eslint . --ext .ts",
     "clean": "rimraf dist generated",
     "prepare": "npm run build",

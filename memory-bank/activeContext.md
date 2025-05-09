@@ -2,6 +2,8 @@
 
 ## Current Focus
 
+We have been enhancing the project's content creation capabilities by adding a new purpose-story template that features a clean, minimalist design with bold typography for motivational and purpose-driven content. The template uses a light gradient background with dark text for strong visual impact, featuring a "MOTIVATION" label at the top, a bold main message in the center, and customizable branding elements at the bottom. The design is inspired by professional motivational posters with clean typography and modern aesthetics.
+
 We have been enhancing the project's content creation capabilities by integrating OpenRouter as the AI service provider. OpenRouter gives us access to free, open-source models like Mistral, Llama, and Gemma, replacing the previous proprietary AI service. The integration includes a robust fallback mechanism that automatically tries alternative models if the primary one fails, ensuring reliable content generation even when certain models have issues. We've also enhanced the prompt engineering specifically for these smaller open-source models, with clear formatting instructions and improved context to generate higher-quality outputs. Additionally, we've expanded the mock content system with topic-specific templates for common topics to provide quality content even when AI services are completely unavailable.
 
 We have been enhancing the project's content creation capabilities by adding a new motivation-accent template that features a clean, modern design with accent-highlighted words in colored boxes. The template is designed for motivational quotes and action-oriented content, using a warm cream/beige background with bold typography and strategic highlighting of key words. The design includes distinctive visual elements such as an orange accent dot, arrow, and black dots to create a contemporary, professional aesthetic.
@@ -34,6 +36,16 @@ We have now enhanced the scheduling system to use optimal posting times for each
 Most recently, we've enhanced the scheduler to always post at script startup regardless of whether posts have already been scheduled for the day, and we've removed the artificial limit of 2 posts per day, allowing all optimal posting times defined for each day to be used. We've also fixed an issue where the scheduler could randomly select the same base time multiple times, resulting in clustered posts with similar posting times. Now it ensures each unique optimal time slot is used exactly once, providing better distribution throughout the day.
 
 ## Recent Changes
+
+- Created a new purpose-story template:
+  - Implemented a clean, minimalist design with light gradient background
+  - Used Oswald font for bold, impactful typography
+  - Added "MOTIVATION" label with a dark background at the top
+  - Created strong, centered main message with large bold text
+  - Added professional branding elements at the bottom
+  - Included Instagram handle display
+  - Created full documentation and example implementation
+  - Registered the template in templateConfig.ts
 
 - Fixed the post scheduler time distribution issue:
   - Added generateSpecificOptimalPostingTime function to use a specific time slot
@@ -122,69 +134,87 @@ Most recently, we've enhanced the scheduler to always post at script startup reg
 
 ## Active Decisions
 
-1. **OpenRouter Integration**: Using OpenRouter to access free, open-source models like Mistral and Llama
-2. **Model Selection**: Using mistralai/mistral-7b-instruct as the primary model due to its good balance of quality and speed
-3. **Fallback Strategy**: Implementing automatic fallbacks to other free models when the primary model fails
-4. **Enhanced Prompting**: Creating specialized prompts for free models with clear instructions and formatting
-5. **Mock Content System**: Expanding topic-specific templates for high-quality offline operation
-6. **Scheduling Strategy**: Using optimal posting times specific to each day of the week based on Instagram research
-7. **Time Variation**: Adding small random variations (±15 minutes) to optimal times for unpredictability
-8. **Template Rotation**: Ensuring consecutive posts use different templates for visual variety
-9. **State Persistence**: Using a local JSON file to track last used template and posting times
-10. **Schedule Regeneration**: Creating new schedules at midnight each day based on the current day's optimal times
-11. **Production Deployment**: Recommending PM2 for running the scheduler in production environments
-12. **Immediate Scheduling**: Always scheduling posts at script startup, regardless of existing schedules
-13. **Full Schedule Usage**: Using all optimal posting times defined for each day without limitation
-14. **Unique Time Slot Assignment**: Ensuring each optimal time slot is used exactly once for better distribution
-15. **Template Design**: Created motivation-accent template with a clean cream background, bold typography, and highlighted words
-16. **Word Highlighting**: Implementing automatic extraction and highlighting of first words from emotionalHook and actionStep
-17. **Visual Elements**: Using accent dot, arrow, and black dots for visual interest and modern aesthetic
-18. **Previous Template Design**: Created self-love-gradient template with a soothing gradient background and premium typography
-19. **Font Selection**: Using Outfit for motivation-accent template; using Playfair Display, Great Vibes, and Cormorant Garamond for self-love-gradient template
-20. **Layout Design**: Positioned handle name at the top, emotionalReward below main text, and date at the bottom
-21. **Responsive Design**: Implemented dynamic font sizing to accommodate various content lengths
-22. **Cloud Image Hosting**: Integrated Cloudinary for reliable image hosting before posting to Instagram
-23. **Instagram API Approach**: Implemented separate functions for carousel and single image posting to handle Instagram's API requirements correctly
-24. **Brand Messaging**: Updated template heading to better reflect brand voice ("Fix your life in 5 minutes")
-25. **Offline Capability**: Added mock mode to ensure the script can function without external AI services
-26. **Graceful Degradation**: Implemented automatic fallback to predefined templates when AI service fails
-27. **Topic-Specific Templates**: Created custom templates for common topics to ensure quality content
-28. **End-to-End Automation**: Created a single script to handle the entire process from content generation to Instagram posting
-29. **Command-Line Interface**: Implemented a flexible CLI with options to control topic, template, and posting behavior
-30. **Emotional Content Structure**: Standardized the emotional content format with three components - hook, action step, and reward
-31. **System Prompt Design**: Created a detailed system prompt for emotional content generation that emphasizes concise, actionable advice
-32. **Content Structure**: Using hooks, action steps, and rewards for the emotional structure format
-33. **Image Generation**: Using Puppeteer for headless browser rendering
-34. **Social Media Integration**: Enhanced Instagram carousel posting for multi-image content
-35. **Emotional Themes**: Implemented support for various emotional themes in templates
-36. **Inline Styles**: Used inline styles in the EJS template to avoid CSS parsing issues
-37. **Content Generation Service**: Used TypeScript interfaces for better type safety
-38. **JSON Extraction**: Implemented JSON extraction for cases where the AI might add extra text
-39. **Error Handling**: Added error handling for all potential failure points
-40. **Structured Content Generation**: Created a specialized method for generating structured content
-41. **Compatibility**: Maintained compatibility with the existing AiServiceClient
+1. **Template Design**: Created purpose-story template with a clean, minimalist design, bold typography, and professional branding elements
+2. **Typography**: Using Oswald font for strong, impactful headings and Outfit for clean body text
+3. **Layout Strategy**: Positioning the motivation label at top, main message in center, and branding at bottom for visual balance
+4. **Color Scheme**: Using a light gradient background with dark text for maximum readability and impact
+5. **Branding Elements**: Including customizable brand name and subtitle in a distinctive angled box
+6. **Variable Structure**: Supporting custom top label, main message, brand name, brand subtitle, and Instagram handle
+7. **Default Values**: Providing sensible defaults for all variables to ensure the template works well out-of-the-box
+8. **OpenRouter Integration**: Using OpenRouter to access free, open-source models like Mistral and Llama
+9. **Model Selection**: Using mistralai/mistral-7b-instruct as the primary model due to its good balance of quality and speed
+10. **Fallback Strategy**: Implementing automatic fallbacks to other free models when the primary model fails
+11. **Enhanced Prompting**: Creating specialized prompts for free models with clear instructions and formatting
+12. **Mock Content System**: Expanding topic-specific templates for high-quality offline operation
+13. **Scheduling Strategy**: Using optimal posting times specific to each day of the week based on Instagram research
+14. **Time Variation**: Adding small random variations (±15 minutes) to optimal times for unpredictability
+15. **Template Rotation**: Ensuring consecutive posts use different templates for visual variety
+16. **State Persistence**: Using a local JSON file to track last used template and posting times
+17. **Schedule Regeneration**: Creating new schedules at midnight each day based on the current day's optimal times
+18. **Production Deployment**: Recommending PM2 for running the scheduler in production environments
+19. **Immediate Scheduling**: Always scheduling posts at script startup, regardless of existing schedules
+20. **Full Schedule Usage**: Using all optimal posting times defined for each day without limitation
+21. **Unique Time Slot Assignment**: Ensuring each optimal time slot is used exactly once for better distribution
+22. **Previous Template Design**: Created motivation-accent template with a clean cream background, bold typography, and highlighted words
+23. **Word Highlighting**: Implementing automatic extraction and highlighting of first words from emotionalHook and actionStep
+24. **Visual Elements**: Using accent dot, arrow, and black dots for visual interest and modern aesthetic
+25. **Template Design**: Created self-love-gradient template with a soothing gradient background and premium typography
+26. **Font Selection**: Using Outfit for motivation-accent template; using Playfair Display, Great Vibes, and Cormorant Garamond for self-love-gradient template
+27. **Layout Design**: Positioned handle name at the top, emotionalReward below main text, and date at the bottom
+28. **Responsive Design**: Implemented dynamic font sizing to accommodate various content lengths
+29. **Cloud Image Hosting**: Integrated Cloudinary for reliable image hosting before posting to Instagram
+30. **Instagram API Approach**: Implemented separate functions for carousel and single image posting to handle Instagram's API requirements correctly
+31. **Brand Messaging**: Updated template heading to better reflect brand voice ("Fix your life in 5 minutes")
+32. **Offline Capability**: Added mock mode to ensure the script can function without external AI services
+33. **Graceful Degradation**: Implemented automatic fallback to predefined templates when AI service fails
+34. **Topic-Specific Templates**: Created custom templates for common topics to ensure quality content
+35. **End-to-End Automation**: Created a single script to handle the entire process from content generation to Instagram posting
+36. **Command-Line Interface**: Implemented a flexible CLI with options to control topic, template, and posting behavior
+37. **Emotional Content Structure**: Standardized the emotional content format with three components - hook, action step, and reward
+38. **System Prompt Design**: Created a detailed system prompt for emotional content generation that emphasizes concise, actionable advice
+39. **Content Structure**: Using hooks, action steps, and rewards for the emotional structure format
+40. **Image Generation**: Using Puppeteer for headless browser rendering
+41. **Social Media Integration**: Enhanced Instagram carousel posting for multi-image content
+42. **Emotional Themes**: Implemented support for various emotional themes in templates
+43. **Inline Styles**: Used inline styles in the EJS template to avoid CSS parsing issues
+44. **Content Generation Service**: Used TypeScript interfaces for better type safety
+45. **JSON Extraction**: Implemented JSON extraction for cases where the AI might add extra text
+46. **Error Handling**: Added error handling for all potential failure points
+47. **Structured Content Generation**: Created a specialized method for generating structured content
+48. **Compatibility**: Maintained compatibility with the existing AiServiceClient
 
 ## Next Steps
 
-1. **Test OpenRouter Integration**:
+1. **Test Purpose-Story Template**:
+   - Test the template with different content lengths
+   - Test with various brand names and subtitles
+   - Verify Instagram handle display in different scenarios
+   - Test on different devices to ensure readability
+
+2. **Create Template Variations**:
+   - Create color variations of the purpose-story template
+   - Explore alternative layouts and typography
+   - Consider vertical and horizontal variations
+
+3. **Test OpenRouter Integration**:
    - Test each free model with various prompts
    - Verify that the fallback mechanism works correctly
    - Test the enhanced prompt engineering for better outputs
    - Measure response times and quality for different models
 
-2. **Evaluate Model Quality**:
+4. **Evaluate Model Quality**:
    - Compare outputs from different free models
    - Document the strengths and weaknesses of each model
    - Identify the best models for different content types
    - Fine-tune system prompts based on evaluation results
 
-3. **Test Instagram Content Generation**:
+5. **Test Instagram Content Generation**:
    - Test content generation with various topics
    - Verify that generated content works well with templates
    - Test the entire workflow from generation to posting
    - Compare quality of AI-generated vs. mock content
 
-4. **Test Enhanced Daily Scheduler**:
+6. **Test Enhanced Daily Scheduler**:
    - Test the scheduler with different days of the week
    - Verify that day-specific optimal times are used correctly
    - Test the random time variation functionality
@@ -192,62 +222,66 @@ Most recently, we've enhanced the scheduler to always post at script startup reg
    - Test state persistence between restarts
    - Ensure proper error handling for failed posts
 
-5. **Deploy Scheduler to Production**:
+7. **Deploy Scheduler to Production**:
    - Set up PM2 for process management
    - Configure automatic startup after system reboots
    - Implement monitoring and alerting
 
-6. **Test Motivation-Accent Template**:
+8. **Test Motivation-Accent Template**:
    - Test the template with different content types and lengths
    - Verify that the word highlighting works correctly
    - Test with various emotionalHook and actionStep combinations
    - Ensure responsive sizing works well for different content lengths
 
-7. **Test Self-Love Gradient Template**:
+9. **Test Self-Love Gradient Template**:
    - Test the template with different content types and lengths
    - Verify that the pill alignment is correct in all cases
    - Test across different topics and themes
 
-8. **Create Additional Templates**:
-   - Create more template variations with different styles
-   - Explore other color schemes and typography options
-   - Create templates for different emotional tones
+10. **Create Additional Templates**:
+    - Create more template variations with different styles
+    - Explore other color schemes and typography options
+    - Create templates for different emotional tones
 
-9. **Test Instagram Posting**:
-   - Test the fixed single image posting functionality
-   - Verify that the Cloudinary integration works properly
-   - Document the Instagram posting workflow
+11. **Test Instagram Posting**:
+    - Test the fixed single image posting functionality
+    - Verify that the Cloudinary integration works properly
+    - Document the Instagram posting workflow
 
-10. **Test Cloudinary Integration**:
+12. **Test Cloudinary Integration**:
     - Verify that images are properly uploaded to Cloudinary
     - Test the cleanup process after successful posting
     - Ensure error handling works correctly when Cloudinary operations fail
 
-11. **Test Updated Template**:
+13. **Test Updated Template**:
     - Verify that the updated heading appears correctly in generated images
     - Test with different content topics to ensure it works with various content types
 
-12. **Test Mock Mode**:
+14. **Test Mock Mode**:
     - Test the mock mode functionality with various topics
     - Validate the quality of the predefined templates
     - Add more topic-specific templates for common use cases
 
-13. **Test Automation Script**:
+15. **Test Automation Script**:
     - Test the new script with various topics and templates
     - Verify the end-to-end process works correctly
     - Document usage examples and patterns
 
-14. **Content Generation Testing**:
+16. **Content Generation Testing**:
     - Create example scripts using the new generateEmotionalContent method
     - Test with various topics and emotional themes
     - Validate output quality and consistency
 
-15. **Template Improvements**:
+17. **Template Improvements**:
     - Create additional template variations
     - Add more visual design options
     - Implement advanced typography features
 
 ## Implementation Considerations
+- Consider creating color variations of the purpose-story template for different moods and topics
+- Explore alternative layouts for the purpose-story template (e.g., vertical stacking for longer messages)
+- Test purpose-story template with different content types to ensure versatility
+- Consider creating dynamic content adaptation for the purpose-story template
 - Evaluate if mistralai/mistral-7b-instruct continues to be the best primary model
 - Monitor OpenRouter API for new free models that might offer better performance
 - Consider implementing a model quality evaluation framework
@@ -280,6 +314,8 @@ Most recently, we've enhanced the scheduler to always post at script startup reg
 - Ensure content is accessible and readable on mobile devices
 
 ## Open Questions
+- What color variations would be most effective for the purpose-story template?
+- Should we create additional layout variations of the purpose-story template?
 - What additional open-source models should we consider integrating?
 - Should we implement a more sophisticated model selection strategy based on content type?
 - How can we measure and track the quality of outputs from different models?
@@ -292,49 +328,14 @@ Most recently, we've enhanced the scheduler to always post at script startup reg
 - Should we adjust optimal posting times seasonally or based on holidays?
 
 ## Current Priorities
-1. Test OpenRouter integration with different models and prompts
-2. Evaluate the quality of content generated by different free models
-3. Test the fallback mechanisms for reliability
-4. Fine-tune system prompts based on testing results
-5. Document the OpenRouter integration and free model capabilities
-6. Test the daily scheduler with various optimal time configurations
-7. Analyze engagement metrics for posts at optimal times
-8. Deploy the scheduler to production using PM2
-9. Monitor initial posts for engagement patterns
-- What are the optimal time windows for maximum engagement based on audience analytics?
-- Should we implement more sophisticated scheduling algorithms based on engagement data?
-- Should we add support for skipping scheduled posts on certain days (e.g., holidays)?
-- Would it be beneficial to add different time windows for weekdays vs. weekends?
-- What additional accent colors should we explore for the motivation-accent template?
-- Should we create variations of the motivation-accent template with different highlight shapes?
-- What additional template styles would best support the brand?
-- Should we create multiple gradient variations for different emotional tones?
-- What other font combinations should we explore for template variations?
-- Should we support multiple Cloudinary accounts or configurations?
-- Should we implement a scheduling system for posting content at optimal times?
-- What is the best approach for handling Instagram API rate limits?
-- What additional topics should have predefined templates?
-- How can we make the mock templates more customizable?
-- What additional emotional themes should be prioritized for template variations?
-- Should we create separate templates for each post format, or keep a single flexible template?
-- How can we better integrate the template with content generation and scheduling?
-- What visual styles would be most effective for different emotional themes?
-- How can we measure the engagement impact of different post formats?
-
-## Current Priorities
-1. Test the daily scheduler with various optimal time configurations
-2. Deploy the scheduler to production using PM2
-3. Monitor initial posts for engagement patterns
-4. Test the motivation-accent template with various content types
-5. Test the self-love-gradient template with various content types
-6. Create additional template variations with different styles
-7. Test the single image Instagram posting functionality
-8. Test the Cloudinary integration in the content generation workflow
-9. Test the updated template heading in different contexts
-10. Test the mock mode with various topics
-11. Test the new generateAndPostContent.ts script with various topics
-12. Create examples using the new generateEmotionalContent method
-13. Create variations of templates for different emotional themes
-14. Test template-based image generation with sample content
-15. Optimize template visual design
-16. Document template usage process 
+1. Test the purpose-story template with various content types and lengths
+2. Create additional template variations with different styles and layouts
+3. Test OpenRouter integration with different models and prompts
+4. Evaluate the quality of content generated by different free models
+5. Test the fallback mechanisms for reliability
+6. Fine-tune system prompts based on testing results
+7. Document the OpenRouter integration and free model capabilities
+8. Test the daily scheduler with various optimal time configurations
+9. Analyze engagement metrics for posts at optimal times
+10. Deploy the scheduler to production using PM2
+11. Monitor initial posts for engagement patterns 

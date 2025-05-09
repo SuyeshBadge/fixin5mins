@@ -1,72 +1,72 @@
 [
   {
-    "category": "mindfulness",
-    "lastUsed": 1746185731222,
-    "description": "Awareness, presence, and mental practices"
-  },
-  {
-    "category": "physical_health",
-    "lastUsed": 1746116845747,
-    "description": "Exercise, nutrition, and bodily wellbeing"
-  },
-  {
-    "category": "mental_health",
-    "lastUsed": 1746160741823,
-    "description": "Emotional wellness, psychology, and personal stability"
-  },
-  {
-    "category": "relationships",
-    "lastUsed": 1746169762196,
-    "description": "Interpersonal connections and social skills"
-  },
-  {
-    "category": "career",
-    "lastUsed": 1746171482356,
-    "description": "Professional growth and workplace success"
-  },
-  {
-    "category": "learning",
-    "lastUsed": 1746178982008,
-    "description": "Knowledge acquisition and cognitive skills"
-  },
-  {
-    "category": "creativity",
-    "lastUsed": 1746181928604,
-    "description": "Artistic expression and innovative thinking"
-  },
-  {
-    "category": "financial",
-    "lastUsed": 1746181958035,
-    "description": "Money management and financial wellbeing"
-  },
-  {
-    "category": "personal_growth",
-    "lastUsed": 1746182035809,
-    "description": "Self-improvement and character development"
-  },
-  {
     "category": "environmental_mindfulness",
-    "lastUsed": 1746182081056,
+    "lastUsed": 1746778884726,
     "description": "Sustainable practices and environmental awareness"
   },
   {
     "category": "self_care",
-    "lastUsed": 1746182204913,
+    "lastUsed": 1746538801933,
     "description": "Personal well-being and nurturing activities"
   },
   {
     "category": "organization",
-    "lastUsed": 1746182224012,
+    "lastUsed": 1746592508062,
     "description": "Structuring and managing physical and digital spaces"
   },
   {
     "category": "technology_habits",
-    "lastUsed": 1746182518228,
+    "lastUsed": 1746592515433,
     "description": "Healthy digital practices and tech management"
   },
   {
     "category": "productivity",
-    "lastUsed": 1746182554801,
+    "lastUsed": 1746592542781,
     "description": "Efficiency, task management, and getting things done"
+  },
+  {
+    "category": "mindfulness",
+    "lastUsed": 1746601944128,
+    "description": "Awareness, presence, and mental practices"
+  },
+  {
+    "category": "physical_health",
+    "lastUsed": 1746605702125,
+    "description": "Exercise, nutrition, and bodily wellbeing"
+  },
+  {
+    "category": "mental_health",
+    "lastUsed": 1746617401517,
+    "description": "Emotional wellness, psychology, and personal stability"
+  },
+  {
+    "category": "relationships",
+    "lastUsed": 1746690455074,
+    "description": "Interpersonal connections and social skills"
+  },
+  {
+    "category": "career",
+    "lastUsed": 1746690553263,
+    "description": "Professional growth and workplace success"
+  },
+  {
+    "category": "learning",
+    "lastUsed": 1746691793363,
+    "description": "Knowledge acquisition and cognitive skills"
+  },
+  {
+    "category": "creativity",
+    "lastUsed": 1746768430373,
+    "description": "Artistic expression and innovative thinking"
+  },
+  {
+    "category": "financial",
+    "lastUsed": 1746768514813,
+    "description": "Money management and financial wellbeing"
+  },
+  {
+    "category": "personal_growth",
+    "lastUsed": 1746778807616,
+    "description": "Self-improvement and character development"
   }
 ]
