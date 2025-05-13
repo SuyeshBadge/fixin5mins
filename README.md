@@ -11,6 +11,7 @@ A Node.js TypeScript application that uses AI to generate content and post it to
 - Create beautiful quote images from AI-generated content
 - Generate engaging captions for Instagram posts
 - Post images to Instagram automatically via Graph API
+- Post Instagram Stories with proper 9:16 aspect ratio
 - Schedule posts at research-backed optimal times for maximum engagement
 - Automatically rotate between different templates for visual variety
 
@@ -39,8 +40,8 @@ npm install
 OPENROUTER_API_KEY=your_openrouter_api_key
 
 # Instagram/Facebook Graph API credentials
-INSTAGRAM_ACCESS_TOKEN=your_long_lived_access_token_here
-INSTAGRAM_BUSINESS_ACCOUNT_ID=your_instagram_business_account_id_here
+INSTAGRAM_GRAPH_ACCESS_TOKEN=your_long_lived_access_token_here
+INSTAGRAM_ACCOUNT_ID=your_instagram_business_account_id_here
 
 # Facebook app credentials
 FACEBOOK_APP_ID=your_facebook_app_id_here
@@ -77,6 +78,15 @@ npm run generate-and-post -- --template="self-love-gradient"
 npm run generate-and-post -- --mock
 ```
 
+### Post Instagram Stories
+
+```bash
+# Run the Instagram Story example
+npm run example:ig-story
+```
+
+This will create a vertical 9:16 image formatted for Instagram Stories and post it using the Instagram Graph API.
+
 ### Schedule Posts at Optimal Times
 
 ```bash
@@ -110,6 +120,9 @@ npm run test:instagram
 
 # Generate with the quote-red template
 npm run example:quote-red
+
+# Generate and post an Instagram Story
+npm run example:ig-story
 ```
 
 ## Templates
@@ -119,6 +132,14 @@ This project includes several templates for content generation:
 1. **Quote Red**: Motivational quotes with red typography on a cream background
 2. **Self-love Gradient**: Elegant design with gradient background for self-care content
 3. **Motivation Accent**: Clean design with highlighted accent words for bold motivational content
+
+## Content Types
+
+The application can generate different types of Instagram content:
+
+1. **Feed Posts**: Standard square (1:1) or landscape/portrait posts for your Instagram feed
+2. **Carousel Posts**: Multiple images in a single post that users can swipe through
+3. **Stories**: Vertical content (9:16 aspect ratio) that appears in your Instagram Stories
 
 ## How It Works
 
@@ -145,6 +166,7 @@ This project includes several templates for content generation:
 
 ### Instagram Graph API
 - Posts content to Instagram business accounts
+- Supports feed posts, carousel posts, and stories
 - Requires Facebook developer setup
 
 ## License

@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import { ContentGenerationService, EmotionalContentFormat } from '../services/contentGenerationService';
 import { generateImage, ImageGenerationOptions } from '../services/imageGenerator';
-import { postSingleImageToInstagram, InstagramPostConfig } from '../services/instagram-carousel';
+import { postSingleImageToInstagram, InstagramPostConfig } from '../services/instagram.service';
 import { RenderedImage } from '../services/html2image-puppeteer';
 import { initializeCloudinary, uploadImageToCloudinary, deleteImageFromCloudinary } from '../services/cloudinary';
 import topicCache from '../services/topicCache';
@@ -217,102 +217,102 @@ Example: npm run generate-and-post -- --category mindfulness
  */
 function getMockContent(topic: string): EmotionalContentFormat {
   // Basic content templates for different topics
-  const defaultHashtags = ['productivity', 'quicktips', 'fixin5mins', 'lifehack', 'selfimprovement'];
+  const defaultHashtags = ['progress', 'growth', 'smallsteps', 'fixin5mins', 'selfimprovement'];
   
-  // Topic-specific templates with enhanced viral elements
+  // Topic-specific templates with authentic elements
   if (topic.toLowerCase() === 'productivity') {
     return {
-      emotionalHook: '91% of to-do lists fail because they ignore the biology of focus.',
-      actionStep: 'Choose ONE task, set a timer for exactly 5 minutes of focused work with your phone in another room.',
-      emotionalReward: 'Experience the momentum that breaks through procrastination faster than any motivational quote.',
-      caption: 'Your to-do list is working against your brain\'s natural focus systems. This micro-commitment technique bypasses the resistance that keeps you stuck. Save this for the next time you feel stuck on a big project!',
-      hashtags: ['productivity', 'neuroscience', 'focusmethod', 'procrastination', 'deepwork', 'fixin5mins'],
+      emotionalHook: 'Ever find yourself stuck in planning mode instead of actually doing the work?',
+      actionStep: 'Choose one important task and commit to just 5 minutes of focused work on it with no distractions.',
+      emotionalReward: 'Feel the momentum and clarity that comes from breaking through the initial resistance barrier.',
+      caption: 'Our brains are wired to resist uncertainty and complexity. The 5-minute commitment trick works because it makes starting manageable, activating the part of your brain that craves completion.',
+      hashtags: ['productivity', 'focus', 'momentum', 'procrastination', 'fixin5mins'],
       
-      // Enhanced viral elements
-      patternInterruptHook: '91% of to-do lists fail because they ignore the biology of focus.',
-      contentPromise: 'Learn the 5-minute micro-commitment technique that elite performers use',
-      unexpectedTwist: 'Starting with your easiest task actually decreases overall productivity by 23%',
-      socialProofElement: 'Stanford research shows this approach increases completion rates by 83% for complex projects',
-      urgencyTrigger: 'Every day of delay reinforces the neural pathways of procrastination',
-      saveReason: 'Save this technique for the next time you\'re feeling stuck on an important project'
+      // Enhanced elements
+      patternInterruptHook: 'Ever find yourself stuck in planning mode instead of actually doing the work?',
+      contentPromise: 'A psychological trick to break through initial task resistance',
+      unexpectedTwist: 'Starting is much harder than continuing, which is why short commitments work so well',
+      socialProofElement: 'This approach leverages the Zeigarnik effect - our brain\'s natural desire to complete what we\'ve started',
+      urgencyTrigger: 'Each day, our most important tasks face the strongest psychological resistance',
+      saveReason: 'Save this for when you\'re feeling stuck on an important project you keep avoiding'
     };
   }
   
   if (topic.toLowerCase() === 'exercise') {
     return {
-      emotionalHook: 'Exercise effectiveness is 71% mental programming, only 29% physical effort.',
-      actionStep: 'Before your workout, spend 5 minutes visualizing yourself completing it with perfect form and energy.',
-      emotionalReward: 'Transform your results by tapping into the neural pathways that elite athletes use to maximize performance.',
-      caption: 'The difference between showing up and showing out is mental preparation. This 5-minute pre-workout ritual activates the same brain regions used by Olympic athletes. Try it before your next session!',
-      hashtags: ['exercisescience', 'performancehack', 'neuroscienceoffitness', 'mentaltraining', 'workoutmotivation', 'fixin5mins'],
+      emotionalHook: 'Do you skip workouts because they feel overwhelming or you "don\'t have enough time"?',
+      actionStep: 'Choose a simple movement you enjoy and commit to just 5 minutes today, no changing clothes required.',
+      emotionalReward: 'Experience the energy shift and sense of accomplishment that comes from honoring a small commitment to yourself.',
+      caption: 'The biggest barrier to exercise isn\'t physical, it\'s mental. This micro-commitment approach gets you past the resistance that keeps us inactive, building momentum for consistent movement.',
+      hashtags: ['exercise', 'movement', 'momentum', 'healthyhabits', 'fixin5mins'],
       
-      // Enhanced viral elements
-      patternInterruptHook: 'Exercise effectiveness is 71% mental programming, only 29% physical effort.',
-      contentPromise: 'Discover the 5-minute pre-workout mental routine used by elite athletes',
-      unexpectedTwist: 'Starting your workout without mental priming reduces results by up to 35%',
-      socialProofElement: 'Sports psychologists at Olympic training centers use this exact technique with gold medalists',
-      urgencyTrigger: 'Each workout without mental priming is a missed opportunity for neurological adaptation',
-      saveReason: 'Save this for your next workout to instantly improve your performance'
+      // Enhanced elements
+      patternInterruptHook: 'Do you skip workouts because they feel overwhelming or you "don\'t have enough time"?',
+      contentPromise: 'A simple approach to building exercise consistency when motivation is low',
+      unexpectedTwist: 'Perfect workout plans often fail while imperfect micro-commitments succeed',
+      socialProofElement: 'Behavioral psychology shows that small, consistent actions are more effective than occasional intense efforts',
+      urgencyTrigger: 'Each day we spend inactive makes starting again slightly harder',
+      saveReason: 'Save this for those days when exercise feels impossible but you want to stay consistent'
     };
   }
   
   if (topic.toLowerCase() === 'mindfulness') {
     return {
-      emotionalHook: 'Your brain processes 6,000 thoughts daily but remembers only 5% of them.',
-      actionStep: 'Set a 5-minute timer and write down every thought that comes to mind without judgment.',
-      emotionalReward: 'Break the cycle of mental overwhelm and discover what\'s actually important beneath the noise.',
-      caption: 'Mental clarity isn\'t about having no thoughts—it\'s about knowing which ones deserve your attention. Try this research-backed exercise to cut through the mental static.',
-      hashtags: ['mindfulness', 'mentalhealth', 'brainhack', 'focustips', 'clarity', 'fixin5mins'],
+      emotionalHook: 'Feeling like your mind is constantly racing from one thought to the next?',
+      actionStep: 'Pause for 5 minutes and simply notice your breath - each inhale and exhale - returning gently when your mind wanders.',
+      emotionalReward: 'Create a moment of mental space and calm in the midst of a busy day.',
+      caption: 'Mindfulness isn\'t about having no thoughts—it\'s about changing your relationship with them. This simple breath awareness practice is a gateway to being present, even for beginners.',
+      hashtags: ['mindfulness', 'presence', 'breathwork', 'awareness', 'fixin5mins'],
       
-      // Enhanced viral elements
-      patternInterruptHook: 'Your brain processes 6,000 thoughts daily but remembers only 5% of them.',
-      contentPromise: 'Discover the neuroscience-backed 5-minute thought download technique',
-      unexpectedTwist: 'Trying to "clear your mind" actually increases thought volume by 34%',
-      socialProofElement: 'Harvard neuroscientists found this technique reduces cortisol levels by 27% in just one session',
-      urgencyTrigger: 'Each day of rumination reinforces neural pathways that keep you stuck',
-      saveReason: 'Save for the next time you feel mentally scattered or overwhelmed'
+      // Enhanced elements
+      patternInterruptHook: 'Feeling like your mind is constantly racing from one thought to the next?',
+      contentPromise: 'A simple entry point to mindfulness that requires no special skills',
+      unexpectedTwist: 'The goal isn\'t to clear your mind but to notice your experience without judgment',
+      socialProofElement: 'This foundational practice appears in virtually every evidence-based mindfulness program',
+      urgencyTrigger: 'Each moment of awareness creates a tiny pause that can shift your entire day',
+      saveReason: 'Save this for when your mind feels scattered and overwhelmed'
     };
   }
   
   if (topic.toLowerCase() === 'stress') {
     return {
-      emotionalHook: 'Stress doesn\'t start in your mind—it begins in your nervous system, according to neuroscience.',
-      actionStep: 'Place one hand on your chest, one on your stomach, and take 5 deep belly breaths counting 4-7-8.',
-      emotionalReward: 'Feel your nervous system shift from fight-or-flight to rest-and-digest in under 300 seconds.',
-      caption: 'Trying to "think" your way out of stress is like trying to put out a fire with gasoline. This physiological reset button works when nothing else will.',
-      hashtags: ['stressrelief', 'nervousystem', 'vagalresponse', 'breathwork', 'neurohack', 'fixin5mins'],
+      emotionalHook: 'When stress hits, does your body tense up while your mind races through worst-case scenarios?',
+      actionStep: 'Place one hand on your chest, one on your stomach, and take 5 deep belly breaths, counting to 4 on each inhale and exhale.',
+      emotionalReward: 'Feel your nervous system begin to settle as you activate your body\'s natural calming response.',
+      caption: 'Stress isn\'t just mental - it\'s a full-body experience. This simple breathing technique works because it directly signals your nervous system to move from fight-or-flight to a calmer state.',
+      hashtags: ['stress', 'breathwork', 'nervousystem', 'calm', 'fixin5mins'],
       
-      // Enhanced viral elements
-      patternInterruptHook: 'Stress doesn\'t start in your mind—it begins in your nervous system, according to neuroscience.',
-      contentPromise: 'Learn the physiological "reset button" that works when meditation fails',
-      unexpectedTwist: 'Trying to rationalize your way out of stress actually increases cortisol by 43%',
-      socialProofElement: 'Used by combat veterans with 87% reporting immediate symptom reduction',
-      urgencyTrigger: 'Each stress spike without intervention strengthens the neural stress circuit',
-      saveReason: 'Save for your next stress spike—it works faster than medication'
+      // Enhanced elements
+      patternInterruptHook: 'When stress hits, does your body tense up while your mind races through worst-case scenarios?',
+      contentPromise: 'A physiological reset button that helps calm your stress response in moments',
+      unexpectedTwist: 'Trying to think your way out of stress often makes it worse - your body holds the key',
+      socialProofElement: 'This breathing pattern activates the vagus nerve, which research shows helps regulate stress',
+      urgencyTrigger: 'Having a simple physical tool ready before stress hits makes all the difference',
+      saveReason: 'Save this for your next stressful moment - it\'s simple enough to remember when overwhelmed'
     };
   }
   
   if (topic.toLowerCase() === 'focus') {
     return {
-      emotionalHook: 'The average person is interrupted every 8 minutes but needs 23 minutes to refocus.',
-      actionStep: 'Create a "focus trigger" by placing a small object on your desk that signals to your brain it\'s deep work time.',
-      emotionalReward: 'Reclaim hours of lost productivity by training your brain to enter flow state on command.',
-      caption: 'Your focus is your most valuable asset, yet most people have no system to protect it. This simple anchor technique creates a powerful psychological boundary against distractions.',
-      hashtags: ['deepwork', 'flowstate', 'productivityhack', 'focustrap', 'brainhack', 'fixin5mins'],
+      emotionalHook: 'Do you struggle to stay focused in a world of constant notifications and distractions?',
+      actionStep: 'Set a timer for 5 minutes of fully focused work with your phone in another room and your notifications turned off.',
+      emotionalReward: 'Experience what it feels like to give your complete attention to one task without fragmentation.',
+      caption: 'Our attention is increasingly fractured in the digital age. This simple distraction-free period helps rebuild your focus muscles and shows you what deep attention feels like.',
+      hashtags: ['focus', 'deepwork', 'attention', 'productivity', 'fixin5mins'],
       
-      // Enhanced viral elements
-      patternInterruptHook: 'The average person is interrupted every 8 minutes but needs 23 minutes to refocus.',
-      contentPromise: 'Learn the "focus anchor" technique that Silicon Valley executives use to 10x productivity',
-      unexpectedTwist: 'Willpower-based focus strategies fail 89% of the time due to limited cognitive resources',
-      socialProofElement: 'Cal Newport\'s research at Georgetown found this method increases deep work capacity by 37%',
-      urgencyTrigger: 'Each day of scattered attention strengthens distraction neural pathways',
-      saveReason: 'Save this technique for the next time you need to do high-value, distraction-free work'
+      // Enhanced elements
+      patternInterruptHook: 'Do you struggle to stay focused in a world of constant notifications and distractions?',
+      contentPromise: 'A simple practice to rebuild your capacity for sustained attention',
+      unexpectedTwist: 'Short periods of complete focus build more capacity than long stretches of partial attention',
+      socialProofElement: 'Research on attention restoration shows that even brief focus periods can rebuild concentration',
+      urgencyTrigger: 'Each day of fragmented attention makes deep focus more difficult',
+      saveReason: 'Save this for the next time you need to do important work that requires your full attention'
     };
   }
   
-  // Generate a generic template based on the topic with viral elements
+  // Generate a generic template based on the topic with authentic elements
   const cleanTopicTag = topic.toLowerCase().replace(/\s+/g, '');
-  const genericHashtags = ['selfimprovement', 'personalgrowth', 'habits', 'mindset', 'fixin5mins'];
+  const genericHashtags = ['selfimprovement', 'growth', 'progress', 'smallsteps', 'fixin5mins'];
   
   // Add the topic as a hashtag if it's not empty
   if (cleanTopicTag) {
@@ -320,19 +320,19 @@ function getMockContent(topic: string): EmotionalContentFormat {
   }
   
   return {
-    emotionalHook: `90% of people struggle with ${topic} because they're missing a critical insight.`,
-    actionStep: `Take 5 minutes to write down your biggest ${topic} challenge, then circle the parts you can control in blue.`,
-    emotionalReward: `Gain immediate clarity by separating what's actionable from what's just mental noise.`,
-    caption: `Most ${topic} advice ignores the psychology of change. This simple clarity exercise cuts through the confusion and gives you a clear first step.`,
+    emotionalHook: `Finding it challenging to make progress with ${topic} despite your best efforts?`,
+    actionStep: `Take 5 minutes to write down one small, specific step you could take today with ${topic}.`,
+    emotionalReward: `Experience the clarity and motivation that comes from having a concrete next action.`,
+    caption: `When we're stuck with ${topic}, we often think we need more information or resources. But usually, we just need a clear, specific next step to get moving again.`,
     hashtags: genericHashtags,
     
-    // Enhanced viral elements
-    patternInterruptHook: `90% of people struggle with ${topic} because they're missing a critical insight.`,
-    contentPromise: `Learn the 5-minute clarity technique that transforms how you approach ${topic}`,
-    unexpectedTwist: `Most ${topic} problems come from focusing on solutions before gaining clarity`,
-    socialProofElement: `Psychological research shows this approach increases success rates by 340%`,
-    urgencyTrigger: `Each day spent unclear about your ${topic} challenge compounds feelings of overwhelm`,
-    saveReason: `Save this for the next time you feel stuck with ${topic} challenges`
+    // Enhanced elements
+    patternInterruptHook: `Finding it challenging to make progress with ${topic} despite your best efforts?`,
+    contentPromise: `A simple clarity exercise that helps you get unstuck with ${topic}`,
+    unexpectedTwist: `Progress with ${topic} rarely comes from having the perfect plan, but from taking imperfect action`,
+    socialProofElement: `This approach is based on research showing that clarity and specificity are key motivational factors`,
+    urgencyTrigger: `The longer we stay stuck thinking about ${topic} without acting, the harder it becomes to start`,
+    saveReason: `Save this for when you're feeling overwhelmed or confused about next steps with ${topic}`
   };
 }
 

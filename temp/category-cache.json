@@ -1,72 +1,72 @@
 [
   {
-    "category": "environmental_mindfulness",
-    "lastUsed": 1746778884726,
-    "description": "Sustainable practices and environmental awareness"
-  },
-  {
-    "category": "self_care",
-    "lastUsed": 1746538801933,
-    "description": "Personal well-being and nurturing activities"
-  },
-  {
-    "category": "organization",
-    "lastUsed": 1746592508062,
-    "description": "Structuring and managing physical and digital spaces"
-  },
-  {
-    "category": "technology_habits",
-    "lastUsed": 1746592515433,
-    "description": "Healthy digital practices and tech management"
-  },
-  {
-    "category": "productivity",
-    "lastUsed": 1746592542781,
-    "description": "Efficiency, task management, and getting things done"
-  },
-  {
-    "category": "mindfulness",
-    "lastUsed": 1746601944128,
-    "description": "Awareness, presence, and mental practices"
-  },
-  {
-    "category": "physical_health",
-    "lastUsed": 1746605702125,
-    "description": "Exercise, nutrition, and bodily wellbeing"
-  },
-  {
-    "category": "mental_health",
-    "lastUsed": 1746617401517,
-    "description": "Emotional wellness, psychology, and personal stability"
-  },
-  {
-    "category": "relationships",
-    "lastUsed": 1746690455074,
-    "description": "Interpersonal connections and social skills"
-  },
-  {
-    "category": "career",
-    "lastUsed": 1746690553263,
-    "description": "Professional growth and workplace success"
-  },
-  {
-    "category": "learning",
-    "lastUsed": 1746691793363,
-    "description": "Knowledge acquisition and cognitive skills"
-  },
-  {
-    "category": "creativity",
-    "lastUsed": 1746768430373,
-    "description": "Artistic expression and innovative thinking"
-  },
-  {
     "category": "financial",
-    "lastUsed": 1746768514813,
+    "lastUsed": 1747121806168,
     "description": "Money management and financial wellbeing"
   },
   {
     "category": "personal_growth",
     "lastUsed": 1746778807616,
     "description": "Self-improvement and character development"
+  },
+  {
+    "category": "environmental_mindfulness",
+    "lastUsed": 1746778884726,
+    "description": "Sustainable practices and environmental awareness"
+  },
+  {
+    "category": "self_care",
+    "lastUsed": 1746783061357,
+    "description": "Personal well-being and nurturing activities"
+  },
+  {
+    "category": "organization",
+    "lastUsed": 1746937681734,
+    "description": "Structuring and managing physical and digital spaces"
+  },
+  {
+    "category": "technology_habits",
+    "lastUsed": 1746938401952,
+    "description": "Healthy digital practices and tech management"
+  },
+  {
+    "category": "productivity",
+    "lastUsed": 1746970442045,
+    "description": "Efficiency, task management, and getting things done"
+  },
+  {
+    "category": "mindfulness",
+    "lastUsed": 1747031801052,
+    "description": "Awareness, presence, and mental practices"
+  },
+  {
+    "category": "physical_health",
+    "lastUsed": 1747034281738,
+    "description": "Exercise, nutrition, and bodily wellbeing"
+  },
+  {
+    "category": "mental_health",
+    "lastUsed": 1747041722042,
+    "description": "Emotional wellness, psychology, and personal stability"
+  },
+  {
+    "category": "relationships",
+    "lastUsed": 1747050062705,
+    "description": "Interpersonal connections and social skills"
+  },
+  {
+    "category": "career",
+    "lastUsed": 1747120831129,
+    "description": "Professional growth and workplace success"
+  },
+  {
+    "category": "learning",
+    "lastUsed": 1747121607695,
+    "description": "Knowledge acquisition and cognitive skills"
+  },
+  {
+    "category": "creativity",
+    "lastUsed": 1747121698563,
+    "description": "Artistic expression and innovative thinking"
   }
 ]

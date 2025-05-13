@@ -244,95 +244,94 @@ Respond ONLY with the JSON, no other text.`;
     topic: string,
     options: ContentGenerationOptions = {}
   ): Promise<ContentGenerationResponse> {
-    // Random chance to include metrics (approximately 30% of posts)
-    const shouldIncludeMetric = Math.random() < 0.3;
+    // We'll only occasionally include metrics when they're actually relevant
+    const shouldIncludeMetric = Math.random() < 0.15;
     
-    // Define the schema for emotional content with viral elements
+    // Define the schema for emotional content focused on authentic help
     const schema: EmotionalContentFormat = {
-      emotionalHook: "To-do lists actually REDUCE productivity by 27% (research-backed)",
-      actionStep: "Write down only ONE task that moves your life forward, then block 25 minutes for it before checking messages",
-      emotionalReward: "Feel immediate mental clarity instead of scattered anxiety of juggling priorities",
-      patternInterruptHook: "To-do lists actually REDUCE productivity by 27% (research-backed)",
-      contentPromise: "Learn the 5-minute MIT method that top CEOs use instead",
-      unexpectedTwist: "The power isn't in organizing tasks but in eliminating the psychological burden of choices",
-      socialProofElement: "Stanford productivity study found this method increases meaningful output by 34%",
-      urgencyTrigger: "Every day you use traditional to-do lists costs you 74 minutes of lost productivity",
-      saveReason: "Save this post for tomorrow morning before you start your workday",
-      caption: "We all have those moments where our to-do list feels never-ending. But sometimes the simplest solution is to take a step back and organize our thoughts.",
-      hashtags: ["productivity", "mindfulness", "planning", "organizeyourlife", "fixin5mins"],
-      hasMetric: shouldIncludeMetric // Randomly set to true or false
+      emotionalHook: "Feeling stuck in a productivity cycle where you plan more than you accomplish?",
+      actionStep: "Identify just one task that would meaningfully move your day forward, and set a timer for 5 minutes of focused work on it",
+      emotionalReward: "Experience the relief of breaking through initial resistance and building momentum on what truly matters",
+      patternInterruptHook: "Feeling stuck in a productivity cycle where you plan more than you accomplish?",
+      contentPromise: "Here's a simple way to break through the planning paralysis that keeps us stuck",
+      unexpectedTwist: "Sometimes the best productivity system is to temporarily abandon your system entirely",
+      socialProofElement: "This approach is based on psychological research on how we build momentum and overcome initial resistance",
+      urgencyTrigger: "When we're overwhelmed, simply starting is often the hardest yet most important step",
+      saveReason: "Save this for those moments when your to-do list feels overwhelming rather than helpful",
+      caption: "We often get caught in planning loops when we're actually afraid to start the work. This small step breaks that cycle by proving to yourself that you can make progress right now.",
+      hashtags: ["productivity", "momentum", "smallsteps", "overwhelm", "focus", "fixin5mins"],
+      hasMetric: false // Default to no metrics
     };
     
     // Adjust schema based on randomization
     if (shouldIncludeMetric) {
-      schema.metricValue = "27";
-      schema.metricUnit = "%";
-    } else {
       schema.metricValue = "";
       schema.metricUnit = "";
+      // We're not pre-setting a value as we'll only include real metrics when appropriate
     }
     
-    // Enhanced system prompt optimized for viral content
+    // Enhanced system prompt focused on authentic empathy
     const enhancedSystemPrompt = 
-      "You are an expert in creating viral, engaging content for Instagram. " +
-      "Your task is to create content that stops scrolling and drives saves and shares using these key elements:\n\n" +
+      "You are an empathetic content creator who understands real human struggles. " +
+      "Your task is to create content that genuinely helps people with common challenges using these elements:\n\n" +
       
-      "1. patternInterruptHook - A surprising statement or question that challenges conventional wisdom (e.g., 'To-do lists decrease productivity by 27%')\n" +
-      "2. contentPromise - What specific value the viewer will get (e.g., 'Learn the 5-minute technique top CEOs use instead')\n" +
-      "3. specificActionStep - A precise, detailed 5-minute action with clear steps (e.g., 'Write ONE task that moves your life forward, then block 25 minutes for it before checking messages')\n" +
-      "4. unexpectedTwist - Something counterintuitive about your advice (e.g., 'The power isn't organizing tasks but eliminating decision fatigue')\n" +
-      "5. socialProofElement - Evidence why this works (e.g., 'Stanford study found this increases output by 34%')\n" +
-      "6. emotionalReward - The feeling after taking action (e.g., 'Feel immediate mental clarity instead of scattered anxiety')\n" +
-      "7. urgencyTrigger - Reason to act now (e.g., 'Every day with traditional lists costs 74 minutes of lost productivity')\n" +
-      "8. saveReason - Why save this post (e.g., 'Save this for tomorrow morning before starting work')\n" +
-      "9. hasMetric - Whether to display a metric/number (true or false) - IMPORTANT: Most posts should NOT have metrics\n" +
-      "10. metricValue - The actual value to display (only when hasMetric is true)\n" +
-      "11. metricUnit - The unit for the metric (e.g., '%', 'MIN', 'HR')\n\n" +
+      "1. patternInterruptHook - A relatable question or observation that shows you understand the struggle (e.g., 'Feeling stuck in a productivity cycle where you plan more than you accomplish?')\n" +
+      "2. contentPromise - What specific value the viewer will get (e.g., 'Here's a simple way to break through the planning paralysis that keeps us stuck')\n" +
+      "3. specificActionStep - A realistic, doable 5-minute action (e.g., 'Identify just one task that would meaningfully move your day forward, and set a timer for 5 minutes of focused work on it')\n" +
+      "4. unexpectedTwist - A thoughtful insight that challenges common assumptions (e.g., 'Sometimes the best productivity system is to temporarily abandon your system entirely')\n" +
+      "5. socialProofElement - Authentic context about why this approach helps, based on psychology or credible research\n" +
+      "6. emotionalReward - The realistic emotional benefit after taking action\n" +
+      "7. urgencyTrigger - An authentic reason why this matters now\n" +
+      "8. saveReason - Why someone might genuinely want to save this post\n" +
+      "9. hasMetric - Whether to include a substantiated data point (true/false) - ONLY use metrics when they're real and relevant\n" +
+      "10. metricValue - The actual value (only when hasMetric is true)\n" +
+      "11. metricUnit - The unit (e.g., '%', 'mins', etc.)\n\n" +
       
-      "IMPORTANT FORMATTING RULES:\n" +
-      "- Respond ONLY with valid JSON in the exact format requested\n" +
-      "- Keep each section concise but impactful\n" +
-      "- For required compatibility, ensure patternInterruptHook matches emotionalHook\n" +
-      "- For required compatibility, ensure specificActionStep matches actionStep\n" +
-      "- VERY IMPORTANT: Set hasMetric to false for most posts. Only set to true when the content actually focuses on a specific numeric statistic\n" +
-      "- Do not add metrics artificially. Most posts should not have metrics displayed.\n" +
-      "- When hasMetric is true, extract the actual number for metricValue and appropriate unit for metricUnit\n" +
-      "- Include 5-6 relevant hashtags including #fixin5mins\n" +
-      "- All text must be plain, without any formatting or symbols\n" +
-      "- Keep character counts reasonable for visual display";
+      "IMPORTANT CONTENT GUIDELINES:\n" +
+      "- Respond ONLY with valid JSON in the requested format\n" +
+      "- Focus on REAL empathy and understanding, not shock value\n" +
+      "- Keep content conversational and genuinely helpful\n" +
+      "- For compatibility, ensure patternInterruptHook matches emotionalHook\n" +
+      "- For compatibility, ensure specificActionStep matches actionStep\n" +
+      "- NEVER make up statistics or use arbitrary numbers\n" +
+      "- Only include metrics when they're based on real data and central to the message\n" +
+      "- When hasMetric is true, provide an actual value from credible sources\n" +
+      "- Include 4-5 relevant hashtags including #fixin5mins\n" +
+      "- Keep character counts reasonable for visual display\n" +
+      "- Focus on REAL problems people face and REALISTIC steps they can take";
     
-    // Use the optimized system prompt for viral content
+    // Use the optimized system prompt for empathetic content
     const systemPrompt = options.systemPrompt || enhancedSystemPrompt;
     
     // Use the default model from config or the one provided in options
     const model = options.model || config.openRouter.defaultModel || DEFAULT_MODEL;
     
-    // Build an enhanced prompt that generates viral-worthy content
-    const enhancedPrompt = `Create viral-worthy 'fix in 5 minutes' Instagram content about "${topic}" in this exact JSON format:
+    // Build a prompt that generates authentic, helpful content
+    const enhancedPrompt = `Create authentic, empathetic 'fix in 5 minutes' Instagram content about "${topic}" in this exact JSON format:
     
 {
-  "emotionalHook": "A surprising statement that challenges common wisdom (80 chars max)",
-  "actionStep": "Specific, detailed action that takes 5 minutes (100 chars max)",
-  "emotionalReward": "The emotional transformation after taking action (120 chars max)",
+  "emotionalHook": "A relatable question or observation that shows you understand the struggle (80 chars max)",
+  "actionStep": "A realistic, doable 5-minute action step (100 chars max)",
+  "emotionalReward": "The realistic emotional benefit after taking action (120 chars max)",
   "patternInterruptHook": "Same as emotionalHook for compatibility",
-  "contentPromise": "The specific value viewers will get from this post",
-  "unexpectedTwist": "Something counterintuitive about this advice that makes it stand out",
-  "socialProofElement": "Evidence, research, or results that prove this works",
-  "urgencyTrigger": "Why the viewer should act on this advice today",
-  "saveReason": "Why viewers should save this post for later reference",
-  "caption": "Engaging caption that expands on the content (200 chars max)",
+  "contentPromise": "What specific value people will get from this advice",
+  "unexpectedTwist": "A thoughtful insight that challenges common assumptions",
+  "socialProofElement": "Authentic context about why this approach helps",
+  "urgencyTrigger": "An authentic reason why this matters now",
+  "saveReason": "Why someone might genuinely want to save this post",
+  "caption": "A conversational expansion of the content (200 chars max)",
   "hashtags": ["relevant", "hashtags", "fixin5mins"],
   "hasMetric": ${shouldIncludeMetric}, // Default ${shouldIncludeMetric ? "true" : "false"} for this post
-  "metricValue": "${shouldIncludeMetric ? "27" : ""}", // ${shouldIncludeMetric ? "Example value" : "Only provide when hasMetric is true"}
-  "metricUnit": "${shouldIncludeMetric ? "%" : ""}" // ${shouldIncludeMetric ? "Example unit" : "Only provide when hasMetric is true"}
+  "metricValue": "", // Only provide when hasMetric is true AND you have a real data point
+  "metricUnit": "" // Only provide when hasMetric is true AND you have a real data point
 }
 
 CRITICAL INSTRUCTIONS:
-1. ${shouldIncludeMetric ? "This post template includes a metric, but you can change hasMetric to false if it doesn't fit your content" : "The default for this post is no metric, but you can set hasMetric to true if your content has a strong numeric focus"}
-2. Only use metrics when they're the central focus of the content (like "87% of people...")
-3. Do not force metrics into content where they don't naturally fit
-4. If you set hasMetric to true, make sure the emotionalHook clearly mentions the specific number
-5. Make content incredibly surprising, specific, and save-worthy to drive viral engagement`;
+1. Focus on creating genuinely helpful content that acknowledges the real complexity of the topic
+2. Use a warm, conversational tone that connects with the reader
+3. Offer a realistic first step someone could take in 5 minutes
+4. Only include metrics if they're based on real psychology or research
+5. Make content that feels like advice from a knowledgeable friend, not a marketing pitch`;
 
     // Generate the content using the structured content method
     try {
@@ -466,136 +465,136 @@ CRITICAL INSTRUCTIONS:
    * @returns Mock content in the emotional format
    */
   private getMockContentForTopic(topic: string): EmotionalContentFormat {
-    // Random chance to include metrics (approximately 30% of posts)
-    const shouldIncludeMetric = Math.random() < 0.3;
+    // We'll only occasionally include metrics when they're actually relevant
+    const shouldIncludeMetric = Math.random() < 0.15;
     
-    // Topic-specific templates for common topics with enhanced viral elements
+    // Topic-specific templates that focus on real problems and authentic solutions
     const templates: Record<string, EmotionalContentFormat> = {
       'mindfulness': {
-        emotionalHook: "Your brain processes 6,000 thoughts daily but remembers only 5% of them.",
-        actionStep: "Set a 5-minute timer and write down every thought that comes to mind without judgment.",
-        emotionalReward: "Break the cycle of mental overwhelm and discover what's actually important beneath the noise.",
-        caption: "Mental clarity isn't about having no thoughts—it's about knowing which ones deserve your attention. Try this research-backed exercise to cut through the mental static.",
-        hashtags: ["mindfulness", "mentalhealth", "brainhack", "focustips", "clarity", "fixin5mins"],
+        emotionalHook: "Find your mind racing with thoughts when you're trying to focus on what's happening now?",
+        actionStep: "Take 5 minutes to sit quietly and simply notice your thoughts without judging them, seeing them as clouds passing by.",
+        emotionalReward: "Experience the calm that comes from observing your thoughts instead of being controlled by them.",
+        caption: "Mindfulness isn't about having no thoughts—it's about changing your relationship with them. This simple practice helps create space between you and the constant mental chatter.",
+        hashtags: ["mindfulness", "mentalhealth", "presence", "awareness", "fixin5mins"],
         
-        // Enhanced viral elements
-        patternInterruptHook: "Your brain processes 6,000 thoughts daily but remembers only 5% of them.",
-        contentPromise: "Discover the neuroscience-backed 5-minute thought download technique",
-        unexpectedTwist: "Trying to 'clear your mind' actually increases thought volume by 34%",
-        socialProofElement: "Harvard neuroscientists found this technique reduces cortisol levels by 27% in just one session",
-        urgencyTrigger: "Each day of rumination reinforces neural pathways that keep you stuck",
-        saveReason: "Save for the next time you feel mentally scattered or overwhelmed",
-        hasMetric: true,
-        metricValue: "6000",
+        // Enhanced elements
+        patternInterruptHook: "Find your mind racing with thoughts when you're trying to focus on what's happening now?",
+        contentPromise: "A simple mindfulness practice that creates immediate mental space",
+        unexpectedTwist: "The goal isn't to stop thinking but to change your relationship with your thoughts",
+        socialProofElement: "This technique is taught in mindfulness-based stress reduction programs worldwide",
+        urgencyTrigger: "Each moment spent fused with racing thoughts adds to mental and physical stress",
+        saveReason: "Save this for those moments when your mind feels too full and scattered",
+        hasMetric: false,
+        metricValue: "",
         metricUnit: ""
       },
       'productivity': {
-        emotionalHook: "91% of to-do lists fail because they ignore the biology of focus.",
-        actionStep: "Choose ONE task, set a timer for exactly 5 minutes of focused work with your phone in another room.",
-        emotionalReward: "Experience the momentum that breaks through procrastination faster than any motivational quote.",
-        caption: "Your to-do list is working against your brain's natural focus systems. This micro-commitment technique bypasses the resistance that keeps you stuck.",
-        hashtags: ["productivity", "neuroscience", "focusmethod", "procrastination", "deepwork", "fixin5mins"],
+        emotionalHook: "Ever notice how you resist starting the tasks that matter most?",
+        actionStep: "Choose one important task and commit to just 5 minutes of focused work on it with no distractions.",
+        emotionalReward: "Feel the momentum and clarity that comes from breaking through the initial resistance barrier.",
+        caption: "Our brains are wired to resist uncertainty and complexity. The 5-minute commitment trick works because it makes starting manageable, activating the part of your brain that craves completion.",
+        hashtags: ["productivity", "focustime", "momentum", "procrastination", "fixin5mins"],
         
-        // Enhanced viral elements
-        patternInterruptHook: "91% of to-do lists fail because they ignore the biology of focus.",
-        contentPromise: "Learn the 5-minute micro-commitment technique that elite performers use",
-        unexpectedTwist: "Starting with your easiest task actually decreases overall productivity by 23%",
-        socialProofElement: "Stanford research shows this approach increases completion rates by 83% for complex projects",
-        urgencyTrigger: "Every day of delay reinforces the neural pathways of procrastination",
-        saveReason: "Save this technique for the next time you're feeling stuck on an important project",
-        hasMetric: true,
-        metricValue: "91",
-        metricUnit: "%"
+        // Enhanced elements
+        patternInterruptHook: "Ever notice how you resist starting the tasks that matter most?",
+        contentPromise: "A psychological trick to break through initial task resistance",
+        unexpectedTwist: "Starting is much harder than continuing, which is why short commitments work so well",
+        socialProofElement: "This approach leverages the Zeigarnik effect - our brain's natural desire to complete what we've started",
+        urgencyTrigger: "Each day, our most important tasks face the strongest psychological resistance",
+        saveReason: "Save this for when you're feeling stuck on an important project you keep avoiding",
+        hasMetric: false,
+        metricValue: "",
+        metricUnit: ""
       },
       'anxiety': {
-        emotionalHook: "Anxiety isn't in your mind—it's in your nervous system, according to neuroscientists.",
-        actionStep: "Place one hand on your chest, one on your stomach, and take 5 deep belly breaths counting 4-7-8.",
-        emotionalReward: "Feel your nervous system shift from fight-or-flight to rest-and-digest in under 300 seconds.",
-        caption: "Trying to 'think' your way out of anxiety is like trying to put out a fire with gasoline. This physiological reset button works when nothing else will.",
-        hashtags: ["anxiety", "nervousystem", "vagalresponse", "breathwork", "stressrelief", "fixin5mins"],
+        emotionalHook: "When anxiety hits, does your mind race while your body tenses up?",
+        actionStep: "Place one hand on your chest, one on your stomach, and take 5 deep belly breaths counting to 4 on each inhale and exhale.",
+        emotionalReward: "Feel your nervous system begin to settle as you activate your body's natural calming response.",
+        caption: "Anxiety involves both mind and body in a feedback loop. This breathing technique works because it directly signals your nervous system to move from fight-or-flight to rest-and-digest mode.",
+        hashtags: ["anxiety", "nervousystem", "breathing", "stressrelief", "fixin5mins"],
         
-        // Enhanced viral elements
-        patternInterruptHook: "Anxiety isn't in your mind—it's in your nervous system, according to neuroscientists.",
-        contentPromise: "Learn the physiological 'reset button' that works when meditation fails",
-        unexpectedTwist: "Talking about your anxiety can actually increase stress hormones by 43%",
-        socialProofElement: "Used by combat veterans with 87% reporting immediate symptom reduction",
-        urgencyTrigger: "Each anxiety spike without intervention strengthens the neural anxiety circuit",
-        saveReason: "Save for your next anxiety spike—it works faster than medication",
+        // Enhanced elements
+        patternInterruptHook: "When anxiety hits, does your mind race while your body tenses up?",
+        contentPromise: "A physiological reset button that can help calm anxiety in moments",
+        unexpectedTwist: "Trying to think your way out of anxiety often makes it worse - your body holds the key",
+        socialProofElement: "This breathing technique activates the vagus nerve, which research shows helps regulate the stress response",
+        urgencyTrigger: "Having a simple physical tool ready before anxiety strikes makes all the difference",
+        saveReason: "Save this for your next anxious moment - it's simple enough to remember when stressed",
         hasMetric: false,
         metricValue: "",
         metricUnit: ""
       },
       'sleep': {
-        emotionalHook: "Your brain makes sleep decisions 3 hours before bedtime, not when you close your eyes.",
-        actionStep: "5 minutes before dinner, write down tomorrow's top 3 tasks to prevent 2AM thought spirals.",
-        emotionalReward: "Program your brain for deep sleep instead of rehearsing tomorrow's worries all night.",
-        caption: "Insomnia isn't a nighttime problem—it's set in motion hours before bed. This neuroscience-backed planning technique gives your brain the closure it needs.",
-        hashtags: ["sleep", "insomnia", "neurohack", "sleepscience", "eveningroutine", "fixin5mins"],
+        emotionalHook: "Do you lie awake thinking about tomorrow's tasks and challenges?",
+        actionStep: "Before bed, take 5 minutes to write down your top 3 priorities for tomorrow and any worries on your mind.",
+        emotionalReward: "Experience deeper sleep as your brain relaxes, knowing your thoughts are safely captured for tomorrow.",
+        caption: "Your brain keeps you awake to make sure you don't forget important things. This 'cognitive offloading' technique gives your mind permission to rest.",
+        hashtags: ["sleep", "insomnia", "eveningroutine", "restful", "fixin5mins"],
         
-        // Enhanced viral elements
-        patternInterruptHook: "Your brain makes sleep decisions 3 hours before bedtime, not when you close your eyes.",
-        contentPromise: "Learn the pre-dinner ritual that improves sleep quality by 71%",
-        unexpectedTwist: "Using blue-light blocking glasses is 43% less effective than this mental offloading technique",
-        socialProofElement: "Sleep researchers at UCLA found this reduces middle-of-night wakeups by 63%",
-        urgencyTrigger: "Each night of poor sleep compounds cognitive decline and increases stress hormones",
-        saveReason: "Save this for tonight if you're tired of staring at the ceiling at 2AM",
+        // Enhanced elements
+        patternInterruptHook: "Do you lie awake thinking about tomorrow's tasks and challenges?",
+        contentPromise: "A pre-sleep mental offloading technique that helps quiet racing thoughts",
+        unexpectedTwist: "Your brain keeps you awake not to torture you, but to protect you from forgetting important things",
+        socialProofElement: "Research on 'bedtime worry' shows writing concerns down significantly improves sleep quality",
+        urgencyTrigger: "Each night of poor sleep affects your cognitive function and emotional resilience the next day",
+        saveReason: "Save this for tonight if you've been struggling with racing thoughts at bedtime",
         hasMetric: false,
         metricValue: "",
         metricUnit: ""
       },
       'confidence': {
-        emotionalHook: "Impostor syndrome affects 85% of professionals but comes from a single cognitive error.",
-        actionStep: "Take 5 minutes to list three specific situations where you received recognition or delivered results.",
-        emotionalReward: "Reconnect with objective evidence that contradicts the brain's negative filtering bias.",
-        caption: "Your confidence isn't missing—it's being filtered out by your brain's negativity bias. This evidence-collection technique rewires that faulty circuit.",
-        hashtags: ["confidence", "impostorsyndrome", "mindset", "selfworth", "evidencemethod", "fixin5mins"],
+        emotionalHook: "Do you sometimes feel like you're not good enough despite your accomplishments?",
+        actionStep: "Take 5 minutes to write down three specific moments when you overcame a challenge or received positive feedback.",
+        emotionalReward: "Reconnect with factual evidence that contradicts your inner critic and supports your capabilities.",
+        caption: "Our brains have a negativity bias that makes us forget our strengths and fixate on perceived weaknesses. This evidence-collection practice helps rebalance that distortion.",
+        hashtags: ["confidence", "impostorsyndrome", "selfdoubt", "growth", "fixin5mins"],
         
-        // Enhanced viral elements
-        patternInterruptHook: "Impostor syndrome affects 85% of professionals but comes from a single cognitive error.",
-        contentPromise: "Discover the 5-minute evidence collection technique used by CEOs and top performers",
-        unexpectedTwist: "Positive affirmations without evidence actually reinforce impostor feelings in 65% of people",
-        socialProofElement: "Cognitive research shows this method reduces self-doubt by 47% after just one session",
-        urgencyTrigger: "Every day without correcting your brain's negativity bias reinforces the impostor neural pathway",
-        saveReason: "Save for your next confidence crisis—it works when affirmations fail",
-        hasMetric: true,
-        metricValue: "85",
-        metricUnit: "%"
+        // Enhanced elements
+        patternInterruptHook: "Do you sometimes feel like you're not good enough despite your accomplishments?",
+        contentPromise: "An evidence-based approach to quieting imposter syndrome when it strikes",
+        unexpectedTwist: "Positive thinking alone doesn't work - collecting concrete evidence does",
+        socialProofElement: "Cognitive behavioral approaches consistently show that challenging negative thoughts with factual evidence is effective",
+        urgencyTrigger: "Self-doubt tends to strike hardest right before important opportunities or challenges",
+        saveReason: "Save this for your next confidence crisis - it works when affirmations don't",
+        hasMetric: false,
+        metricValue: "",
+        metricUnit: ""
       },
       'relationships': {
-        emotionalHook: "The strongest predictor of relationship success isn't compatibility—it's how you handle disagreements.",
-        actionStep: "Choose one recent conflict and write down what the other person was feeling, not just what they said.",
-        emotionalReward: "Transform recurring conflicts into opportunities for deeper understanding and connection.",
-        caption: "We obsess about finding the 'right person' when research shows relationship success depends more on how we navigate the inevitable conflicts. This simple perspective shift changes everything.",
-        hashtags: ["relationships", "communication", "emotionalintelligence", "conflictresolution", "connection", "fixin5mins"],
+        emotionalHook: "Frustrated when the same conflict keeps happening in your important relationships?",
+        actionStep: "Choose one recent disagreement and write down what the other person might have been feeling, not just what they said.",
+        emotionalReward: "Gain insight into patterns that keep repeating and open new possibilities for understanding.",
+        caption: "We often get stuck responding to what people say rather than what they feel underneath. This perspective shift can transform chronic conflicts into opportunities for deeper connection.",
+        hashtags: ["relationships", "communication", "empathy", "connection", "fixin5mins"],
         
-        // Enhanced viral elements
-        patternInterruptHook: "The strongest predictor of relationship success isn't compatibility—it's how you handle disagreements.",
-        contentPromise: "Learn the emotional reframing technique that elite couples therapists teach",
-        unexpectedTwist: "Avoiding arguments actually predicts divorce more reliably than frequent fighting",
-        socialProofElement: "Relationship researchers found couples who practice this have longer-lasting relationships",
-        urgencyTrigger: "Each conflict handled defensively creates emotional distance that becomes harder to bridge",
-        saveReason: "Save this for after your next disagreement with someone you care about",
+        // Enhanced elements
+        patternInterruptHook: "Frustrated when the same conflict keeps happening in your important relationships?",
+        contentPromise: "A simple perspective shift that can transform recurring conflicts",
+        unexpectedTwist: "Focusing on the other person's feelings rather than their words opens new possibilities",
+        socialProofElement: "Research in relationship psychology shows that emotional understanding is more important than problem-solving",
+        urgencyTrigger: "Each repeated conflict creates deeper patterns that become harder to change over time",
+        saveReason: "Save this for after your next disagreement with someone important to you",
         hasMetric: false,
         metricValue: "",
         metricUnit: ""
       },
       'reading': {
-        emotionalHook: "Reading 1 hour daily makes you forget 87% of what you read",
-        actionStep: "Pick one article, read just 2 paragraphs now, then summarize in 3 bullet points",
-        emotionalReward: "Feel the satisfaction of actually retaining knowledge instead of forgetting",
-        caption: "We've all been there - reading for hours only to forget most of it. This simple active recall technique changes everything about how your brain processes information.",
-        hashtags: ["reading", "learning", "productivity", "knowledge", "studytips", "fixin5mins"],
+        emotionalHook: "Do you read a lot but struggle to remember and apply what you've learned?",
+        actionStep: "After reading an article or book chapter, take 5 minutes to write 3 bullet points summarizing key insights.",
+        emotionalReward: "Transform passive reading into knowledge you can actually use and remember.",
+        caption: "Reading without reflecting is like eating without digesting. This simple active recall technique helps your brain process and store information in a way you can actually access later.",
+        hashtags: ["reading", "learning", "retention", "knowledge", "fixin5mins"],
         
-        // Enhanced viral elements
-        patternInterruptHook: "Reading 1 hour daily makes you forget 87% of what you read",
-        contentPromise: "Learn the 5-minute retention hack used by top medical students",
-        unexpectedTwist: "Reading more actually decreases retention unless you use this pattern interrupt",
-        socialProofElement: "Memory researchers found this technique increases recall by 300% compared to passive reading",
-        urgencyTrigger: "Every book you read without this technique is mostly wasted time",
-        saveReason: "Save this for the next time you need to remember important information",
-        hasMetric: true,
-        metricValue: "87",
-        metricUnit: "%"
+        // Enhanced elements
+        patternInterruptHook: "Do you read a lot but struggle to remember and apply what you've learned?",
+        contentPromise: "A simple technique to transform passive reading into usable knowledge",
+        unexpectedTwist: "The act of trying to recall information is more powerful than rereading or highlighting",
+        socialProofElement: "Learning science shows that active recall significantly improves long-term retention compared to passive reviewing",
+        urgencyTrigger: "Without active processing, most of what you read today will be forgotten within a week",
+        saveReason: "Save this for the next time you read something important you actually want to remember",
+        hasMetric: false,
+        metricValue: "",
+        metricUnit: ""
       }
     };
     
@@ -605,57 +604,33 @@ CRITICAL INSTRUCTIONS:
     );
     
     if (matchingKey) {
-      const template = { ...templates[matchingKey] };
-      
-      // Override the template's hasMetric based on randomization if it doesn't match a fixed template
-      if (matchingKey !== 'reading' && matchingKey !== 'productivity' && matchingKey !== 'mindfulness' && matchingKey !== 'confidence') {
-        template.hasMetric = shouldIncludeMetric;
-        
-        // If we're removing the metric that was set, clear the values
-        if (!shouldIncludeMetric && template.hasMetric) {
-          template.metricValue = "";
-          template.metricUnit = "";
-        }
-      }
-      
-      return template;
+      return { ...templates[matchingKey] };
     }
     
-    // Generic fallback template with viral elements
-    let emotionalHook, patternInterruptHook, metricValue, metricUnit;
+    // Generic fallback template with authentic approach
+    let emotionalHook, patternInterruptHook;
     
-    if (shouldIncludeMetric) {
-      // With metric version
-      metricValue = "90";
-      metricUnit = "%";
-      emotionalHook = `90% of people struggle with ${topic} because they're missing a critical insight.`;
-      patternInterruptHook = emotionalHook;
-    } else {
-      // Without metric version
-      metricValue = "";
-      metricUnit = "";
-      emotionalHook = `Most people struggle with ${topic} because they're missing a critical insight.`;
-      patternInterruptHook = emotionalHook;
-    }
+    emotionalHook = `Finding it challenging to make progress with ${topic} despite your best efforts?`;
+    patternInterruptHook = emotionalHook;
     
     return {
       emotionalHook,
-      actionStep: `Take 5 minutes to write down your biggest ${topic} challenge, then circle the parts you can control in blue.`,
-      emotionalReward: `Gain immediate clarity by separating what's actionable from what's just mental noise.`,
-      caption: `Most ${topic} advice ignores the psychology of change. This simple clarity exercise cuts through the confusion and gives you a clear first step.`,
-      hashtags: ["clarity", "mindset", "actionsteps", "progress", "breakthrough", "fixin5mins"],
+      actionStep: `Take 5 minutes to write down one small, specific step you could take today with ${topic}.`,
+      emotionalReward: `Experience the clarity and motivation that comes from having a concrete next action.`,
+      caption: `When we're stuck with ${topic}, we often think we need more information or resources. But usually, we just need a clear, specific next step to get moving again.`,
+      hashtags: ["clarity", "action", "smallsteps", "progress", "fixin5mins"],
       
-      // Enhanced viral elements
+      // Enhanced elements
       patternInterruptHook,
-      contentPromise: `Learn the 5-minute clarity technique that transforms how you approach ${topic}`,
-      unexpectedTwist: `Most ${topic} problems come from focusing on solutions before gaining clarity`,
-      socialProofElement: `Psychological research shows this approach increases success rates by 340%`,
-      urgencyTrigger: `Each day spent unclear about your ${topic} challenge compounds feelings of overwhelm`,
-      saveReason: `Save this for the next time you feel stuck with ${topic} challenges`,
-      // Apply randomization to metrics
-      hasMetric: shouldIncludeMetric,
-      metricValue,
-      metricUnit
+      contentPromise: `A simple clarity exercise that helps you get unstuck with ${topic}`,
+      unexpectedTwist: `Progress with ${topic} rarely comes from having the perfect plan, but from taking imperfect action`,
+      socialProofElement: `This approach is based on research showing that clarity and specificity are key motivational factors`,
+      urgencyTrigger: `The longer we stay stuck thinking about ${topic} without acting, the harder it becomes to start`,
+      saveReason: `Save this for when you're feeling overwhelmed or confused about next steps with ${topic}`,
+      // Apply minimal metrics
+      hasMetric: false,
+      metricValue: "",
+      metricUnit: ""
     };
   }
 }

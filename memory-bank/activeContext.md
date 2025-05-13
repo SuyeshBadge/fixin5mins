@@ -1,6 +1,11 @@
 # Active Context
 
 ## Current Focus
+- Implementing content generation that focuses on authentic empathy rather than viral marketing tactics
+- Improving content quality by replacing fabricated statistics with genuine understanding
+- Moving from shock-value statements to relatable questions that connect with users
+- Creating content that acknowledges the real complexity of people's challenges
+- Testing and refining our empathetic content generation approach
 
 We have been enhancing the project's content creation capabilities by adding a new purpose-story template that features a clean, minimalist design with bold typography for motivational and purpose-driven content. The template uses a light gradient background with dark text for strong visual impact, featuring a "MOTIVATION" label at the top, a bold main message in the center, and customizable branding elements at the bottom. The design is inspired by professional motivational posters with clean typography and modern aesthetics.
 
@@ -36,6 +41,13 @@ We have now enhanced the scheduling system to use optimal posting times for each
 Most recently, we've enhanced the scheduler to always post at script startup regardless of whether posts have already been scheduled for the day, and we've removed the artificial limit of 2 posts per day, allowing all optimal posting times defined for each day to be used. We've also fixed an issue where the scheduler could randomly select the same base time multiple times, resulting in clustered posts with similar posting times. Now it ensures each unique optimal time slot is used exactly once, providing better distribution throughout the day.
 
 ## Recent Changes
+- Completely revamped the content generation service to focus on authentic empathy
+- Updated the system prompt to emphasize genuine understanding of human struggles
+- Replaced pattern-interrupt hooks with relatable questions
+- Eliminated made-up statistics in favor of realistic advice
+- Modified all mock content templates to align with the new approach
+- Created test script to verify empathetic content generation
+- Reduced the frequency of metrics in content (only used when relevant and factual)
 
 - Created a new purpose-story template:
   - Implemented a clean, minimalist design with light gradient background
