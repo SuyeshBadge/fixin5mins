@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elegant Dark Template</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Montserrat:wght@400;500;600;700&family=Satisfy&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      width: 1080px;
+      height: 1080px;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #0f1419, #191f24); /* Darker background gradient */
+      color: #e0e0e0; /* Light gray for general text for good contrast */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      text-align: center;
+      overflow: hidden; /* Prevents scrollbars if content slightly overflows due to calculations */
+    }
+
+    .container {
+      width: 90%; /* Approx 972px */
+      max-width: 980px;
+      padding: 60px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 100px; /* Slightly larger for more prominence */
+      font-weight: 800; /* Heavier weight for better visibility */
+      color: #C9A55C; /* Refined gold color */
+      line-height: 1.2;
+      margin-bottom: 25px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* Subtle shadow for depth */
+    }
+
+    .sub-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 38px; /* Slightly larger */
+      font-weight: 600; /* Increased weight for prominence */
+      color: #E0E0E0; /* Lighter color for better contrast */
+      line-height: 1.4;
+      margin-bottom: 40px;
+      max-width: 80%;
+      text-shadow: 0.5px 0.5px 2px rgba(0,0,0,0.2); /* Very subtle shadow */
+    }
+
+    .body-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 32px; /* Slightly larger */
+      font-weight: 500; /* Medium weight for better readability */
+      color: #FFFFFF; /* White for maximum contrast */
+      line-height: 1.6;
+      margin-bottom: 50px;
+      max-width: 75%;
+    }
+
+    .accent-text {
+      font-family: 'Satisfy', cursive;
+      font-size: 34px; /* Slightly larger */
+      color: #1E7C78; /* Brighter teal for better visibility */
+      margin-bottom: 60px;
+      text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.2); /* Very subtle shadow */
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 40px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 60px;
+      box-sizing: border-box;
+    }
+
+    .handle {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #D4D4D4; /* Brighter for better visibility */
+    }
+
+    .date {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 500; /* Slightly heavier */
+      color: #D4D4D4; /* Brighter for better visibility */
+    }
+    
+    /* Responsive adjustments for very long text, if necessary */
+    .main-heading.long { font-size: 80px; } /* Adjusted for new base size */
+    .sub-heading.long { font-size: 32px; } /* Adjusted for new base size */
+    .body-text.long { font-size: 28px; } /* Adjusted for new base size */
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <% if (mainHeading && mainHeading.trim() !== '') { %>
+      <div class="main-heading <%= mainHeading.length > 30 ? 'long' : '' %>"><%= mainHeading %></div>
+    <% } %>
+
+    <% if (subHeading && subHeading.trim() !== '') { %>
+      <div class="sub-heading <%= subHeading.length > 50 ? 'long' : '' %>"><%= subHeading %></div>
+    <% } %>
+
+    <% if (bodyText && bodyText.trim() !== '') { %>
+      <div class="body-text <%= bodyText.length > 150 ? 'long' : '' %>"><%= bodyText %></div>
+    <% } %>
+
+    <% if (accentText && accentText.trim() !== '') { %>
+      <div class="accent-text"><%= accentText %></div>
+    <% } %>
+  </div>
+
+  <div class="footer">
+    <% if (handle && handle.trim() !== '') { %>
+      <div class="handle">@<%= handle %></div>
+    <% } %>
+    <% if (date && date.trim() !== '') { %>
+      <div class="date"><%= date %></div>
+    <% } %>
+  </div>
+
+</body>
+</html> 

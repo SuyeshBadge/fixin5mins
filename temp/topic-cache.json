@@ -1,28 +1,8 @@
 [
   {
-    "topic": "80/20 rule application",
-    "category": "productivity",
-    "lastUsed": 1746592542781
-  },
-  {
-    "topic": "focus rituals",
-    "category": "productivity",
-    "lastUsed": 1746970442045
-  },
-  {
-    "topic": "setting daily priorities",
-    "category": "productivity",
-    "lastUsed": 1745906269001
-  },
-  {
-    "topic": "evening planning for next day",
-    "category": "productivity",
-    "lastUsed": 1745906270001
-  },
-  {
     "topic": "single-tasking",
     "category": "productivity",
-    "lastUsed": 1745906271001
+    "lastUsed": 1747388222150
   },
   {
     "topic": "creating a done list",
@@ -35,24 +15,9 @@
     "lastUsed": 1745906273001
   },
   {
-    "topic": "present moment practice",
-    "category": "mindfulness",
-    "lastUsed": 1746601944128
-  },
-  {
-    "topic": "emotional regulation through mindfulness",
-    "category": "mindfulness",
-    "lastUsed": 1747031801052
-  },
-  {
-    "topic": "non-judgmental awareness",
-    "category": "mindfulness",
-    "lastUsed": 1745906282001
-  },
-  {
     "topic": "mindful technology use",
     "category": "mindfulness",
-    "lastUsed": 1745906283001
+    "lastUsed": 1747455601814
   },
   {
     "topic": "5-minute breathing break",
@@ -78,21 +43,6 @@
     "topic": "end-of-day reflection",
     "category": "mindfulness",
     "lastUsed": 1745906288001
-  },
-  {
-    "topic": "circadian rhythm management",
-    "category": "physical_health",
-    "lastUsed": 1746605702125
-  },
-  {
-    "topic": "rest and recovery strategies",
-    "category": "physical_health",
-    "lastUsed": 1747034281738
-  },
-  {
-    "topic": "HIIT training basics",
-    "category": "physical_health",
-    "lastUsed": 1745906297001
   },
   {
     "topic": "building exercise consistency",
@@ -125,21 +75,6 @@
     "lastUsed": 1745906303001
   },
   {
-    "topic": "building psychological flexibility",
-    "category": "mental_health",
-    "lastUsed": 1746617401517
-  },
-  {
-    "topic": "coping mechanisms",
-    "category": "mental_health",
-    "lastUsed": 1747041722042
-  },
-  {
-    "topic": "journaling for mental health",
-    "category": "mental_health",
-    "lastUsed": 1745906312001
-  },
-  {
     "topic": "navigating emotional triggers",
     "category": "mental_health",
     "lastUsed": 1745906313001
@@ -168,21 +103,6 @@
     "topic": "simple gratitude exercises",
     "category": "mental_health",
     "lastUsed": 1745906318001
-  },
-  {
-    "topic": "relationship repair strategies",
-    "category": "relationships",
-    "lastUsed": 1746690455074
-  },
-  {
-    "topic": "empathy deepening exercises",
-    "category": "relationships",
-    "lastUsed": 1747050062705
-  },
-  {
-    "topic": "healthy boundary setting",
-    "category": "relationships",
-    "lastUsed": 1745906327001
   },
   {
     "topic": "networking authentically",
@@ -215,21 +135,6 @@
     "lastUsed": 1745906333001
   },
   {
-    "topic": "leading remote teams",
-    "category": "career",
-    "lastUsed": 1746690553263
-  },
-  {
-    "topic": "time blocking at work",
-    "category": "career",
-    "lastUsed": 1747120831129
-  },
-  {
-    "topic": "managing up",
-    "category": "career",
-    "lastUsed": 1745906342001
-  },
-  {
     "topic": "career pivot planning",
     "category": "career",
     "lastUsed": 1745906343001
@@ -258,21 +163,6 @@
     "topic": "setting a career intention for the day",
     "category": "career",
     "lastUsed": 1745906348001
-  },
-  {
-    "topic": "mental models",
-    "category": "learning",
-    "lastUsed": 1746691793363
-  },
-  {
-    "topic": "cognitive biases awareness",
-    "category": "learning",
-    "lastUsed": 1747121607695
-  },
-  {
-    "topic": "adaptive learning",
-    "category": "learning",
-    "lastUsed": 1745906357001
   },
   {
     "topic": "setting learning KPIs",
@@ -305,21 +195,6 @@
     "lastUsed": 1745906363001
   },
   {
-    "topic": "creative confidence building",
-    "category": "creativity",
-    "lastUsed": 1746768430373
-  },
-  {
-    "topic": "rituals for creativity",
-    "category": "creativity",
-    "lastUsed": 1747121698563
-  },
-  {
-    "topic": "curiosity cultivation",
-    "category": "creativity",
-    "lastUsed": 1745906372001
-  },
-  {
     "topic": "cross-pollination of ideas",
     "category": "creativity",
     "lastUsed": 1745906373001
@@ -350,19 +225,9 @@
     "lastUsed": 1745906378001
   },
   {
-    "topic": "building multiple income streams",
-    "category": "financial",
-    "lastUsed": 1746768514813
-  },
-  {
-    "topic": "financial literacy fundamentals",
-    "category": "financial",
-    "lastUsed": 1747121806168
-  },
-  {
     "topic": "mindful spending",
     "category": "financial",
-    "lastUsed": 1745906387001
+    "lastUsed": 1747292425922
   },
   {
     "topic": "developing a wealth mindset",
@@ -395,24 +260,9 @@
     "lastUsed": 1745906393001
   },
   {
-    "topic": "sabbatical planning",
-    "category": "personal_growth",
-    "lastUsed": 1746504219136
-  },
-  {
-    "topic": "mindset shifts for change",
-    "category": "personal_growth",
-    "lastUsed": 1746778807616
-  },
-  {
-    "topic": "narrative reframing",
-    "category": "personal_growth",
-    "lastUsed": 1745906401001
-  },
-  {
     "topic": "building personal integrity",
     "category": "personal_growth",
-    "lastUsed": 1745906402001
+    "lastUsed": 1747305001151
   },
   {
     "topic": "self-actualization pathways",
@@ -445,24 +295,9 @@
     "lastUsed": 1745906408001
   },
   {
-    "topic": "plant a tree",
-    "category": "environmental_mindfulness",
-    "lastUsed": 1746504247069
-  },
-  {
-    "topic": "minimalist purchasing",
-    "category": "environmental_mindfulness",
-    "lastUsed": 1746778884726
-  },
-  {
-    "topic": "upcycling projects",
-    "category": "environmental_mindfulness",
-    "lastUsed": 1745906416001
-  },
-  {
     "topic": "support local businesses",
     "category": "environmental_mindfulness",
-    "lastUsed": 1745906417001
+    "lastUsed": 1747370090659
   },
   {
     "topic": "eco-conscious meal planning",
@@ -470,24 +305,9 @@
     "lastUsed": 1745906418001
   },
   {
-    "topic": "solo date ideas",
-    "category": "self_care",
-    "lastUsed": 1746538801933
-  },
-  {
-    "topic": "nurture a hobby",
-    "category": "self_care",
-    "lastUsed": 1746783061357
-  },
-  {
-    "topic": "schedule downtime",
-    "category": "self_care",
-    "lastUsed": 1745906426001
-  },
-  {
     "topic": "listen to uplifting music",
     "category": "self_care",
-    "lastUsed": 1745906427001
+    "lastUsed": 1747370161679
   },
   {
     "topic": "5-minute stretching routine",
@@ -495,24 +315,9 @@
     "lastUsed": 1745906428001
   },
   {
-    "topic": "set daily goals",
-    "category": "organization",
-    "lastUsed": 1746592508062
-  },
-  {
-    "topic": "plan weekly menu",
-    "category": "organization",
-    "lastUsed": 1746937681734
-  },
-  {
-    "topic": "track appointments",
-    "category": "organization",
-    "lastUsed": 1745906436001
-  },
-  {
     "topic": "file important documents",
     "category": "organization",
-    "lastUsed": 1745906437001
+    "lastUsed": 1747376432162
   },
   {
     "topic": "prep clothes for tomorrow",
@@ -520,24 +325,9 @@
     "lastUsed": 1745906438001
   },
   {
-    "topic": "one tech-free hour daily",
-    "category": "technology_habits",
-    "lastUsed": 1746592515433
-  },
-  {
-    "topic": "organize cloud storage",
-    "category": "technology_habits",
-    "lastUsed": 1746938401952
-  },
-  {
-    "topic": "update passwords",
-    "category": "technology_habits",
-    "lastUsed": 1745906446001
-  },
-  {
     "topic": "adjust notification settings",
     "category": "technology_habits",
-    "lastUsed": 1745906447001
+    "lastUsed": 1747380781614
   },
   {
     "topic": "learn a tech shortcut",
@@ -973,5 +763,215 @@
     "topic": "self-love-gradient",
     "category": "other",
     "lastUsed": 1746504213454
+  },
+  {
+    "topic": "sabbatical planning",
+    "category": "personal_growth",
+    "lastUsed": 1746504219136
+  },
+  {
+    "topic": "plant a tree",
+    "category": "environmental_mindfulness",
+    "lastUsed": 1746504247069
+  },
+  {
+    "topic": "solo date ideas",
+    "category": "self_care",
+    "lastUsed": 1746538801933
+  },
+  {
+    "topic": "set daily goals",
+    "category": "organization",
+    "lastUsed": 1746592508062
+  },
+  {
+    "topic": "one tech-free hour daily",
+    "category": "technology_habits",
+    "lastUsed": 1746592515433
+  },
+  {
+    "topic": "80/20 rule application",
+    "category": "productivity",
+    "lastUsed": 1746592542781
+  },
+  {
+    "topic": "present moment practice",
+    "category": "mindfulness",
+    "lastUsed": 1746601944128
+  },
+  {
+    "topic": "circadian rhythm management",
+    "category": "physical_health",
+    "lastUsed": 1746605702125
+  },
+  {
+    "topic": "building psychological flexibility",
+    "category": "mental_health",
+    "lastUsed": 1746617401517
+  },
+  {
+    "topic": "relationship repair strategies",
+    "category": "relationships",
+    "lastUsed": 1746690455074
+  },
+  {
+    "topic": "leading remote teams",
+    "category": "career",
+    "lastUsed": 1746690553263
+  },
+  {
+    "topic": "mental models",
+    "category": "learning",
+    "lastUsed": 1746691793363
+  },
+  {
+    "topic": "creative confidence building",
+    "category": "creativity",
+    "lastUsed": 1746768430373
+  },
+  {
+    "topic": "building multiple income streams",
+    "category": "financial",
+    "lastUsed": 1746768514813
+  },
+  {
+    "topic": "mindset shifts for change",
+    "category": "personal_growth",
+    "lastUsed": 1746778807616
+  },
+  {
+    "topic": "minimalist purchasing",
+    "category": "environmental_mindfulness",
+    "lastUsed": 1746778884726
+  },
+  {
+    "topic": "nurture a hobby",
+    "category": "self_care",
+    "lastUsed": 1746783061357
+  },
+  {
+    "topic": "plan weekly menu",
+    "category": "organization",
+    "lastUsed": 1746937681734
+  },
+  {
+    "topic": "organize cloud storage",
+    "category": "technology_habits",
+    "lastUsed": 1746938401952
+  },
+  {
+    "topic": "focus rituals",
+    "category": "productivity",
+    "lastUsed": 1746970442045
+  },
+  {
+    "topic": "emotional regulation through mindfulness",
+    "category": "mindfulness",
+    "lastUsed": 1747031801052
+  },
+  {
+    "topic": "rest and recovery strategies",
+    "category": "physical_health",
+    "lastUsed": 1747034281738
+  },
+  {
+    "topic": "coping mechanisms",
+    "category": "mental_health",
+    "lastUsed": 1747041722042
+  },
+  {
+    "topic": "empathy deepening exercises",
+    "category": "relationships",
+    "lastUsed": 1747050062705
+  },
+  {
+    "topic": "time blocking at work",
+    "category": "career",
+    "lastUsed": 1747120831129
+  },
+  {
+    "topic": "cognitive biases awareness",
+    "category": "learning",
+    "lastUsed": 1747121607695
+  },
+  {
+    "topic": "rituals for creativity",
+    "category": "creativity",
+    "lastUsed": 1747121698563
+  },
+  {
+    "topic": "financial literacy fundamentals",
+    "category": "financial",
+    "lastUsed": 1747121806168
+  },
+  {
+    "topic": "narrative reframing",
+    "category": "personal_growth",
+    "lastUsed": 1747211354917
+  },
+  {
+    "topic": "upcycling projects",
+    "category": "environmental_mindfulness",
+    "lastUsed": 1747211761692
+  },
+  {
+    "topic": "schedule downtime",
+    "category": "self_care",
+    "lastUsed": 1747222081760
+  },
+  {
+    "topic": "track appointments",
+    "category": "organization",
+    "lastUsed": 1747289340264
+  },
+  {
+    "topic": "update passwords",
+    "category": "technology_habits",
+    "lastUsed": 1747289421618
+  },
+  {
+    "topic": "setting daily priorities",
+    "category": "productivity",
+    "lastUsed": 1747289722272
+  },
+  {
+    "topic": "non-judgmental awareness",
+    "category": "mindfulness",
+    "lastUsed": 1747289735331
+  },
+  {
+    "topic": "HIIT training basics",
+    "category": "physical_health",
+    "lastUsed": 1747289749999
+  },
+  {
+    "topic": "journaling for mental health",
+    "category": "mental_health",
+    "lastUsed": 1747289772438
+  },
+  {
+    "topic": "healthy boundary setting",
+    "category": "relationships",
+    "lastUsed": 1747289797287
+  },
+  {
+    "topic": "managing up",
+    "category": "career",
+    "lastUsed": 1747289805297
+  },
+  {
+    "topic": "adaptive learning",
+    "category": "learning",
+    "lastUsed": 1747289820504
+  },
+  {
+    "topic": "curiosity cultivation",
+    "category": "creativity",
+    "lastUsed": 1747289886561
+  },
+  {
+    "topic": "inspiration",
+    "category": "other",
+    "lastUsed": 1747292403704
   }
 ]

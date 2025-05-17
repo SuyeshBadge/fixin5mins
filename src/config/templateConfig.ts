@@ -14,6 +14,7 @@ export interface Template {
   fileCount: number;        // Number of EJS template files
   files: TemplateFileMap[]; // Files and their variable mappings
   defaultVariables?: any;   // Default values for template variables
+  contentMapping?: { [key: string]: string }; // Optional: Maps EJS vars to content source keys
 }
 
 export interface TemplateConfig {
@@ -63,6 +64,12 @@ export const templateConfig: TemplateConfig = {
       emotionalReward: "self love is the best love",
       handle: "fixin5mins",
       date: ""
+    },
+    contentMapping: {
+      emotionalHook: "emotionalHook",
+      actionStep: "actionStep",
+      emotionalReward: "emotionalReward"
+      // caption and hashtags are handled by the job script, not direct template vars here
     }
   },
   "motivation-accent": {
@@ -148,6 +155,28 @@ export const templateConfig: TemplateConfig = {
         "Put away one item on your desk"
       ],
       totalSlides: 3
+    }
+  },
+  "elegant-dark": {
+    id: "elegant-dark",
+    type: "quote", // This type seems most fitting for the described aesthetic
+    fileCount: 1,
+    files: [
+      { fileName: "template.ejs", variableMapping: "mainTemplate" }
+    ],
+    defaultVariables: {
+      mainHeading: "Timeless Wisdom",
+      subHeading: "Reflections for the Soul",
+      bodyText: "Elegance is not about being noticed, it's about being remembered.",
+      accentText: "Ancient Proverb",
+      handle: "fixin5mins",
+      date: "" // Default to empty; can be dynamically set or omitted by user
+    },
+    contentMapping: {
+      mainHeading: "emotionalHook",   // Map to emotionalHook from generated content
+      subHeading: "actionStep",      // Map to actionStep
+      bodyText: "emotionalReward", // Map to emotionalReward
+      accentText: "topic"            // Use the current topic for accentText
     }
   }
 }; 

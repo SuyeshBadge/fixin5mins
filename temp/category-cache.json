@@ -1,72 +1,72 @@
 [
   {
-    "category": "financial",
-    "lastUsed": 1747121806168,
-    "description": "Money management and financial wellbeing"
-  },
-  {
-    "category": "personal_growth",
-    "lastUsed": 1746778807616,
-    "description": "Self-improvement and character development"
-  },
-  {
-    "category": "environmental_mindfulness",
-    "lastUsed": 1746778884726,
-    "description": "Sustainable practices and environmental awareness"
-  },
-  {
-    "category": "self_care",
-    "lastUsed": 1746783061357,
-    "description": "Personal well-being and nurturing activities"
-  },
-  {
-    "category": "organization",
-    "lastUsed": 1746937681734,
-    "description": "Structuring and managing physical and digital spaces"
-  },
-  {
-    "category": "technology_habits",
-    "lastUsed": 1746938401952,
-    "description": "Healthy digital practices and tech management"
-  },
-  {
-    "category": "productivity",
-    "lastUsed": 1746970442045,
-    "description": "Efficiency, task management, and getting things done"
-  },
-  {
     "category": "mindfulness",
-    "lastUsed": 1747031801052,
+    "lastUsed": 1747455601814,
     "description": "Awareness, presence, and mental practices"
   },
   {
     "category": "physical_health",
-    "lastUsed": 1747034281738,
+    "lastUsed": 1747289749999,
     "description": "Exercise, nutrition, and bodily wellbeing"
   },
   {
     "category": "mental_health",
-    "lastUsed": 1747041722042,
+    "lastUsed": 1747289772438,
     "description": "Emotional wellness, psychology, and personal stability"
   },
   {
     "category": "relationships",
-    "lastUsed": 1747050062705,
+    "lastUsed": 1747289797287,
     "description": "Interpersonal connections and social skills"
   },
   {
     "category": "career",
-    "lastUsed": 1747120831129,
+    "lastUsed": 1747289805297,
     "description": "Professional growth and workplace success"
   },
   {
     "category": "learning",
-    "lastUsed": 1747121607695,
+    "lastUsed": 1747289820504,
     "description": "Knowledge acquisition and cognitive skills"
   },
   {
     "category": "creativity",
-    "lastUsed": 1747121698563,
+    "lastUsed": 1747289886561,
     "description": "Artistic expression and innovative thinking"
+  },
+  {
+    "category": "financial",
+    "lastUsed": 1747292425922,
+    "description": "Money management and financial wellbeing"
+  },
+  {
+    "category": "personal_growth",
+    "lastUsed": 1747305001151,
+    "description": "Self-improvement and character development"
+  },
+  {
+    "category": "environmental_mindfulness",
+    "lastUsed": 1747370090659,
+    "description": "Sustainable practices and environmental awareness"
+  },
+  {
+    "category": "self_care",
+    "lastUsed": 1747370161679,
+    "description": "Personal well-being and nurturing activities"
+  },
+  {
+    "category": "organization",
+    "lastUsed": 1747376432162,
+    "description": "Structuring and managing physical and digital spaces"
+  },
+  {
+    "category": "technology_habits",
+    "lastUsed": 1747380781614,
+    "description": "Healthy digital practices and tech management"
+  },
+  {
+    "category": "productivity",
+    "lastUsed": 1747388222150,
+    "description": "Efficiency, task management, and getting things done"
   }
 ]

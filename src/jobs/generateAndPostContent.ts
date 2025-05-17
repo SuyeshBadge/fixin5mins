@@ -9,6 +9,7 @@ import { RenderedImage } from '../services/html2image-puppeteer';
 import { initializeCloudinary, uploadImageToCloudinary, deleteImageFromCloudinary } from '../services/cloudinary';
 import topicCache from '../services/topicCache';
 import config from '../config';
+import { templateConfig } from '../config/templateConfig';
 import logger from '../utils/logger';
 
 // Load environment variables
@@ -79,16 +80,61 @@ async function main() {
     
     // 2. Generate image using the template system
     logger.info(`Generating image with template: ${options.templateId}`);
+
+    // Retrieve the template configuration
+    const currentTemplate = templateConfig[options.templateId];
+    if (!currentTemplate) {
+      throw new Error(`Template configuration for ${options.templateId} not found.`);
+    }
+
+    const variablesForTemplate: { [key: string]: any } = {};
+
+    if (currentTemplate.contentMapping) {
+      logger.info(`Using contentMapping for template ${options.templateId}`);
+      for (const [templateVar, contentSourceKey] of Object.entries(currentTemplate.contentMapping)) {
+        switch (contentSourceKey) {
+          case 'emotionalHook':
+            variablesForTemplate[templateVar] = emotionalContent.emotionalHook;
+            break;
+          case 'actionStep':
+            variablesForTemplate[templateVar] = emotionalContent.actionStep;
+            break;
+          case 'emotionalReward':
+            variablesForTemplate[templateVar] = emotionalContent.emotionalReward;
+            break;
+          case 'topic':
+            variablesForTemplate[templateVar] = options.topic;
+            break;
+          // Add more cases here if ContentGenerationService is enhanced for other content types
+          default:
+            // Check if contentSourceKey is a valid key of EmotionalContentFormat before accessing
+            if (contentSourceKey in emotionalContent) {
+              variablesForTemplate[templateVar] = emotionalContent[contentSourceKey as keyof EmotionalContentFormat];
+            } else {
+              logger.warn(`Unknown contentSourceKey or key not in EmotionalContentFormat: ${contentSourceKey} for template variable ${templateVar}`);
+            }
+        }
+      }
+    } else {
+      // Fallback for templates without contentMapping (old behavior)
+      logger.info(`No contentMapping found for ${options.templateId}, using direct assignment.`);
+      variablesForTemplate.emotionalHook = emotionalContent.emotionalHook;
+      variablesForTemplate.actionStep = emotionalContent.actionStep;
+      variablesForTemplate.emotionalReward = emotionalContent.emotionalReward;
+    }
+
+    const imageGenerationVariables = {
+      ...variablesForTemplate,
+      handle: process.env.INSTAGRAM_HANDLE || 'fixin5mins',
+      date: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+      // Add any other truly common variables all templates might use or get defaults for
+    };
+
     const imageOptions: ImageGenerationOptions = {
       templateId: options.templateId,
-      variables: {
-        ...emotionalContent,
-        handle: process.env.INSTAGRAM_HANDLE || 'fixin5mins',
-        heading: 'Fix your life in 5 minutes',
-        date: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-      }
+      variables: imageGenerationVariables
     };
-    
+
     const image = await generateImage(imageOptions);
     logger.info(`Successfully generated image: ${image.path}`);
     
@@ -363,7 +409,7 @@ function parseCommandLineArguments(): CommandLineOptions {
     else if (arg === '--category' || arg === '-c') {
       options.category = args[++i] || '';
     }
-    else if (arg === '--template' || arg === '-T') {
+    else if (arg === '--template' || arg === '-T' || arg === '--templateId') {
       options.templateId = args[++i] || options.templateId;
     }
     else if (arg === '--skip-posting' || arg === '-s') {
@@ -432,7 +478,7 @@ Options:
   --topic, -t              Topic for content generation (if not provided, uses least recently used topic)
   --category, -c           Category to select topic from (e.g., productivity, mindfulness)
   --list-categories, -l    List all available topic categories
-  --template, -T           Template ID to use (default: "quote-red")
+  --template, -T, --templateId Template ID to use (default: "quote-red")
   --skip-posting, -s       Do not post to Instagram (default: false)
   --force, -f              Force content regeneration (default: false)
   --mock, -m               Use mock data instead of AI service (default: false)
