@@ -5,7 +5,7 @@ import { RenderedImage } from './html2image-puppeteer';
 import { uploadImageToCloudinary, initializeCloudinary, deleteImageFromCloudinary } from './cloudinary';
 
 // Instagram Graph API endpoints
-const GRAPH_API_URL = 'https://graph.facebook.com/v18.0';
+const GRAPH_API_URL = 'https://graph.instagram.com';
 // Maximum number of retries for API calls
 const MAX_RETRIES = 3;
 // Base delay for exponential backoff (milliseconds)
@@ -239,6 +239,7 @@ async function uploadMediaWithTracking(
         
         // Step 2: Use the Cloudinary URL with Instagram Graph API
         const params = new URLSearchParams();
+        params.append('domain', 'INSTAGRAM');
         params.append('image_url', url);
         
         // Add required parameters based on media type

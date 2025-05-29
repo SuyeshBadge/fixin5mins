@@ -154,6 +154,12 @@ Most recently, we've enhanced the scheduler to always post at script startup reg
 - Added example implementation for @fixin5mins posts
 - Created comprehensive documentation for the @fixin5mins template
 
+- Fixed critical Instagram posting issue:
+  - Identified missing `domain=INSTAGRAM` parameter in API calls
+  - Added the parameter to uploadMediaWithTracking function in instagram.service.ts
+  - This parameter is required by Instagram Graph API for media creation
+  - The fix ensures compatibility with Instagram's API requirements
+
 ## Active Decisions
 
 1. **Template Design**: Created purpose-story template with a clean, minimalist design, bold typography, and professional branding elements
