@@ -24,9 +24,9 @@ export function initializeCloudinary(): void {
 /**
  * Upload an image file to Cloudinary and get a public URL
  * @param imagePath Local path to the image file
- * @returns The public URL of the uploaded image
+ * @returns Object containing the public URL and public ID for cleanup
  */
-export async function uploadImageToCloudinary(imagePath: string): Promise<string> {
+export async function uploadImageToCloudinary(imagePath: string): Promise<{ url: string; publicId: string }> {
     if (!config.cloudinary.cloudName) {
         throw new Error('Cloudinary is not configured. Cannot upload images.');
     }
@@ -42,12 +42,24 @@ export async function uploadImageToCloudinary(imagePath: string): Promise<string
             resource_type: 'image',
         });
         
-        logger.debug(`Image uploaded successfully. URL: ${result.secure_url}`);
-        return result.secure_url;
+        logger.debug(`Image uploaded successfully. URL: ${result.secure_url}, Public ID: ${result.public_id}`);
+        return {
+            url: result.secure_url,
+            publicId: result.public_id
+        };
     } catch (error: any) {
         logger.error('Failed to upload image to Cloudinary:', error);
         throw new Error(`Cloudinary upload failed: ${error.message}`);
     }
+}
+
+/**
+ * Legacy function for backward compatibility - returns just the URL
+ * @deprecated Use uploadImageToCloudinary instead for proper cleanup tracking
+ */
+export async function uploadImageToCloudinaryLegacy(imagePath: string): Promise<string> {
+    const result = await uploadImageToCloudinary(imagePath);
+    return result.url;
 }
 
 /**

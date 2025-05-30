@@ -312,12 +312,11 @@ async function uploadMediaWithTracking(
     logger.debug(`Uploading image: ${image.id} (${image.filePath})`);
     
     try {
-        // Step 1: Upload the image to Cloudinary to get a public URL
-        const url = await uploadImageToCloudinary(image.filePath);
-        const fileName = path.basename(image.filePath);
-        const publicId = `fixin5mins/${fileName.replace(/\.\w+$/, '')}-${Date.now()}`;
+        // Step 1: Upload the image to Cloudinary to get a public URL and actual public ID
+        const cloudinaryResult = await uploadImageToCloudinary(image.filePath);
+        const { url, publicId } = cloudinaryResult;
         
-        logger.debug(`Image uploaded to Cloudinary, URL: ${url}`);
+        logger.debug(`Image uploaded to Cloudinary, URL: ${url}, Public ID: ${publicId}`);
         
         // Step 2: Use the Cloudinary URL with Instagram Graph API
         const params = new URLSearchParams();
@@ -508,18 +507,13 @@ export async function postSingleImageToInstagram(
         // Step 1: Upload the image to Cloudinary
         logger.debug(`Uploading image: ${image.id} (${image.filePath})`);
         
-        const url = await uploadImageToCloudinary(image.filePath);
-        
-        // Extract the public ID from the URL for cleanup later
-        const urlParts = url.split('/');
-        const filenameWithExt = urlParts[urlParts.length - 1];
-        const publicIdWithExt = urlParts.slice(urlParts.length - 2).join('/');
-        const publicId = publicIdWithExt.split('.')[0]; // Remove file extension
+        const cloudinaryResult = await uploadImageToCloudinary(image.filePath);
+        const { url, publicId } = cloudinaryResult;
         
         cloudinaryPublicId = publicId;
         cloudinaryUrl = url;
         
-        logger.debug(`Image uploaded to Cloudinary, URL: ${url}`);
+        logger.debug(`Image uploaded to Cloudinary, URL: ${url}, Public ID: ${publicId}`);
         
         // Step 2: Create a media container for the image
         const params = new URLSearchParams();

@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import { ContentGenerationService, EmotionalContentFormat } from '../services/contentGenerationService';
 import { generateImage, ImageGenerationOptions } from '../services/imageGenerator';
-import { postSingleImageToInstagram, InstagramPostConfig } from '../services/instagram.service';
+import { postSingleImageToInstagram, postSingleImageToInstagramWithCloudinary, InstagramPostConfig } from '../services/instagram.service';
 import { RenderedImage } from '../services/html2image-puppeteer';
 import { initializeCloudinary, uploadImageToCloudinary, deleteImageFromCloudinary } from '../services/cloudinary';
 import topicCache from '../services/topicCache';
@@ -14,6 +14,16 @@ import logger from '../utils/logger';
 
 // Load environment variables
 dotenv.config();
+
+/**
+ * Interface to track Cloudinary operations for cleanup verification
+ */
+interface CloudinaryTrackingInfo {
+  publicId: string | null;
+  url: string | null;
+  uploaded: boolean;
+  deleted: boolean;
+}
 
 /**
  * Command line options for the script
@@ -32,6 +42,14 @@ interface CommandLineOptions {
  * Main function to run the content generation and posting process
  */
 async function main() {
+  // Initialize Cloudinary tracking
+  const cloudinaryTracking: CloudinaryTrackingInfo = {
+    publicId: null,
+    url: null,
+    uploaded: false,
+    deleted: false
+  };
+
   try {
     logger.info('Starting content generation and posting process...');
     
@@ -191,46 +209,78 @@ async function main() {
       logger.info(`No AI-generated hashtags available, using defaults: ${hashtags.join(', ')}`);
     }
     
-    // Post to Instagram as a single image instead of a carousel
-    const postId = await postSingleImageToInstagram(
+    // ENHANCED: Upload image to Cloudinary first and track the upload
+    logger.info('Uploading image to Cloudinary for Instagram posting...');
+    try {
+      const cloudinaryResult = await uploadImageToCloudinary(image.path);
+      
+      cloudinaryTracking.url = cloudinaryResult.url;
+      cloudinaryTracking.publicId = cloudinaryResult.publicId;
+      cloudinaryTracking.uploaded = true;
+      
+      logger.info(`Successfully uploaded to Cloudinary: ${cloudinaryResult.url}`);
+      logger.info(`Tracking public ID for cleanup: ${cloudinaryResult.publicId}`);
+    } catch (uploadError) {
+      logger.error('Failed to upload image to Cloudinary:', uploadError);
+      throw new Error(`Cloudinary upload failed: ${uploadError instanceof Error ? uploadError.message : String(uploadError)}`);
+    }
+    
+    // Post to Instagram using the pre-uploaded Cloudinary image
+    const postId = await postSingleImageToInstagramWithCloudinary(
       renderedImage, 
+      cloudinaryTracking.url!,
+      cloudinaryTracking.publicId!,
       caption, 
       hashtags, 
       instagramConfig
     );
-    
+
     logger.info(`Successfully posted to Instagram! Post ID: ${postId}`);
 
-    // Delete local file after successful posting
-    try {
-      const imagePath = image.path;
-      const imageDir = path.dirname(imagePath);
-      
-      // 1. Delete the image file
-      logger.info(`Deleting local image file: ${imagePath}...`);
-      await fs.promises.unlink(imagePath);
-      logger.info('Successfully cleaned up local image file');
-      
-      // 2. Check if the directory is empty and delete it if it is
-      const dirContents = await fs.promises.readdir(imageDir);
-      
-      if (dirContents.length === 0) {
-        logger.info(`Deleting empty directory: ${imageDir}...`);
-        try {
-          await fs.promises.rmdir(imageDir);
-          logger.info('Successfully removed empty directory');
-        } catch (dirError) {
-          logger.warn(`Could not delete directory: ${dirError instanceof Error ? dirError.message : String(dirError)}`);
-        }
-      } else {
-        logger.info(`Directory ${imageDir} is not empty, skipping deletion.`);
+    // ENHANCED: Explicit Cloudinary cleanup verification
+    if (cloudinaryTracking.uploaded && cloudinaryTracking.publicId) {
+      logger.info('Performing explicit Cloudinary cleanup...');
+      try {
+        await deleteImageFromCloudinary(cloudinaryTracking.publicId);
+        cloudinaryTracking.deleted = true;
+        logger.info(`Successfully deleted Cloudinary image: ${cloudinaryTracking.publicId}`);
+      } catch (deleteError) {
+        logger.error(`Failed to delete Cloudinary image ${cloudinaryTracking.publicId}:`, deleteError);
+        // Don't throw here - we still want to clean up local files
+        // but log this as a critical issue for monitoring
+        logger.error('CRITICAL: Cloudinary image was not deleted - this will accumulate storage costs!');
       }
-    } catch (error) {
-      logger.warn(`Error during cleanup: ${error instanceof Error ? error.message : String(error)}`);
+    }
+
+    // Clean up local files after successful posting
+    await cleanupLocalFiles(image.path);
+    
+    // Final verification log
+    logger.info('Cleanup Summary:');
+    logger.info(`- Cloudinary uploaded: ${cloudinaryTracking.uploaded}`);
+    logger.info(`- Cloudinary deleted: ${cloudinaryTracking.deleted}`);
+    logger.info(`- Local files cleaned: true`);
+    
+    if (!cloudinaryTracking.deleted && cloudinaryTracking.uploaded) {
+      logger.warn('WARNING: Cloudinary image may still exist and incur storage costs!');
+      logger.warn(`Orphaned image public ID: ${cloudinaryTracking.publicId}`);
     }
     
   } catch (error) {
     logger.error('Error in content generation and posting process:', error);
+    
+    // Emergency cleanup attempt if we have tracking info
+    if (cloudinaryTracking.uploaded && cloudinaryTracking.publicId && !cloudinaryTracking.deleted) {
+      logger.info('Attempting emergency Cloudinary cleanup...');
+      try {
+        await deleteImageFromCloudinary(cloudinaryTracking.publicId);
+        logger.info('Emergency Cloudinary cleanup successful');
+      } catch (emergencyError) {
+        logger.error('Emergency Cloudinary cleanup failed:', emergencyError);
+        logger.error(`ORPHANED CLOUDINARY IMAGE: ${cloudinaryTracking.publicId}`);
+      }
+    }
+    
     process.exit(1);
   }
 }
@@ -380,6 +430,37 @@ function getMockContent(topic: string): EmotionalContentFormat {
     urgencyTrigger: `The longer we stay stuck thinking about ${topic} without acting, the harder it becomes to start`,
     saveReason: `Save this for when you're feeling overwhelmed or confused about next steps with ${topic}`
   };
+}
+
+/**
+ * Clean up local image files and directories
+ */
+async function cleanupLocalFiles(imagePath: string): Promise<void> {
+  try {
+    const imageDir = path.dirname(imagePath);
+    
+    // 1. Delete the image file
+    logger.info(`Deleting local image file: ${imagePath}...`);
+    await fs.promises.unlink(imagePath);
+    logger.info('Successfully cleaned up local image file');
+    
+    // 2. Check if the directory is empty and delete it if it is
+    const dirContents = await fs.promises.readdir(imageDir);
+    
+    if (dirContents.length === 0) {
+      logger.info(`Deleting empty directory: ${imageDir}...`);
+      try {
+        await fs.promises.rmdir(imageDir);
+        logger.info('Successfully removed empty directory');
+      } catch (dirError) {
+        logger.warn(`Could not delete directory: ${dirError instanceof Error ? dirError.message : String(dirError)}`);
+      }
+    } else {
+      logger.info(`Directory ${imageDir} is not empty, skipping deletion.`);
+    }
+  } catch (error) {
+    logger.warn(`Error during local file cleanup: ${error instanceof Error ? error.message : String(error)}`);
+  }
 }
 
 /**

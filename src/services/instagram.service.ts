@@ -230,12 +230,11 @@ async function uploadMediaWithTracking(
     logger.debug(`Uploading image: ${image.id} (${image.filePath})`);
     
     try {
-        // Step 1: Upload the image to Cloudinary to get a public URL
-        const url = await uploadImageToCloudinary(image.filePath);
-        const fileName = path.basename(image.filePath);
-        const publicId = `fixin5mins/${fileName.replace(/\.\w+$/, '')}-${Date.now()}`;
+        // Step 1: Upload the image to Cloudinary to get a public URL and actual public ID
+        const cloudinaryResult = await uploadImageToCloudinary(image.filePath);
+        const { url, publicId } = cloudinaryResult;
         
-        logger.debug(`Image uploaded to Cloudinary, URL: ${url}`);
+        logger.debug(`Image uploaded to Cloudinary, URL: ${url}, Public ID: ${publicId}`);
         
         // Step 2: Use the Cloudinary URL with Instagram Graph API
         const params = new URLSearchParams();
@@ -387,6 +386,103 @@ async function cleanupCloudinaryImages(uploads: CloudinaryUploadInfo[]): Promise
     }
     
     logger.info(`Finished cleaning up Cloudinary images`);
+}
+
+/**
+ * Post a single image to Instagram with pre-uploaded Cloudinary info
+ * This version accepts already uploaded Cloudinary details for better cleanup control
+ * @param image The rendered image info
+ * @param cloudinaryUrl The URL of the already uploaded Cloudinary image
+ * @param cloudinaryPublicId The public ID of the already uploaded Cloudinary image
+ * @param caption The main caption for the post
+ * @param hashtags Array of hashtags to append to the caption
+ * @param config Instagram posting configuration
+ * @returns The ID of the posted content
+ */
+export async function postSingleImageToInstagramWithCloudinary(
+    image: RenderedImage,
+    cloudinaryUrl: string,
+    cloudinaryPublicId: string,
+    caption: string = '',
+    hashtags: string[] = [],
+    config: InstagramPostConfig
+): Promise<string> {
+    logger.info('Preparing to post a single image to Instagram with pre-uploaded Cloudinary image...');
+    
+    // Check if Instagram posting is disabled
+    if (config.skipPosting) {
+        const mockPostId = `mock-ig-single-preupload-${Date.now()}`;
+        logger.info(`Instagram posting is DISABLED. Returning mock post ID: ${mockPostId}`);
+        return mockPostId;
+    }
+    
+    // Validate required configuration
+    if (!config.accessToken || !config.accountId) {
+        throw new Error('Instagram Graph API credentials not configured. Set INSTAGRAM_GRAPH_ACCESS_TOKEN and INSTAGRAM_ACCOUNT_ID in .env');
+    }
+    
+    // Validate the image for Instagram requirements
+    validateImagesForInstagram([image], InstagramMediaType.IMAGE);
+    
+    // Construct full caption with hashtags
+    const fullCaption = formatCaptionForInstagram(caption, hashtags);
+    
+    try {
+        // Step 1: Create media container using the pre-uploaded Cloudinary URL
+        const params = new URLSearchParams();
+        params.append('domain', 'INSTAGRAM');
+        params.append('image_url', cloudinaryUrl);
+        params.append('caption', fullCaption);
+        params.append('access_token', config.accessToken);
+        
+        const mediaResponse = await makeApiRequestWithRetry<{id: string}>(
+            () => axios.post(
+                `${GRAPH_API_URL}/${config.accountId}/media`,
+                params,
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    timeout: 60000, // 60 second timeout for uploads
+                }
+            ) as Promise<ApiResponse<{id: string}>>,
+            'Create Instagram media container with pre-uploaded image'
+        );
+        
+        if (!mediaResponse.data || !mediaResponse.data.id) {
+            throw new Error('Failed to create media container');
+        }
+        
+        const mediaId = mediaResponse.data.id;
+        logger.debug(`Media container created with ID: ${mediaId}`);
+        
+        // Step 2: Publish the media
+        const postId = await publishMedia(
+            mediaId,
+            config.accountId,
+            config.accessToken,
+            InstagramMediaType.IMAGE
+        );
+        
+        logger.info(`Successfully published to Instagram. Post ID: ${postId}`);
+        
+        return postId;
+        
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.error?.message || error.message || 'Unknown error';
+        logger.error('Failed to post single image to Instagram with pre-uploaded Cloudinary:', errorMessage, error.response?.data || '');
+        
+        // Provide more helpful error messages for common Instagram API errors
+        if (errorMessage.includes('access token')) {
+            throw new Error(`Instagram API authorization error: ${errorMessage}. Check your access token.`);
+        } else if (errorMessage.includes('permission')) {
+            throw new Error(`Instagram API permission error: ${errorMessage}. Ensure your app has the required permissions.`);
+        } else if (errorMessage.includes('rate limit')) {
+            throw new Error(`Instagram API rate limit exceeded: ${errorMessage}. Try again later.`);
+        } else {
+            throw new Error(`Instagram posting failed: ${errorMessage}`);
+        }
+    }
 }
 
 /**

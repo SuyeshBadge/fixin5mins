@@ -29,7 +29,8 @@
     "generate-content": "ts-node src/jobs/generateAndPostContent.ts",
     "generate-and-post": "ts-node src/jobs/generateAndPostContent.ts",
     "schedule-posts": "ts-node src/jobs/dailyPostScheduler.ts",
-    "test-empathetic": "ts-node src/examples/test-empathetic-content.ts"
+    "test-empathetic": "ts-node src/examples/test-empathetic-content.ts",
+    "test:cloudinary-cleanup": "ts-node src/examples/test-cloudinary-cleanup.ts"
   },
   "keywords": [
     "ai",

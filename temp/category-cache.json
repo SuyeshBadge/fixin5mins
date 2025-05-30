@@ -1,12 +1,7 @@
 [
   {
-    "category": "technology_habits",
-    "lastUsed": 1748514377961,
-    "description": "Healthy digital practices and tech management"
-  },
-  {
     "category": "productivity",
-    "lastUsed": 1748441821360,
+    "lastUsed": 1748609596126,
     "description": "Efficiency, task management, and getting things done"
   },
   {
@@ -68,5 +63,10 @@
     "category": "organization",
     "lastUsed": 1748514253216,
     "description": "Structuring and managing physical and digital spaces"
+  },
+  {
+    "category": "technology_habits",
+    "lastUsed": 1748514377961,
+    "description": "Healthy digital practices and tech management"
   }
 ]
