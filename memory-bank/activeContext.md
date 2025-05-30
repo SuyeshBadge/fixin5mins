@@ -160,6 +160,12 @@ Most recently, we've enhanced the scheduler to always post at script startup reg
   - This parameter is required by Instagram Graph API for media creation
   - The fix ensures compatibility with Instagram's API requirements
 
+## [2024-06-XX] Emoji Rendering Issue on VM
+- Problem: Emoji icons (used as inline Unicode in templates) were rendered as empty boxes in generated images on the Google Cloud VM.
+- Cause: The VM did not have a color emoji font installed, so headless Chrome/Puppeteer could not render emoji.
+- Solution: Installed the `fonts-noto-color-emoji` package on the VM. After installation, emoji render correctly in generated images.
+- Action: Documented this system dependency in progress.md and activeContext.md.
+
 ## Active Decisions
 
 1. **Template Design**: Created purpose-story template with a clean, minimalist design, bold typography, and professional branding elements

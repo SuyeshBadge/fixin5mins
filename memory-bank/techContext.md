@@ -100,6 +100,7 @@ Creating a new template involves several steps:
 - Need for valid API keys and credentials
 - Internet connectivity requirement for posting
 - Google Fonts for typography in templates
+- For emoji rendering in generated images (via Puppeteer/Chrome), the system must have a color emoji font installed. On Google Cloud VMs, install `fonts-noto-color-emoji` (Debian/Ubuntu) to ensure emoji display correctly in output images.
 
 ### Security Considerations
 - Secure storage of API keys and access tokens

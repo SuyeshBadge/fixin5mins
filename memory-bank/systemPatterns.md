@@ -208,4 +208,6 @@ graph TD
 - Alternative template designs can be implemented with consistent variables
 - Additional social media platforms can be supported with new service implementations
 - Alternative image hosting providers can be integrated with minimal changes
-- Scheduling capabilities can be added as a new service layer 
+- Scheduling capabilities can be added as a new service layer
+
+- System-level font dependencies (e.g., emoji fonts like `fonts-noto-color-emoji`) are required for correct rendering of Unicode emoji in headless Chrome/Puppeteer environments. This must be included in deployment/setup scripts for cloud VMs. 

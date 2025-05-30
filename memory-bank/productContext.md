@@ -43,6 +43,7 @@ This tool automates the entire content creation and posting workflow, allowing u
 4. **Flexibility**: Support various content types and customization options
 5. **Reliability**: Consistently produce usable content without failures
 6. **Scalability**: Allow batch creation for content calendars
+7. **Emoji Rendering**: Generated images should faithfully represent the intended design, including emoji icons. System dependencies (such as emoji fonts) must be met for correct output, especially on cloud VMs.
 
 ## Success Metrics
 - Time saved in content creation process

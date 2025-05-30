@@ -67,6 +67,10 @@ sudo apt-get install -y \
   xdg-utils \
   wget
 
+# Install emoji font for proper emoji rendering in generated images
+# This is required for headless Chrome/Puppeteer to render emoji icons correctly on VMs
+sudo apt-get install -y fonts-noto-color-emoji
+
 # Check if we're in the project directory
 if [ -f "package.json" ] && grep -q "fixin5mins" "package.json"; then
   echo "Already in the fixin5mins project directory"
@@ -88,6 +92,30 @@ npm install
 # Build the project
 echo "Building the project..."
 npm run build
+
+# Set system time zone to Asia/Kolkata (IST)
+echo "Setting system time zone to Asia/Kolkata (IST)..."
+if [[ "$(uname)" == "Darwin" ]]; then
+  # macOS
+  if command -v systemsetup &> /dev/null; then
+    sudo systemsetup -settimezone Asia/Kolkata
+  else
+    echo "systemsetup command not found. Please set the time zone manually if needed."
+  fi
+elif [[ -f /etc/os-release ]]; then
+  # Linux
+  if command -v timedatectl &> /dev/null; then
+    sudo timedatectl set-timezone Asia/Kolkata
+  else
+    sudo ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+    echo "Asia/Kolkata" | sudo tee /etc/timezone
+  fi
+else
+  echo "Unsupported OS. Please set the time zone manually if needed."
+fi
+
+# Export TZ for current session
+export TZ=Asia/Kolkata
 
 # Create .env file if it doesn't exist
 if [ ! -f ".env" ]; then
@@ -113,6 +141,9 @@ OPENROUTER_SITE_NAME=Your Site Name
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+# Time zone configuration
+TZ=Asia/Kolkata
 EOL
   echo "Please update the .env file with your actual credentials"
 fi
