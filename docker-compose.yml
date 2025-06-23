@@ -1,0 +1,125 @@
+version: '3.8'
+
+services:
+  fixin5mins:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: fixin5mins-app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - TZ=UTC
+    env_file:
+      - .env
+    volumes:
+      # Mount for generated content persistence
+      - ./generated:/app/generated:rw
+      # Mount for logs persistence
+      - ./logs:/app/logs:rw
+    ports:
+      # Health check port
+      - "3000:3000"
+    networks:
+      - fixin5mins-network
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Redis for caching and session storage
+  redis:
+    image: redis:7-alpine
+    container_name: fixin5mins-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - fixin5mins-network
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.25'
+        reservations:
+          memory: 128M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  # Scheduler service (runs the daily post scheduler)
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: fixin5mins-scheduler
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - TZ=UTC
+    env_file:
+      - .env
+    volumes:
+      - ./generated:/app/generated:rw
+      - ./logs:/app/logs:rw
+    networks:
+      - fixin5mins-network
+    depends_on:
+      fixin5mins:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: ["node", "dist/jobs/dailyPostScheduler.js"]
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.25'
+        reservations:
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  redis-data:
+    driver: local
+
+networks:
+  fixin5mins-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16 

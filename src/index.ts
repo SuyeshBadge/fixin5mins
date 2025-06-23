@@ -1,7 +1,8 @@
 import { AiServiceClient } from './services/aiService';
 import { generateImage, ImageGenerationOptions } from './services/imageGenerator';
-import { generateInstagramPost, generateQuoteImage } from './services/html2image';
-import { postImageToInstagram, InstagramPostOptions } from './services/instagram';
+import { renderHtmlToImages, HtmlContent, RenderedImage } from './services/html2image-puppeteer';
+import { postSingleImageToInstagram, InstagramPostConfig } from './services/instagram.service';
+import { ContentGenerationService } from './services/contentGenerationService';
 import config from './config';
 import fs from 'fs';
 import path from 'path';
@@ -71,34 +72,37 @@ async function generateAndPostContent(options: {
     console.log(`Working with theme: "${theme}" and content type: "${contentType}"`);
     
     // Generate the image based on content type
-    let imagePath: string;
+    let renderedImage: RenderedImage;
     let captionText: string;
     
     switch (contentType) {
       case 'ai-image':
-        // 1. Generate or enhance the image prompt if not directly provided
-        let imagePrompt: string;
-        if (prompt) {
-          imagePrompt = prompt;
-          console.log(`Using provided prompt: "${imagePrompt}"`);
-        } else {
-          console.log('Generating detailed image prompt from theme...');
-          imagePrompt = await aiClient.generateImagePrompt(theme);
-          console.log(`Generated image prompt: "${imagePrompt}"`);
-        }
-
-        // 2. Generate the image using AI
-        console.log('Generating AI image...');
-        const imageOptions: ImageGenerationOptions = {
-          prompt: imagePrompt,
-          size: '1024x1024',
-          style: 'vivid',
-          enhancePrompt: false // We've already enhanced it if needed
+        // Use the template-based image generation system
+        console.log('Generating AI-powered template image...');
+        const imageResult = await generateImage({
+          templateId: 'elegant-dark', // Default template
+          variables: {
+            emotionalHook: title || theme,
+            actionStep: content || `Explore the beauty of ${theme}`,
+            emotionalReward: 'Transform your perspective today',
+            handle: 'fixin5mins',
+            date: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+          }
+        });
+        
+        renderedImage = {
+          id: `ai-image-${Date.now()}`,
+          filePath: imageResult.path,
+          width: 1080,
+          height: 1080,
+          aspectRatio: 1.0
         };
         
-        const image = await generateImage(imageOptions);
-        imagePath = image.path;
-        captionText = await aiClient.generateCaption(imagePrompt);
+        captionText = content || `${title || theme}\n\n${await aiClient.generateContent(
+          `Generate 3-5 hashtags for an Instagram post about: ${theme}`,
+          'openai:gpt-4',
+          'You are a social media content creator. Output only the hashtags.'
+        )}`;
         break;
         
       case 'html-post':
@@ -132,7 +136,27 @@ async function generateAndPostContent(options: {
         
         // Generate the image from HTML
         console.log('Generating HTML post image...');
-        imagePath = await generateInstagramPost(postTitle, postContent);
+        const htmlContent: HtmlContent = {
+          id: 'html-post',
+          html: `
+            <div style="width: 1080px; height: 1080px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px; font-family: Arial, sans-serif; text-align: center; color: white;">
+              <h1 style="font-size: 48px; margin-bottom: 40px; font-weight: bold;">${postTitle}</h1>
+              <p style="font-size: 32px; line-height: 1.4; max-width: 800px;">${postContent}</p>
+              <div style="position: absolute; bottom: 40px; font-size: 24px; opacity: 0.8;">@fixin5mins</div>
+            </div>
+          `
+        };
+        
+        const htmlImages = await renderHtmlToImages([htmlContent], { 
+          outputDir: path.join(outputDir, `html-post-${Date.now()}`),
+          preserveImages: true
+        });
+        
+        if (!htmlImages.length) {
+          throw new Error('Failed to render HTML post image');
+        }
+        
+        renderedImage = htmlImages[0];
         captionText = postContent + '\n\n' + await aiClient.generateContent(
           `Generate 3-5 hashtags for an Instagram post about: ${theme}`,
           'openai:gpt-4',
@@ -152,10 +176,28 @@ async function generateAndPostContent(options: {
         
         console.log(`Quote: "${quote}"`);
         
-        // Generate the quote image
+        // Generate the quote image using HTML rendering
         console.log('Generating quote image...');
-        imagePath = await generateQuoteImage(quote);
+        const quoteHtmlContent: HtmlContent = {
+          id: 'quote',
+          html: `
+            <div style="width: 1080px; height: 1080px; background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 80px; font-family: Arial, sans-serif; text-align: center; color: white;">
+              <h1 style="font-size: 56px; line-height: 1.2; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">"${quote}"</h1>
+              <div style="position: absolute; bottom: 40px; font-size: 24px; opacity: 0.8;">@fixin5mins</div>
+            </div>
+          `
+        };
         
+        const quoteImages = await renderHtmlToImages([quoteHtmlContent], { 
+          outputDir: path.join(outputDir, `quote-${Date.now()}`),
+          preserveImages: true
+        });
+        
+        if (!quoteImages.length) {
+          throw new Error('Failed to render quote image');
+        }
+        
+        renderedImage = quoteImages[0];
         captionText = `"${quote}" \n\n` + await aiClient.generateContent(
           `Generate 3-5 hashtags for an inspirational quote about: ${theme}`,
           'openai:gpt-4',
@@ -167,24 +209,25 @@ async function generateAndPostContent(options: {
         throw new Error(`Unsupported content type: ${contentType}`);
     }
     
-    console.log(`Content generated and saved to: ${imagePath}`);
+    console.log(`Content generated and saved to: ${renderedImage.filePath}`);
     console.log(`Caption: "${captionText}"`);
 
     // Post to Instagram (unless skipped)
     if (!skipPosting) {
       console.log('Posting to Instagram...');
-      const instagramOptions: InstagramPostOptions = {
-        caption: captionText,
-        imagePath
+      const instagramConfig: InstagramPostConfig = {
+        accessToken: config.instagram.accessToken!,
+        accountId: config.instagram.businessAccountId!
       };
       
-      const result = await postImageToInstagram(instagramOptions);
+      const postId = await postSingleImageToInstagram(
+        renderedImage,
+        captionText,
+        [], // hashtags (already included in caption)
+        instagramConfig
+      );
       
-      if (result.success) {
-        console.log(`Successfully posted to Instagram! Post ID: ${result.id}`);
-      } else {
-        console.error(`Failed to post to Instagram: ${result.error}`);
-      }
+      console.log(`Successfully posted to Instagram! Post ID: ${postId}`);
     } else {
       console.log('Skipping Instagram posting as requested.');
     }

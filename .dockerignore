@@ -1,0 +1,80 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs (don't copy these, we'll build fresh)
+dist/
+build/
+*.tsbuildinfo
+
+# Generated content (runtime data)
+generated/
+logs/
+
+# Environment files (will be mounted at runtime)
+.env*
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation (not needed in container)
+*.md
+!README.md
+
+# Docker files (don't include these in the context)
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Memory bank (documentation, not needed in container)
+memory-bank/
+
+# Setup and utility files
+setup.sh
+create-env.js
+INSTAGRAM_SETUP.md
+SCHEDULER_SETUP.md
+OPTIMAL_POSTING_TIMES.md
+ENV_SETUP.txt
+
+# Test files
+test/
+tests/
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Python files (user input script not needed in container)
+*.py
+
+# Temporary files
+tmp/
+temp/
+
+# Package files not needed
+fixin5mins@1.0.0
+npm 

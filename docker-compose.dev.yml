@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  fixin5mins-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: fixin5mins-dev
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env
+    volumes:
+      # Mount source code for hot reload
+      - ./src:/app/src
+      - ./tsconfig.json:/app/tsconfig.json
+      # Mount for generated content persistence
+      - ./generated:/app/generated
+      # Mount for logs persistence
+      - ./logs:/app/logs
+      # Mount node_modules as volume for better performance
+      - dev-node-modules:/app/node_modules
+    ports:
+      # Application port
+      - "3000:3000"
+      # Debug port
+      - "9229:9229"
+    networks:
+      - fixin5mins-dev-network
+    command: ["npm", "run", "dev"]
+    depends_on:
+      - redis-dev
+
+  # Development Redis
+  redis-dev:
+    image: redis:7-alpine
+    container_name: fixin5mins-redis-dev
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    networks:
+      - fixin5mins-dev-network
+    command: redis-server --appendonly yes
+
+volumes:
+  dev-node-modules:
+    driver: local
+
+networks:
+  fixin5mins-dev-network:
+    driver: bridge 
