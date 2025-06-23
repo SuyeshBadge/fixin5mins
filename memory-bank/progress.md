@@ -15,6 +15,15 @@ The project has been updated to use local templates for image generation instead
 - Ensured all code paths properly assign values to prevent TypeScript compilation errors
 The build now completes successfully with no TypeScript errors.
 
+**AI MODEL INTEGRATION FIXED**: We have resolved the OpenRouter API integration issues that were causing 400 errors due to invalid model IDs. The project was updated to use OpenRouter instead of OpenAI, but some code still referenced the old OpenAI model identifiers. Specific fixes included:
+- Replaced all references to 'openai:gpt-4' with proper OpenRouter model usage
+- Updated index.ts to use generateContentWithFallback() method instead of direct model specification
+- Updated imageGenerator.ts to use the fallback mechanism for robust AI content generation
+- All AI service calls now use valid OpenRouter model IDs from the FREE_MODELS constants
+- Implemented automatic fallback to alternative models if the primary model fails
+- Enhanced error handling for model availability and deprecation scenarios
+The AI service now works correctly with OpenRouter's free models and includes robust fallback mechanisms.
+
 ## What Works
 Based on the codebase review:
 

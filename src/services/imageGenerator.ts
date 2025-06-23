@@ -101,9 +101,8 @@ export async function generateImage(options: ImageGenerationOptions): Promise<Ge
     // If theme is provided and content is missing, generate content based on theme
     if (theme && (!content || enhancePrompt)) {
       console.log(`Generating content based on theme: "${theme}"`);
-      content = await aiClient.generateContent(
+      content = await aiClient.generateContentWithFallback(
         `Generate engaging and concise content about: ${theme}`,
-        'openai:gpt-4',
         'You are a social media content creator.'
       );
       console.log(`Generated content: "${content}"`);

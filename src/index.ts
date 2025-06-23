@@ -98,9 +98,8 @@ async function generateAndPostContent(options: {
           aspectRatio: 1.0
         };
         
-        captionText = content || `${title || theme}\n\n${await aiClient.generateContent(
+        captionText = content || `${title || theme}\n\n${await aiClient.generateContentWithFallback(
           `Generate 3-5 hashtags for an Instagram post about: ${theme}`,
-          'openai:gpt-4',
           'You are a social media content creator. Output only the hashtags.'
         )}`;
         break;
@@ -117,16 +116,14 @@ async function generateAndPostContent(options: {
           // Generate title and content based on theme
           console.log('Generating title and content from theme...');
           const titlePrompt = `Create a short, catchy title for an Instagram post about: ${theme}`;
-          postTitle = await aiClient.generateContent(
+          postTitle = await aiClient.generateContentWithFallback(
             titlePrompt,
-            'openai:gpt-4',
             'You are a social media content creator. Create an engaging title in 5-7 words.'
           );
           
           const contentPrompt = `Write a short paragraph about ${theme} for Instagram. Keep it under 50 words.`;
-          postContent = await aiClient.generateContent(
+          postContent = await aiClient.generateContentWithFallback(
             contentPrompt,
-            'openai:gpt-4',
             'You are a social media content creator.'
           );
         }
@@ -157,9 +154,8 @@ async function generateAndPostContent(options: {
         }
         
         renderedImage = htmlImages[0];
-        captionText = postContent + '\n\n' + await aiClient.generateContent(
+        captionText = postContent + '\n\n' + await aiClient.generateContentWithFallback(
           `Generate 3-5 hashtags for an Instagram post about: ${theme}`,
-          'openai:gpt-4',
           'You are a social media content creator. Output only the hashtags.'
         );
         break;
@@ -168,9 +164,8 @@ async function generateAndPostContent(options: {
         // Generate a quote image
         console.log('Generating quote...');
         const quotePrompt = `Generate an inspiring quote about ${theme}. Keep it under 15 words.`;
-        const quote = await aiClient.generateContent(
+        const quote = await aiClient.generateContentWithFallback(
           quotePrompt,
-          'openai:gpt-4',
           'You are a motivational speaker. Create an inspiring quote without attribution.'
         );
         
@@ -198,9 +193,8 @@ async function generateAndPostContent(options: {
         }
         
         renderedImage = quoteImages[0];
-        captionText = `"${quote}" \n\n` + await aiClient.generateContent(
+        captionText = `"${quote}" \n\n` + await aiClient.generateContentWithFallback(
           `Generate 3-5 hashtags for an inspirational quote about: ${theme}`,
-          'openai:gpt-4',
           'You are a social media content creator. Output only the hashtags.'
         );
         break;
