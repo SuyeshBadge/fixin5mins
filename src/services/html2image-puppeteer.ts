@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import puppeteer, { Browser } from 'puppeteer';
 import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
@@ -49,6 +49,30 @@ export interface RenderOptions {
 }
 
 /**
+ * Retry configuration for browser operations
+ */
+const RETRY_CONFIG = {
+    maxRetries: 3,
+    baseDelay: 1000, // 1 second
+    maxDelay: 10000  // 10 seconds
+};
+
+/**
+ * Sleep utility function for retry delays
+ */
+function sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Calculate exponential backoff delay
+ */
+function calculateDelay(attempt: number): number {
+    const delay = RETRY_CONFIG.baseDelay * Math.pow(2, attempt);
+    return Math.min(delay, RETRY_CONFIG.maxDelay);
+}
+
+/**
  * Renders HTML content to images according to Instagram API guidelines
  * @param htmlContents Array of HTML content to render to images
  * @param options Rendering options
@@ -83,11 +107,55 @@ export async function renderHtmlToImages(
     
     logger.debug(`Created output directory: ${outputDir}`);
     
-    // Launch Puppeteer browser
-    const browser = await puppeteer.launch({
-        headless: true, // Use headless mode
-        args: ['--no-sandbox', '--disable-setuid-sandbox'] // Recommended args for reliability
-    });
+    // Launch Puppeteer browser with retry logic
+    let browser: Browser | null = null;
+    let lastError: any;
+    
+    for (let attempt = 0; attempt <= RETRY_CONFIG.maxRetries; attempt++) {
+        try {
+            logger.debug(`Launching browser (attempt ${attempt + 1}/${RETRY_CONFIG.maxRetries + 1})`);
+            
+            // Launch Puppeteer browser with extended timeout for Docker environment
+            browser = await puppeteer.launch({
+                headless: true, // Use headless mode
+                protocolTimeout: 60000, // 60 seconds timeout for protocol operations
+                args: [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage', // Overcome limited resource problems
+                    '--disable-extensions',
+                    '--disable-gpu',
+                    '--disable-web-security',
+                    '--no-first-run',
+                    '--no-zygote',
+                    '--single-process', // Helps with Docker resource constraints
+                    '--disable-background-timer-throttling',
+                    '--disable-backgrounding-occluded-windows',
+                    '--disable-renderer-backgrounding'
+                ]
+            });
+            
+            logger.debug('Browser launched successfully');
+            break; // Success, exit retry loop
+            
+        } catch (error) {
+            lastError = error;
+            logger.warn(`Browser launch attempt ${attempt + 1} failed:`, error);
+            
+            if (attempt < RETRY_CONFIG.maxRetries) {
+                const delay = calculateDelay(attempt);
+                logger.info(`Retrying browser launch in ${delay}ms...`);
+                await sleep(delay);
+            } else {
+                logger.error('All browser launch attempts failed');
+                throw new Error(`Failed to launch browser after ${RETRY_CONFIG.maxRetries + 1} attempts. Last error: ${lastError}`);
+            }
+        }
+    }
+    
+    if (!browser) {
+        throw new Error('Browser failed to initialize after all retry attempts');
+    }
     
     try {
         const page = await browser.newPage();

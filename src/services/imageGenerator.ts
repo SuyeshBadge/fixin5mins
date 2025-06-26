@@ -48,14 +48,23 @@ async function generateTemplateImage(options: { templateId: string, variables: R
   // Set up rendering options
   const tempDir = path.resolve(process.cwd(), 'temp');
   
-  // Render the HTML to an image
-  const images = await renderHtmlToImages([htmlContent], {
-    preserveImages: true,
-    outputDir: tempDir
-  });
-  
-  // Return the path to the generated image
-  return images[0].filePath;
+  // Render the HTML to an image with error handling
+  try {
+    const images = await renderHtmlToImages([htmlContent], {
+      preserveImages: true,
+      outputDir: tempDir
+    });
+    
+    if (!images || images.length === 0) {
+      throw new Error('No images were generated from HTML template');
+    }
+    
+    // Return the path to the generated image
+    return images[0].filePath;
+  } catch (error) {
+    console.error(`Failed to render template ${templateId}:`, error);
+    throw new Error(`Template rendering failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
 }
 
 /**

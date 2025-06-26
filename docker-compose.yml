@@ -13,3 +13,14 @@ services:
     volumes:
       - ./generated:/app/generated
       - ./logs:/app/logs
+    # Resource limits to ensure stable Puppeteer operation
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
+    # Shared memory size for Chromium
+    shm_size: 256m
