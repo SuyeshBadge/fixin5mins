@@ -13,7 +13,8 @@
     "start": "docker-compose up -d",
     "stop": "docker-compose down",
     "logs": "docker-compose logs -f",
-    "build-docker": "docker-compose up --build -d"
+    "build-docker": "docker-compose up --build -d",
+    "generate-and-post": "ts-node src/jobs/generateAndPostContent.ts"
   },
   "keywords": [
     "ai",
