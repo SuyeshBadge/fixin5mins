@@ -57,6 +57,15 @@ This indicates the browser launches but closes during connection establishment.
 
 ## Expected Results
 - Eliminates `ProtocolError: Network.enable timed out` errors
+- Eliminates `Target.setAutoAttach: Target closed` errors  
 - More reliable browser initialization in Docker
 - Better error recovery and logging
-- Improved resource utilization 
+- Improved resource utilization
+
+## Latest Container-Specific Fixes
+✅ **Debian Base Image**: Switched from Alpine to Debian for better Puppeteer compatibility
+✅ **Google Chrome**: Using Google Chrome instead of Chromium for stability
+✅ **Container Init**: Added proper init system for process management
+✅ **Enhanced Browser Args**: Container-optimized Chrome arguments
+✅ **Debug Tools**: Added comprehensive debugging and testing scripts
+✅ **Resource Management**: Proper memory limits and shared memory configuration 

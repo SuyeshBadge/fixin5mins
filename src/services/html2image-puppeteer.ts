@@ -155,32 +155,54 @@ export async function renderHtmlToImages(
         try {
             logger.debug(`Launching browser (attempt ${attempt + 1}/${RETRY_CONFIG.maxRetries + 1})`);
             
-            // Launch Puppeteer browser with Docker-optimized configuration
+            // Launch Puppeteer browser with container-optimized configuration
             browser = await puppeteer.launch({
                 headless: true, // Use headless mode
                 protocolTimeout: 60000, // 60 seconds timeout for protocol operations
                 timeout: 60000, // Browser launch timeout
+                // Use system Chrome in container
+                executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome',
                 args: [
+                    // Essential container args
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
-                    '--disable-dev-shm-usage', // Overcome limited resource problems
-                    '--disable-extensions',
-                    '--disable-gpu',
-                    '--disable-web-security',
-                    '--no-first-run',
-                    '--disable-features=VizDisplayCompositor', // Reduces GPU usage
-                    '--disable-ipc-flooding-protection', // Prevents IPC connection issues
-                    '--disable-background-networking', // Reduces background processes
+                    '--disable-dev-shm-usage',
+                    // Memory and resource optimization
+                    '--memory-pressure-off',
+                    '--max_old_space_size=1024',
                     '--disable-background-timer-throttling',
                     '--disable-backgrounding-occluded-windows',
                     '--disable-renderer-backgrounding',
+                    // Disable unnecessary features
+                    '--disable-extensions',
+                    '--disable-plugins',
+                    '--disable-gpu',
+                    '--disable-web-security',
+                    '--disable-features=TranslateUI',
+                    '--disable-features=BlinkGenPropertyTrees',
+                    '--disable-ipc-flooding-protection',
+                    '--disable-background-networking',
                     '--disable-client-side-phishing-detection',
                     '--disable-sync',
-                    '--disable-translate',
+                    '--disable-default-apps',
+                    '--no-first-run',
+                    '--no-zygote',
+                    '--disable-accelerated-2d-canvas',
+                    '--disable-accelerated-jpeg-decoding',
+                    '--disable-accelerated-mjpeg-decode',
+                    '--disable-accelerated-video-decode',
+                    '--disable-accelerated-video-encode',
+                    '--disable-app-list-dismiss-on-blur',
+                    '--disable-background-media-suspend',
                     '--hide-scrollbars',
                     '--mute-audio',
-                    '--disable-default-apps',
-                    '--disable-component-extensions-with-background-pages'
+                    // Container-specific optimizations
+                    '--virtual-time-budget=5000',
+                    '--run-all-compositor-stages-before-draw',
+                    '--disable-partial-raster',
+                    '--disable-skia-runtime-opts',
+                    '--disable-system-font-check',
+                    '--disable-features=VizDisplayCompositor'
                 ]
             });
             

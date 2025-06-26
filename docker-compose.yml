@@ -5,9 +5,14 @@ services:
     build: .
     container_name: instagram-scheduler
     restart: unless-stopped
+    # Add init for proper process management
+    init: true
     environment:
       - NODE_ENV=production
       - TZ=Asia/Kolkata
+      # Container-specific environment variables
+      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
     env_file:
       - .env
     volumes:
@@ -32,3 +37,10 @@ services:
     # Security options for better browser operation
     security_opt:
       - seccomp:unconfined
+    # Health check using process monitoring instead of HTTP
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "schedule-posts", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

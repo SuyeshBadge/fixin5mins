@@ -1,65 +1,52 @@
-# Dockerfile for Instagram Scheduler with Puppeteer support
-FROM node:18-alpine
+# Dockerfile for Instagram Scheduler with Puppeteer support - Using Debian for better compatibility
+FROM node:18-slim
 
-# Install all required dependencies for Chromium/Puppeteer in Alpine Linux
-RUN apk add --no-cache \
-    # Chromium browser
-    chromium \
-    # Essential libraries
-    nss \
-    freetype \
-    freetype-dev \
-    harfbuzz \
+# Install dependencies for Puppeteer in Debian
+RUN apt-get update && apt-get install -y \
+    # Google Chrome dependencies
+    wget \
+    gnupg \
     ca-certificates \
+    # Essential libraries
+    libnss3 \
+    libatk-bridge2.0-0 \
+    libdrm2 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxrandr2 \
+    libgbm1 \
+    libxss1 \
+    libasound2 \
     # Font support
-    ttf-freefont \
-    ttf-dejavu \
-    ttf-liberation \
-    # Additional dependencies for Puppeteer stability
-    udev \
-    xvfb \
+    fonts-liberation \
+    fonts-dejavu-core \
     # System utilities
     dumb-init \
-    # Additional X11 and graphics libraries (Alpine names)
-    libx11 \
-    libxcomposite \
-    libxdamage \
-    libxext \
-    libxfixes \
-    libxrandr \
-    libxrender \
-    libxss \
-    libxtst \
-    # GTK and graphics libraries
-    gtk+3.0 \
-    pango \
-    cairo \
-    gdk-pixbuf \
-    atk
-
-# Additional Alpine-specific packages for Puppeteer
-RUN apk add --no-cache \
-    # Graphics and display
-    mesa-dri-gallium \
-    # Audio (even though we disable it, some libs expect it)
-    alsa-lib \
+    curl \
     # Process management
     procps \
-    # Network tools for debugging
-    curl \
-    # Memory management
-    jemalloc
+    && rm -rf /var/lib/apt/lists/*
 
-# Set Puppeteer environment variables
+# Install Google Chrome (more stable than Chromium in containers)
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set Puppeteer environment variables for Google Chrome
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
-    # Additional environment variables for stability
-    CHROME_BIN=/usr/bin/chromium-browser \
-    CHROME_PATH=/usr/bin/chromium-browser \
-    # Disable Chrome sandbox (already handled in args)
-    CHROME_DEVEL_SANDBOX=/usr/lib/chromium/chrome_sandbox \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome \
+    # Chrome environment variables
+    CHROME_BIN=/usr/bin/google-chrome \
+    CHROME_PATH=/usr/bin/google-chrome \
+    # Container-specific environment
+    DISPLAY=:99 \
     # Memory management
-    NODE_OPTIONS="--max-old-space-size=1024"
+    NODE_OPTIONS="--max-old-space-size=1024" \
+    # Disable Chrome's sandbox in container
+    CHROME_DEVEL_SANDBOX=/usr/lib/google-chrome/chrome-sandbox
 
 # Create a non-root user for security
 RUN addgroup -g 1001 -S nodejs && \

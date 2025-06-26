@@ -14,7 +14,7 @@
     "stop": "docker-compose down",
     "logs": "docker-compose logs -f",
     "build-docker": "docker-compose up --build -d",
-    "test-puppeteer": "node -e \"const puppeteer = require('puppeteer'); puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']}).then(browser => { console.log('Puppeteer working!'); return browser.close(); }).catch(console.error);\"",
+    "test-puppeteer": "node src/debug/test-puppeteer.js",
     "generate-and-post": "ts-node src/jobs/generateAndPostContent.ts"
   },
   "keywords": [
