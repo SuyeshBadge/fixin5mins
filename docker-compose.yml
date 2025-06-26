@@ -13,14 +13,22 @@ services:
     volumes:
       - ./generated:/app/generated
       - ./logs:/app/logs
+      # Add tmpfs for better performance
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          size: 100M
     # Resource limits to ensure stable Puppeteer operation
     deploy:
       resources:
         limits:
-          memory: 1G
-          cpus: '0.5'
+          memory: 1.5G
+          cpus: '0.75'
         reservations:
-          memory: 512M
-          cpus: '0.25'
-    # Shared memory size for Chromium
-    shm_size: 256m
+          memory: 768M
+          cpus: '0.5'
+    # Increased shared memory size for Chromium stability
+    shm_size: 512m
+    # Security options for better browser operation
+    security_opt:
+      - seccomp:unconfined

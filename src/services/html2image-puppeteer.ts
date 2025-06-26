@@ -73,6 +73,46 @@ function calculateDelay(attempt: number): number {
 }
 
 /**
+ * Check if browser is still healthy and connected
+ */
+async function isBrowserHealthy(browser: Browser): Promise<boolean> {
+    try {
+        const pages = await browser.pages();
+        return pages !== null && browser.connected;
+    } catch (error) {
+        logger.debug('Browser health check failed:', error);
+        return false;
+    }
+}
+
+/**
+ * Safely close browser with timeout
+ */
+async function safeBrowserClose(browser: Browser): Promise<void> {
+    try {
+        const closePromise = browser.close();
+        const timeoutPromise = new Promise<void>((_, reject) => {
+            setTimeout(() => reject(new Error('Browser close timeout')), 10000);
+        });
+        
+        await Promise.race([closePromise, timeoutPromise]);
+        logger.debug('Browser closed successfully');
+    } catch (error) {
+        logger.warn('Error closing browser:', error);
+        // Force kill if needed
+        try {
+            const process = browser.process();
+            if (process) {
+                process.kill('SIGKILL');
+                logger.debug('Browser process killed');
+            }
+        } catch (killError) {
+            logger.warn('Error killing browser process:', killError);
+        }
+    }
+}
+
+/**
  * Renders HTML content to images according to Instagram API guidelines
  * @param htmlContents Array of HTML content to render to images
  * @param options Rendering options
@@ -115,10 +155,11 @@ export async function renderHtmlToImages(
         try {
             logger.debug(`Launching browser (attempt ${attempt + 1}/${RETRY_CONFIG.maxRetries + 1})`);
             
-            // Launch Puppeteer browser with extended timeout for Docker environment
+            // Launch Puppeteer browser with Docker-optimized configuration
             browser = await puppeteer.launch({
                 headless: true, // Use headless mode
                 protocolTimeout: 60000, // 60 seconds timeout for protocol operations
+                timeout: 60000, // Browser launch timeout
                 args: [
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
@@ -127,28 +168,58 @@ export async function renderHtmlToImages(
                     '--disable-gpu',
                     '--disable-web-security',
                     '--no-first-run',
-                    '--no-zygote',
-                    '--single-process', // Helps with Docker resource constraints
+                    '--disable-features=VizDisplayCompositor', // Reduces GPU usage
+                    '--disable-ipc-flooding-protection', // Prevents IPC connection issues
+                    '--disable-background-networking', // Reduces background processes
                     '--disable-background-timer-throttling',
                     '--disable-backgrounding-occluded-windows',
-                    '--disable-renderer-backgrounding'
+                    '--disable-renderer-backgrounding',
+                    '--disable-client-side-phishing-detection',
+                    '--disable-sync',
+                    '--disable-translate',
+                    '--hide-scrollbars',
+                    '--mute-audio',
+                    '--disable-default-apps',
+                    '--disable-component-extensions-with-background-pages'
                 ]
             });
             
             logger.debug('Browser launched successfully');
+            
+            // Test browser connection before proceeding
+            try {
+                const pages = await browser.pages();
+                logger.debug(`Browser connection verified, ${pages.length} pages available`);
+            } catch (connectionError) {
+                logger.warn('Browser connection test failed:', connectionError);
+                await browser.close().catch(() => {}); // Ignore close errors
+                throw connectionError;
+            }
+            
             break; // Success, exit retry loop
             
         } catch (error) {
             lastError = error;
-            logger.warn(`Browser launch attempt ${attempt + 1} failed:`, error);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            logger.warn(`Browser launch attempt ${attempt + 1} failed: ${errorMessage}`);
+            
+            // Clean up any partially created browser instance
+            if (browser) {
+                try {
+                    await safeBrowserClose(browser);
+                    browser = null;
+                } catch (closeError) {
+                    logger.debug('Error closing failed browser instance:', closeError);
+                }
+            }
             
             if (attempt < RETRY_CONFIG.maxRetries) {
                 const delay = calculateDelay(attempt);
-                logger.info(`Retrying browser launch in ${delay}ms...`);
+                logger.info(`Retrying browser launch in ${delay}ms... (Error: ${errorMessage})`);
                 await sleep(delay);
             } else {
                 logger.error('All browser launch attempts failed');
-                throw new Error(`Failed to launch browser after ${RETRY_CONFIG.maxRetries + 1} attempts. Last error: ${lastError}`);
+                throw new Error(`Failed to launch browser after ${RETRY_CONFIG.maxRetries + 1} attempts. Last error: ${errorMessage}`);
             }
         }
     }
@@ -158,7 +229,16 @@ export async function renderHtmlToImages(
     }
     
     try {
+        // Final health check before proceeding
+        if (!(await isBrowserHealthy(browser))) {
+            throw new Error('Browser is not healthy before starting image generation');
+        }
+        
         const page = await browser.newPage();
+        
+        // Set page timeouts
+        page.setDefaultTimeout(30000); // 30 second default timeout
+        page.setDefaultNavigationTimeout(30000); // 30 second navigation timeout
         
         // Set viewport to Instagram's recommended dimensions
         await page.setViewport({
@@ -221,9 +301,8 @@ export async function renderHtmlToImages(
         logger.info(`Successfully rendered ${renderedImages.length} images to ${outputDir}`);
         return renderedImages;
     } finally {
-        // Close the browser
-        await browser.close();
-        logger.debug('Closed Puppeteer browser');
+        // Close the browser safely
+        await safeBrowserClose(browser);
     }
 }
 
